@@ -1,0 +1,146 @@
+<%- include("../layouts/header.ejs") -%>
+<%- include("./headerDashboard.ejs") -%>
+<section>
+    <div class="col-lg-12">
+        <div><a class="btn btn-outline-dark" href="/admin/products/add-products" role="button">Add new product</a></div>
+        <table class="table table-striped" id="myTable">
+            <thead>
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Description</th>
+                <th scope="col">Category</th>
+                <th scope="col">Strap type</th>
+                <th scope="col">Offers</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Listed</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>             
+        <% if (product.length > 0) {
+            for (let i = 0; i < product.length; i++) { %>
+                <tr>
+                    <% if (product[i].image.length > 0) { %>
+                        <td><img src="/productImages/<%= product[i].image[0] %>" width="50px" alt="img"></td>
+                    <% } else { %>
+                        <td>No image available</td>
+                    <% } %>
+                    <td><%= product[i].name %></td>
+                    <td><%= product[i].price %></td>
+                    <td><%= product[i].quantity %></td>
+                    <td><%= product[i].description %></td>
+                    <td>
+                        <% if (product[i].category) { %>
+                          <%= product[i].category.name %>
+                        <% } else { %>
+                          N/A
+                        <% } %>
+                      </td>
+                      
+                    <td><%= product[i].strapType %></td>
+
+                   
+                     <% if(product[i].offer){ %>
+                        <td>Cancel offer<a href="/admin/products/cancelOffer?product=<%= product[i]._id %>&offer=<%= product[i].offer._id %>">X</a></td>
+                     <% }else{ %>
+                      <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offersModal" data-product-id="<%= product[i]._id %>">
+                            Apply Offer
+                          </button>
+                        </form>
+                    </td>
+                     <% } %>
+                   
+                    <td><%= product[i].brand %></td>
+                    <!-- <td><%= product[i].isListed %></td> -->
+                  <td>
+                    <% if(product[i].isListed){ %>
+                        <a class="btn btn-primary" href="/admin/products/status?id=<%= product[i]._id %>" role="button">Unlist</a>
+                   <% }else{ %>
+                        <a class="btn btn-primary" href="/admin/products/status?id=<%= product[i]._id %>" role="button">List</a>
+
+                  <% } %>           
+                  </td>
+                  
+                    <td><a href="/admin/products/edit-products/<%= product[i]._id %>">Edit</a></td>
+                
+                </tr>
+            <% }
+        } %>
+            </tbody>
+          </table>
+          <!-- <section class="page-section d-flex justify-content-center align-items-center">
+            <div class="container">
+              <div class="row justify-content-center align-items-end">
+                <div class="col-lg-12">
+                  <nav aria-label="d-flex justify-content-end align-items-end">
+                    <ul class="pagination pagination-sm justify-content-end">
+                      <% const totalPages=Math.ceil(productCount / limit); %>
+                      <% for (let i=1; i <=totalPages; i++) { %>
+                      <li class="page-item <% if (i == page) { %> active <% } %>">
+                        <a class="page-link" style="background-color: rgb(184, 171, 171);" href="?page=<%= i %>&limit=<%= limit %>">
+                          <%= i %>
+                        </a>
+                      </li>
+                      <% } %>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </section> -->
+    </div>
+    <div class="modal" id="offersModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+  
+          <!-- Modal Header -->
+          <div class="modal-header">
+              <h4 class="modal-title">Select an Offer</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+  
+          <!-- Modal Body -->
+          <div class="modal-body">
+              <form action="/admin/products/addProductOffer" method="post"> 
+                <% offers.forEach(function(offer) { %>
+                  <label>
+                    <input type="radio" name="offerName" value="<%= offer.name %>">
+                    <%= offer.name %>
+                  </label><br>
+                <% }); %>
+                <input type="hidden" name="productId" id="categoryIdO" value="">
+                <button type="submit" class="btn btn-primary">Submit</button> 
+              </form>
+            </div>
+  
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!-- <button type="button" class="btn btn-primary" id="submitBtn">Submit</button> -->
+          </div>
+</section>
+<%- include("./footerDashboard.ejs") -%>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script>
+  $(document).ready(function () {
+      $('#myTable').DataTable();
+  });
+</script>
+<script>
+const openModalButtons = document.querySelectorAll('button[data-product-id]');
+const categoryIdInput1 = document.getElementById('categoryIdO');
+
+for (const openModalButton of openModalButtons) {
+  openModalButton.addEventListener('click', function () {
+    const categoryId = openModalButton.getAttribute('data-product-id');
+    categoryIdInput1.value = categoryId;
+  });
+}
+</script>
+

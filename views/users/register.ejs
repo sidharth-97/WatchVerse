@@ -1,0 +1,186 @@
+<%- include('../layouts/header.ejs') -%>
+
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WatchVerse</title>
+    <link rel="icon" href="/website/logo.png">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <section class="box">
+      <div class="design">
+        <div>
+          <img src="/website/find_your_watch_600_v2_en.jpg" alt="" width="350rem">
+        </div>
+      </div>
+      <div class="form">
+        <h2>User Registration</h2>
+        <% if (typeof message !== 'undefined') { %>
+        <h4><%= message %></h4>
+        <% } %>
+        <form action="/register" method="post">
+          <input type="name" class="input-field" placeholder="Username" name="name" id="contact-name"
+            onkeyup="validateName()" />
+          <span id="name" style="color: rgb(255, 0, 0);"></span>
+          <input type="" class="input-field" placeholder="Mobile" name="mobile" id="contact-number"
+            onkeyup="validateMobile()" />
+          <span id="mobile" style="color: rgb(255, 0, 0);"></span>
+          <input type="email" class="input-field" placeholder="Email" name="email" id="text1" onkeyup="validateEmail()" />
+          <span id="email" style="color: rgb(255, 0, 0);"></span>
+    
+          <input type="password" class="input-field" placeholder="Password" name="password" id="password"
+            onkeyup="validatePassword()" />
+          <input type="password" class="input-field" placeholder="Confirm Password" name="confirmPassword"
+            id="confirmPassword" onkeyup="validatePassword()" />
+    
+          <input type="text" class="input-field" placeholder="Referral code" name="referral">
+          <input type="submit" class="btn" value="REGISTER" onclick="return validateForm()">
+          <span id="submit-error" style="color: rgb(255, 0, 0);"></span>
+        </form>
+        <p>Already a user ? <a href="/login">Login here</a></p>
+        <% if (typeof message !== 'undefined') { %>
+        <p id="success-message" style="color: green"><%= message %></p>
+        <% } %>
+        <% if (typeof emailError !== 'undefined') { %>
+        <p id="" style="color: rgb(255, 0, 0)"><%= emailError %></p>
+        <% } %>
+      </div>
+    </section>
+    
+  </body>
+
+  </html>
+  <script>
+    var nameError = document.getElementById("name");
+    var emailError = document.getElementById("email");
+    var mobileError = document.getElementById("mobile");
+    var submitError = document.getElementById("submit-error");
+    var successMessage = document.getElementById("success-message");
+
+    function validateName() {
+      var name1 = document.getElementById("contact-name").value;
+      if (name1.length === 0) {
+        nameError.innerHTML = "Name is required";
+        return false;
+      }
+      if (!name1.match(/^[A-Za-z]+\s[A-Za-z]+$/)) {
+        nameError.innerHTML = "Full name required";
+        return false;
+      } else {
+        nameError.innerHTML = "";
+        return true;
+      }
+    }
+
+    function validateEmail() {
+      var email1 = document.getElementById("text1").value;
+      if (email1.length === 0) {
+        emailError.innerHTML = "Email is required";
+        return false;
+      }
+      if (!email1.match(/^([\w-]+\.)*?[\w-]+@[\w-]+\.([\w-]+\.)*?[\w]+$/)) {
+        emailError.innerHTML = "Email is invalid";
+        return false;
+      }
+      emailError.innerHTML = "";
+      return true;
+    }
+
+    function validateMobile() {
+      var mob = document.getElementById("contact-number").value;
+      if (mob.length === 0) {
+        mobileError.innerHTML = "Mobile number is required";
+        return false;
+      }
+      if (!mob.match(/^[0-9]{10}$/)) {
+        mobileError.innerHTML = "Enter a valid 10-digit mobile number";
+        return false;
+      } else {
+        mobileError.innerHTML = "";
+        return true;
+      }
+    }
+
+
+    // function validatePassword() {
+    //   var password = document.getElementById("password").value;
+    //   var confirmPassword = document.getElementById("confirmPassword").value;
+
+    //   if (password.length === 0 || confirmPassword.length === 0) {
+    //     submitError.innerHTML = "";
+    //     return true;
+    //   }
+
+    //   if (password !== confirmPassword) {
+    //     submitError.style.display = "block";
+    //     submitError.innerHTML = "Passwords do not match";
+    //     return false;
+    //   } else {
+    //     submitError.style.display = "none";
+    //     return true;
+    //   }
+    // }
+
+
+function validatePassword() {
+  var password = document.getElementById("password").value;
+  var confirmPassword = document.getElementById("confirmPassword").value;
+  var submitError = document.getElementById("submitError");
+
+  if (password.length === 0 || confirmPassword.length === 0) {
+    submitError.innerHTML = "";
+    return true;
+  }
+
+  if (password.length < 8) {
+    submitError.style.display = "block";
+    submitError.innerHTML = "Password must be at least 8 characters long";
+    return false;
+  }
+
+  const uppercaseRegex = /[A-Z]/;
+  const lowercaseRegex = /[a-z]/;
+  const digitRegex = /\d/;
+  const specialCharRegex = /[!@#$%^&*()\-_=+{}[\]|\\;:'",.<>/?]/;
+
+  if (!uppercaseRegex.test(password) || !lowercaseRegex.test(password) || !digitRegex.test(password) || !specialCharRegex.test(password)) {
+    submitError.style.display = "block";
+    submitError.innerHTML = "Password must include at least one uppercase letter, lowercase letter, digit, and special character";
+    return false;
+  }
+
+  if (password !== confirmPassword) {
+    submitError.style.display = "block";
+    submitError.innerHTML = "Passwords do not match";
+    return false;
+  } else {
+    submitError.style.display = "none";
+    return true;
+  }
+}
+
+
+    function validateForm() {
+      if (!validateName() || !validateEmail() || !validateMobile() || !validatePassword()) {
+        submitError.style.display = "block";
+        submitError.innerHTML = "Please fill in all fields";
+        setTimeout(function () {
+          submitError.style.display = "none";
+        }, 3000);
+        return false;
+      }
+
+      setTimeout(function () {
+        if (successMessage) {
+          successMessage.style.display = "none";
+        }
+      }, 3000);
+    }
+  </script>
+
+

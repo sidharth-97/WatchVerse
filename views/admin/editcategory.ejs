@@ -1,0 +1,42 @@
+<%- include("../layouts/admin-header.ejs") -%>
+    <%- include("./headerDashboard.ejs") -%>
+
+ 
+        <div class="col-12 col-md-9">
+            <section class="">
+                <h1>Edit category</h1>
+                <div class="d-flex justify-content-center align-items-center m-auto">
+
+                    <form action="/admin/category/edit-category?id=<%=category._id %>" method="post" class="form">
+                        <div class="input-box">
+                            <label>Category name</label>
+                            <input type="text" placeholder="coupon name" name="newName" value="<%= category.name %>">
+                        </div>
+
+                        <!-- <div class="input-box">
+                            <label>Offer</label>
+                            <input type="text" placeholder="Description" name="description" value="<%= category.offer %>">
+                        </div> -->
+
+                         <label for="newCategoryName">Select Offer Name:</label>
+                         <select id="offerName" name="offerName" onchange="setSelectedOffer(this.value, this.options[this.selectedIndex].text)">
+                            <option value="">None</option> 
+                            <% offers.forEach(offer => { %>
+                              <option value="<%= offer.name %>" <%= category.offerName === offer.name ? 'selected' : '' %>><%= offer.name %></option>
+                            <% }); %>
+                          </select>
+                        <button>Submit</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+        </div>
+
+        </body>
+
+        <script>
+            function setSelectedOffer(offerId, offerName) {
+              document.getElementById('selectedOffer').value = offerName;
+              document.getElementById('dropdownLink').innerText = offerName;
+            }
+          </script>

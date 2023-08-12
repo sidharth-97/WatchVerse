@@ -1,0 +1,108 @@
+<%- include('../layouts/navbar.ejs') -%>
+
+<style>
+    .rating {
+      display: flex;
+      flex-direction: row-reverse; /* Reverse the order from right to left */
+    }
+
+    .rating input {
+      display: none;
+    }
+
+    .rating label {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+    }
+    .card {
+    float: left;
+   
+  }
+
+    .rating label:before {
+      content: '★';
+    }
+
+    .rating input:checked ~ label {
+      color: orange;
+    }
+
+    .rating label:hover,
+    .rating label:hover ~ label {
+      color: orange;
+    }
+  </style>
+
+
+ <style>
+   .card {
+     float: left;
+     margin: 1rem;
+     width: 45rem;
+   }
+ </style>
+ 
+ <div class="container pt-5">
+   <div class="row">
+     <div class="col-lg-4 mt-5">
+       <div class="card" style="width: 20rem;">
+         <div class="card-body text-center">
+           <img src="/productImages/<%= product.image[0] %>" class="product-image img-fluid">
+        <div class="text-left">
+            <h5 class="card-title"><b>
+                <%= product.name %>
+              </b></h5>
+              <p class="tags small">
+                <%= product.description %>
+              </p>
+              <p class="tags">
+                ₹ <%= product.price %>
+              </p>
+        </div>
+         </div>
+       </div>
+     </div>
+ 
+     <div class="col-md-8">
+       <div class="card mt-5">
+         <h4 class="card-header">Ratings & Reviews</h4>
+         <div class="card-body col-lg-12">
+           <% if (product.Rating) { %>
+             <h3>
+               <%= product.Rating.toFixed(2) %> <i class="fa-solid fa-star"></i>
+             </h3>
+           <% } else { %>
+             <p>No reviews so far</p>
+           <% } %>
+ 
+           <% if (product.Review.length > 0) { %>
+             <% for (let i = 0; i < product.Review.length; i++) { %>
+               <div class="card mb-2 reviewcss">
+                 <div class="card-body">
+                   <h5 class="card-title"><%= product.Review[i].user.name %></h5>
+                   <div class="d-flex align-items-center">
+                     <span><%= product.Review[i].title %></span>
+                     <% for (let j = 1; j <= 5; j++) { %>
+                       <i class="fa-solid fa-star" style="color: <%= j <= product.Review[i].rating ? 'orange' : '#ccc' %>;"></i>
+                     <% } %>
+                     <span class="ms-2"><%= product.Review[i].rating %></span>
+                   </div>
+                   <p><%= product.Review[i].description %></p>
+                   <% const dd = product.Review[i].date.getDate();
+                       const mm = product.Review[i].date.getMonth() + 1;
+                       const yyyy = product.Review[i].date.getFullYear();
+                       const formattedDate = `${dd}-${mm}-${yyyy}`;
+                   %>
+                   <p>Revied on : <%= formattedDate %></p>
+                 </div>
+               </div>
+             <% } %>
+           <% } else { %>
+             <p>No reviews available</p>
+           <% } %>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>

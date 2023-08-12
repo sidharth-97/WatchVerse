@@ -1,0 +1,215 @@
+<%- include("./headerDashboard.ejs") -%>
+
+    <div class="col-lg-12">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th,
+            td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #dee2e6;
+            }
+
+            tr:last-child td {
+                border-bottom: none;
+            }
+
+            .address-column {
+                width: 200px;
+            }
+        </style>
+        <table class="table table-striped" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Product</th>
+                    <th scope="col" class="address-column">Address</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                
+                </tr>
+            </thead>
+            <tbody>
+                <% orders.forEach(orderItem=> { %>
+                    <tr>
+                        <td>
+                            <%= orderItem.user.name %>
+                        </td>
+                        <td>
+                            <% orderItem.products.forEach(productItem=> { %>
+                                <div>
+                                    <img src="/productImages/<%= productItem.productId.image[0] %>"
+                                        alt="<%= productItem.productId.name %>" width="60">
+                                </div>
+                                <div>
+                                    <%= productItem.productId.name %> X <%= productItem.quantity %>
+                                </div>
+                                <% }); %>
+                        </td>
+                        <td class="address-column">
+                            <%= orderItem.address.fullName %><br>
+                                <%= orderItem.address.address1 %><br>
+                                    <%= orderItem.address.district %>, <%= orderItem.address.state %><br>
+                                            PIN: <%= orderItem.address.PINcode %>
+                        </td>
+                        <td>
+                            <%= orderItem.paymentMode %>
+                        </td>
+                        <td>
+                            <%= orderItem.orderStatus %>
+                        </td>
+                        <td>
+                       <% if(orderItem.orderStatus!='Return Requested' && orderItem.orderStatus!='Delivered' && orderItem.orderStatus !='Return Approved'){ %>
+                         
+                            
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal-<%= orderItem._id %>">
+                                    Change Status
+                                </button>
+    
+                                <div class="modal fade" id="exampleModal-<%= orderItem._id %>" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5>Current Status: <%= orderItem.orderStatus %></h5>
+                                                <h5>Select New Status:</h5>
+                                                <form id="statusForm-<%= orderItem._id %>">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="status"
+                                                            id="status-shipped-<%= orderItem._id %>" value="Shipped">
+                                                        <label class="form-check-label"
+                                                            for="status-shipped-<%= orderItem._id %>">Shipped</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="status"
+                                                            id="status-out-for-delivery-<%= orderItem._id %>" value="Out for Delivery">
+                                                        <label class="form-check-label"
+                                                            for="status-out-for-delivery-<%= orderItem._id %>">Out for Delivery</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="status"
+                                                            id="status-delivered-<%= orderItem._id %>" value="Delivered">
+                                                        <label class="form-check-label"
+                                                            for="status-delivered-<%= orderItem._id %>">Delivered</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="status"
+                                                            id="status-cancelled-<%= orderItem._id %>" value="Cancelled">
+                                                        <label class="form-check-label"
+                                                            for="status-cancelled-<%= orderItem._id %>">Cancel Order</label>
+                                                    </div>
+                                                   
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateOrderStatus('<%= orderItem._id %>')">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                          
+                            <% }else if(orderItem.orderStatus=='Return Approved'){ %>
+                                <p></p>
+                       <% }else if(orderItem.orderStatus=="Return Requested"){ %>
+                       
+                                <form action="/admin/returnApprove?id=<%= orderItem._id %>" method="post">
+                                    <button type="submit">Approve Return</button>
+                                </form>
+                        
+                       <% } %>  
+                    </td>         
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <!-- <section class="page-section">
+        <div class="container">
+          <div class="row justify-content-end align-items-end">
+            <div class="col-lg-9">
+              <nav aria-label="...">
+                <ul class="pagination pagination-sm justify-content-end">
+                  <% const totalPages=Math.ceil(orderCount / limit); %>
+                    <% for (let i=1; i <=totalPages; i++) { %>
+                      <% const isActive=i===page; %>
+                        <li class="page-item <%= isActive ? 'active' : '' %>">
+                          <a class="page-link pagination-link" style="background-color: rgb(188 175 175);" href="#"
+                            data-page="<%= i %>">
+                            <%= i %>
+                          </a>
+                        </li>
+                        <% } %>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </section> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <%- include("./footerDashboard.ejs") -%>
+    <script>
+         var myModal;
+        function updateOrderStatus(orderId) {
+            const form = document.getElementById(`statusForm-${orderId}`);
+            const selectedStatus = form.elements["status"].value;
+    
+            // You can use AJAX to submit the form data to the server
+            fetch(`/admin/order/updateOrderStatus?id=${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: selectedStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const orderStatusCell = document.getElementById(`orderStatus-${orderId}`);
+                orderStatusCell.innerText = selectedStatus;
+                $('#exampleModal-' + orderId).modal('hide'); 
+                myModal.hide(); 
+            })
+            .catch(error => {
+         
+            });
+        }
+    
+        function openModal(orderId) {
+        myModal = new bootstrap.Modal(document.getElementById(`exampleModal-${orderId}`));
+        myModal.show();
+    }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+    <script>
+        const paginationLinks = document.querySelectorAll('.pagination-link');
+                paginationLinks.forEach(function (link) {
+                  link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const page = this.dataset.page;
+                    updateUrlParams({ page });
+                  });
+                });
+                function updateUrlParams(params) {
+                  const currentUrl = new URL(window.location.href);
+                  for (const [key, value] of Object.entries(params)) {
+                    currentUrl.searchParams.set(key, value);
+                  }
+                  window.location.href = currentUrl.toString();
+                }         
+  </script>

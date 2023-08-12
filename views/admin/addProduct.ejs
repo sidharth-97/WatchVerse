@@ -1,0 +1,95 @@
+<%- include("../layouts/admin-header.ejs") -%>
+<%- include("./headerDashboard.ejs") -%>
+
+
+  <div class="col-12 col-md-9">
+    <section class="">
+        <h1>Add Products</h1>
+      <div class="d-flex justify-content-center align-items-center m-auto">
+        
+        <form action="/admin/products/add-products" method="post" enctype="multipart/form-data" class="form">
+          <div class="input-box">
+            <label>Product name</label>
+            <input type="text" placeholder="product name" name="name">
+          </div>
+
+          <div class="column">
+            <div class="input-box">
+              <label>Price</label>
+              <input type="number" min="0" placeholder="Enter the price" name="price" required />
+            </div>
+            <div class="input-box">
+              <label>Brand</label>
+              <input type="text" placeholder="Enter the brand" name="brand" required />
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="input-box">
+              <label>Quantity</label>
+              <input type="text" placeholder="Quantity" name="quantity" id="quantity" onkeyup="validateQuantity()" required />
+              <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+
+            </div>
+            <div class="input-box">
+              <label>Strap type</label>
+              <input type="text" placeholder="Enter the strap type" name="strapType" required />
+            </div>
+          </div>
+
+          <div class="input-box">
+            <label>Description</label>
+            <input type="text" placeholder="Description" name="description">
+          </div>
+
+          <div>
+            <input type="file" placeholder="image" name="image" multiple accept="/image">
+          </div>
+
+          <div class="dropdown">
+            <a id="dropdownLink" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+              Category
+            </a>
+            <ul class="dropdown-menu">
+              <% if (category.length > 0) {
+                for (let i = 0; i < category.length; i++) { %>
+                  <li>
+                    <a class="dropdown-item" href="#" onclick="setCategory('<%= category[i]._id %>', '<%= category[i].name %>')">
+                      <%= category[i].name %>
+                    </a>
+                  </li>
+                <% } } %>
+            </ul>
+          </div>
+
+          <input type="hidden" id="selectedCategory" name="category">
+          <button>Submit</button>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>
+
+</body>
+<script>
+  function setCategory(categoryId, categoryName) {
+    document.getElementById('selectedCategory').value = categoryId;
+    document.getElementById('dropdownLink').innerText = categoryName;
+  }
+</script>
+<script>
+  function validateQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const quantityError = document.getElementById('quantityError');
+    const quantity = parseInt(quantityInput.value);
+  
+    if (isNaN(quantity) || quantity <= 0 || quantity % 1 !== 0) {
+      quantityError.innerHTML = 'Please enter a positive integer for quantity';
+      return false;
+    } else {
+      quantityError.innerHTML = '';
+      return true;
+    }
+  }
+  </script>
+  

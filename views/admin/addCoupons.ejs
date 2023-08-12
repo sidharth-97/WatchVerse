@@ -1,0 +1,80 @@
+<%- include("../layouts/admin-header.ejs") -%>
+<%- include("./headerDashboard.ejs") -%>
+
+<div class="col-12 col-md-9">
+  <section class="">
+    <h1>Add Coupons</h1>
+    <div class="d-flex justify-content-center align-items-center m-auto">
+
+      <form action="/admin/coupons/add-coupons" method="post" class="form" onsubmit="return validateForm()">
+        <div class="input-box">
+          <label>Coupon name</label>
+          <input type="text" placeholder="coupon name" name="name" required>
+        </div>
+
+        <div class="column">
+          <div class="input-box">
+            <label>Discount</label>
+            <input type="text" placeholder="Discount percentage" name="discount" id="quantity"
+              onkeyup="validateQuantity()" required />
+            <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+          </div>
+          <div class="input-box">
+            <label>Expiry Date</label>
+            <input type="date" placeholder="Enter the expiry date" min="getCurrentDate()" name="expiry" required />
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="input-box">
+            <label>Minimum Amount</label>
+            <input type="number" placeholder="Enter the minimum purchase required" name="minAmt" required />
+          </div>
+        </div>
+
+        <div class="input-box">
+          <label>Description</label>
+          <input type="text" placeholder="Description" name="description">
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </section>
+</div>
+</div>
+
+<script>
+  function getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    let month = now.getMonth() + 1;
+    let day = now.getDate();
+
+    if (month < 10) {
+      month = '0' + month;
+    }
+    if (day < 10) {
+      day = '0' + day;
+    }
+
+    return `${year}-${month}-${day}`;
+  }
+
+  function validateQuantity() {
+    const quantity = document.getElementById("quantity").value;
+    const quantityError = document.getElementById("quantityError");
+
+    if (!quantity.match(/^\d+(\.\d{1,2})?$/)) {
+      quantityError.textContent = "Enter a valid discount percentage";
+      return false;
+    } else {
+      quantityError.textContent = "";
+      return true;
+    }
+  }
+
+  function validateForm() {
+    const isValidQuantity = validateQuantity();
+    return isValidQuantity;
+  }
+</script>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WatchVerse</title>
+  <link rel="icon" href="/website/logo.png">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="products.css">
+  <link rel="stylesheet" href="footer.css">
+  <script src="https://kit.fontawesome.com/9af8e1e9bd.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light  py-3" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+          <img src="/website/logo.png" alt="Logo" width="120px">
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto my-2 my-lg-0">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="watches">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+            </li>
+
+            <% if(user){ %>
+              <li class="nav-item position-relative">
+                <a class="nav-link js-scroll-trigger" href="/cart">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <% if (cartCount> 0) { %>
+                    <span class="badge badge-danger position-absolute top-0 start-100 translate-middle">
+                      <%= cartCount %>
+                    </span>
+                    <% } %>
+                </a>
+              </li>
+
+
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="/user">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="fa-solid fa-user" style="font-size: 17px;"></i>
+                    <span class="text-center" style="font-size: 10px;">
+                      <%= user.name %>
+                    </span>
+                  </div>
+                </a>
+              </li>
+              <% }else{%>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="/login">Login</a>
+                </li>
+                <% } %>
+          </ul>
+        </div>
+      </div>
+      <form class="d-flex mr-auto" role="search" id="searchForm">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-dark" type="submit">Search</button>
+      </form>
+    </nav>
+
+  </header>
+
+
+  <section class="page-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 blog-form">
+          <h2 class="blog-sidebar-title"><b>Filter</b></h2>
+          <hr />
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          <h2 class="blog-sidebar-title"><b>Categories</b></h2>
+          <hr />
+          <% category.forEach((cate)=> { %>
+            <a style="color: black;" href="#" class="filter-button" data-category="<%= cate._id %>">
+              <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>
+                  <%= cate.name %>
+                </b></p>
+            </a>
+            <% }); %>
+
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <h2 class="blog-sidebar-title"><b>Brands</b></h2>
+              <hr />
+              <a style="color: black;" href="#" class="filter-button" data-brand="Apple">
+                <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Apple</b></p>
+              </a>
+              <a style="color: black;" href="#" class="filter-button" data-brand="Titan">
+                <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Titan</b></p>
+              </a>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <h2 class="blog-sidebar-title"><b>Price</b></h2>
+              <hr />
+              <!-- <button class="filter-button" >Price: $59000 - $60000</button> -->
+              <a style="color: black;" href="#" class="filter-button" data-minprice="1" data-maxprice="5000">
+                <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Price: ₹0 - ₹5000</b></p>
+              </a>
+              <a style="color: black;" href="#" class="filter-button" data-minprice="5000" data-maxprice="15000">
+              <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Price: ₹5000 - ₹15000</b></p>
+              </a>
+              <a style="color: black;" href="#" class="filter-button" data-minprice="15000" data-maxprice="100000000">
+                <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Price: above ₹15000</b></p>
+              </a>
+        </div>
+        <div class="col-lg-9">
+          <div class="row pb-2">
+            <div class="col">
+              <!-- Showing all 9 results -->
+            </div>
+            <div class="col">
+              <select class="form-control" id="sortingSelect">
+                <option value="">Default Sorting</option>
+                <option value="low">Sorting by low to high</option>
+                <option value="high">Sorting by high to low</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+
+            <% for(let i=0;i<product.length;i++){ %>
+              <% if(product[i] && product[i].isListed && product[i].quantity>0){ %>
+                <a href="/product?productId=<%= product[i]._id %>">
+                  <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="card" style="width: 15rem;">
+                      <div class="card-body text-center">
+                        <img src="/productImages/<%= product[i].image[0] %>" class="product-image img-fluid">
+                        <h5 class="card-title"><b>
+                            <%= product[i].name %>
+                          </b></h5>
+                        <p class="tags small">
+                          Strap : <%= product[i].strapType %>
+                        </p>
+                        <% if (product[i].discount) { %>
+                          <p class="tags">
+                            ₹ <%= product[i].price %> <del class="text-muted small">₹ <%= product[i].price + product[i].discount %></del>
+                          </p>
+                        <% } else { %>
+                          <p class="tags">
+                            ₹ <%= product[i].price %>
+                          </p>
+                        <% } %>
+                        
+                        <!-- <form action="/cart" method="post"><a href="/cart" target="_blank" class="btn btn-success button-text"><i class="fa fa-shopping-cart"
+                        aria-hidden="true"></i> Add to cart</a></form> -->
+                        <form action="/cart?productId=<%= product[i]._id %>" method="post"><button
+                            class="btn btn-success button-text js-addcart-detail" id="addToCartButton" type="submit"><i
+                              class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart</button></form>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <% } %>
+                  <% } %>
+          </div>
+          <section class="page-section">
+            <div class="container">
+              <div class="row justify-content-end align-items-end">
+                <div class="col-lg-9">
+                  <nav aria-label="...">
+                    <ul class="pagination pagination-sm justify-content-end">
+                      <% const totalPages=Math.ceil(productCount / limit); %>
+                        <% for (let i=1; i <=totalPages; i++) { %>
+                          <% const isActive=i===page; %>
+                            <li class="page-item <%= isActive ? 'active' : '' %>">
+                              <a class="page-link pagination-link" style="background-color:rgb(188 175 175);" href="#"
+                                data-page="<%= i %>">
+                                <%= i %>
+                              </a>
+                            </li>
+                            <% } %>
+                    </ul>
+                  </nav>
+
+                </div>
+              </div>
+            </div>
+          </section>
+          <%- include('../layouts/user-dashboard-footer.ejs') -%>
+          <!-- Bootstrap JS -->
+          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+          <!-- <script>
+            $('.js-addcart-detail').each(function() {
+              var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+              $(this).on('click', function() {
+                swal(nameProduct, "is added to cart !", "success");
+              });
+            });
+          </script> -->
+
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const sortingSelect = document.getElementById('sortingSelect');
+              sortingSelect.addEventListener('change', function () {
+                const sortingValue = this.value;
+                updateUrlParams({ sort: sortingValue });
+              });
+
+              const searchForm = document.getElementById('searchForm');
+              searchForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const searchTerm = this.querySelector('input').value.trim();
+                if (searchTerm !== '') {
+                  updateUrlParams({ search: searchTerm, page: 1 });
+                } else {
+                  console.log("error");
+                }
+              });
+
+              const filterButtons = document.querySelectorAll('.filter-button');
+              filterButtons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                  event.preventDefault();
+                  const category = this.dataset.category;
+                  const brand = this.dataset.brand;
+                  const minPrice = this.dataset.minprice;
+                  const maxPrice = this.dataset.maxprice;
+                  if (category) {
+                    updateUrlParams({ category, page: 1 });
+                  } else if (brand) {
+                    updateUrlParams({ brand, page: 1 });
+                  } else if (minPrice && maxPrice) {
+                    updateUrlParams({ minPrice, maxPrice, page: 1 });
+                  }
+                });
+              });
+
+              const paginationLinks = document.querySelectorAll('.pagination-link');
+              paginationLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                  event.preventDefault();
+                  const page = this.dataset.page;
+                  updateUrlParams({ page });
+                });
+              });
+
+              function updateUrlParams(params) {
+                const currentUrl = new URL(window.location.href);
+                for (const [key, value] of Object.entries(params)) {
+                  currentUrl.searchParams.set(key, value);
+                }
+                window.location.href = currentUrl.toString();
+              }
+            });
+          </script>
+
+</body>
+
+</html>

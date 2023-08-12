@@ -1,0 +1,459 @@
+<%- include('../layouts/head.ejs') %>
+  <%- include('../layouts/navbar.ejs') -%>
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>WatchVerse</title>
+      <link rel="icon" href="/website/logo.png">
+
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/cart.css" type="text/css">
+      <script src="https://kit.fontawesome.com/9af8e1e9bd.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+      <div class="container" style="margin-top: 1rem;">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Wallet Balance:Rs.<%=user.wallet%>
+                </h5>
+                <a href="#" class="btn btn-dark" onclick="useWallet(<%= user.wallet %>)">Use Wallet</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="cart__discount">
+              <h6>Discount codes</h6>
+              <form id="couponsForm" action="/coupons/validate" method="post">
+                <input type="text" placeholder="Coupon code" id="couponCode" name="couponCode">
+                <button type="submit">Apply</button>
+              </form>
+
+       
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Show coupons
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Coupons</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% if (coupons && coupons.length > 0) { %>
+          <% coupons.forEach((coupon) => { %>
+            <div class="coupon-item mb-3">
+              <h6 class="mb-1"><strong>Name:</strong> <%= coupon.name %></h6>
+              <p class="mb-1"><strong>Description:</strong> <%= coupon.description %></p>
+              <p class="mb-1"><strong>Minimum Amount:</strong> <%= coupon.min_amt %></p>
+              <p class="mb-2"><strong>Discount:</strong> <%= coupon.discount %>%</p>
+              <button class="btn btn-secondary btn-sm copy-coupon" data-coupon="<%= coupon.name %>">Copy Coupon</button>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p>No coupons available.</p>
+        <% } %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+              <div id="couponError" style="color: red;"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="mt-5">
+        <form id="orderForm" action="/order" method="post" onsubmit="return validateForm()">         
+           <section class="shopping-cart">
+            <div class="container">
+              <div class="row">
+                <!-- <div class="row mt-5"> -->
+                  <div class="col-md-8">
+                    <h4 class="bg-dark text-white">Your Order</h4>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Product</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% cart.forEach(cartItem=> { %>
+                          <% cartItem.products.forEach(product=> { %>
+                            <tr>
+                              <td>
+                                <div class="media">
+                                  <img src="/productImages/<%= product.productId.image[0] %>" class="mr-3"
+                                    alt="Product Image" width="80">
+                                  <div class="media-body">
+                                    <h5>
+                                      <%= product.productId.name %>
+                                    </h5>
+                                  </div>
+                                </div>
+                              </td>
+                              <td><span class="quantity">
+                                  <%= product.quantity %>
+                                </span></td>
+                              <td><span class="price">₹<%= product.price %></span></td>
+                              <td class="text-right">
+                              </td>
+                            </tr>
+                            <% }); %>
+                              <% }); %>
+                      </tbody>
+                    </table>
+                  <!-- </div> -->
+                <!-- </div> -->
+                <!-- <div class="col-lg-8"> -->
+                  <h4 class="mt-2 mb-2 bg-dark text-white">Change Delivery Address</h4>
+                  <div class="row">
+                    <% if (userAddress.length> 0) { %>
+                      <% userAddress.forEach((address)=> { %>
+                        <% if (address.addressfield && address.addressfield.length> 0) { %>
+                          <% address.addressfield.forEach((addr)=> { %>
+                            <div class="col-md-6 mb-4">
+                              <div class="card">
+                                <div class="card-body">
+                                  <h5 class="card-title">
+                                    <%= addr.fullName %>
+                                  </h5>
+                                  <h6 class="card-subtitle mb-2 text-muted">
+                                    <%= addr.mobile_no %>
+                                  </h6>
+                                  <p class="card-text">
+                                    <%= addr.address1 %>
+                                  </p>
+                                  <p class="card-text">
+                                    <%= addr.district %>, <%= addr.state %> - <%= addr.PINcode %>
+                                  </p>
+                                  <div class="form-check">
+                                    <input type="radio" class="form-check-input" name="selectedCard"
+                                      value="<%= addr._id %>" id="<%= addr._id %>" checked>
+                                    <label class="form-check-label" for="<%= addr._id %>">Select Address</label>
+                                  </div>
+                                  <!-- <a href="/editAddress?id=<%= addr._id %>" class="btn btn-primary">Edit Address</a>
+                                  <a href="/deleteAddress?id=<%= addr._id %>" class="btn btn-danger">Delete</a> -->
+                                </div>
+                              </div>
+                            </div>
+          
+
+                            <% }); %>
+                            <p><a href="/addressCheckout" class="btn btn-primary">Add new address</a></p>
+                              <% } else { %>
+                                <div class="col-md-12">
+                                  <p>No address available.</p>
+                                </div>
+                                <% } %>
+                                  <% }); %>
+                                    <% } else { %>
+                                      <div class="col-md-12">
+                                        <p>No address available.</p>
+                                        <p><a href="/addressCheckout" class="btn btn-primary">Add new address</a></p>
+                                      </div>
+                                      <% } %>
+                  </div>            
+                </div>
+                <div class="col-lg-4 col-md-6">
+                  <div class="checkout__order">
+                    <h5 class="order__title">CheckOut</h5>
+                    <div class="checkout__order__products">Product <span>Total</span></div>
+                    <ul class="checkout__total__products">
+                      <% cart.forEach(cartItem=> { %>
+                        <% cartItem.products.forEach(product=> { %>
+                          <li>
+                            <%= product.productId.name %> <span>₹<%= product.price %></span>
+                          </li>
+                          <% }); %>
+                            <% }); %>
+                    </ul>
+
+                    <ul class="checkout__total__all">
+                      <li>Subtotal <span>₹<%= cart ? cart[0].Total : 0 %></span></li>
+                      <li>Discount <span id="discountAmount">₹0</span></li>
+
+
+                      <input type="hidden" name="" id="walletBalance" value="<%= user.wallet %>">
+                      <div id="walletField" style="display: none;">
+                        <li>Wallet Amount<span id="walletAmount">Rs</span></li>
+                      </div>
+
+
+
+                      <li>Total <span id="finalTotal">₹<%= cart ? cart[0].Total : 0 %></span></li>
+                    </ul>
+                    <div class="checkout__input__radio">
+                      <input type="radio" id="COD" name="paymentMethod" value="COD">
+                      <label for="COD">COD</label>
+                    </div>
+                    <div class="checkout__input__radio">
+                      <input type="radio" id="payonline" name="paymentMethod" value="Pay Online">
+                      <label for="payonline">Pay Online</label>
+                    </div>
+                    <div class="checkout__input__radio">
+                      <input  style="display: none" type="radio" id="payusingwallet" name="paymentMethod" value="Wallet">
+                      <label for="payusingwallet">Pay Using Wallet</label>
+                    </div>
+                    
+                    <div id="addressError" class="text-danger"></div>
+                    <div id="paymentMethodError" class="text-danger"></div>
+                    <button type="submit" class="site-btn">PLACE ORDER</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+      </div>
+      <!-- Include Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+    <%- include('../layouts/footer.ejs') -%>
+    </html>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+      integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+      function validateForm() {
+        // Validate the address field
+        const selectedAddress = document.querySelector('input[name="selectedCard"]:checked');
+        if (!selectedAddress) {
+          const addressError = document.getElementById('addressError');
+          addressError.textContent = 'Please select an address before placing the order.';
+          return false;
+        } else {
+          const addressError = document.getElementById('addressError');
+          addressError.textContent = '';
+        }
+    
+        // Validate the payment method
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+        if (!paymentMethod) {
+          const paymentMethodError = document.getElementById('paymentMethodError');
+          paymentMethodError.textContent = 'Please select a payment method before placing the order.';
+          return false;
+        } else {
+          const paymentMethodError = document.getElementById('paymentMethodError');
+          paymentMethodError.textContent = '';
+        }
+    
+        // Optionally, you can perform additional validation here if needed.
+    
+        // If all validations pass, allow the form to be submitted
+        return true;
+      }
+    </script>
+    
+    
+    <script>
+
+      function applyCoupon(couponCode) {
+        console.log('reached coupon');
+        $.ajax({
+          method: "post",
+          url: "/coupons/validate",
+          data: {
+            coupon: couponCode
+          },
+          success: function (response) {
+            if (response.status === true) {
+              const newTotal = response.newTotal;
+              const discount = response.discount;
+              console.log("Coupon applied successfully!");
+
+              const currentTotal = parseInt($("#finalTotal").text().replace("₹", ""));
+              $("#discountAmount").text(`-₹${discount}`);
+              // const newTotal = currentTotal - (discount * currentTotal);
+              $("#finalTotal").text(`₹${newTotal}`);
+
+            } else {
+              $("#couponError").text(response.message);
+            }
+          },
+          error: function (error) {
+            console.error("Error applying coupon:", error);
+          },
+        });
+      }
+
+
+      $("#couponsForm").submit(function (event) {
+        event.preventDefault();
+        const couponCode = $("#couponCode").val();
+        applyCoupon(couponCode);
+      });
+
+
+
+
+      function placeOrder() {
+        const formData = $("#orderForm").serialize();
+
+        $.ajax({
+          method: "post",
+          url: "/order",
+          data: formData,
+          success: function (response) {
+
+            if (response.codSucess) {
+              console.log("Order placed successfully by ajax!", response);
+              location.href = "/orderSuccess"
+            } else {
+              razorpayPayment(response.order)
+              console.log("order placed by razor pay");
+            }
+          },
+          error: function (error) {
+            console.error("Error placing order:", error);
+          },
+        });
+      }
+
+      $(document).ready(function () {
+        $("#orderForm").submit(function (event) {
+          event.preventDefault();
+          placeOrder();
+        });
+
+
+      });
+
+
+      function razorpayPayment(order) {
+        console.log("goes to another method");
+        var options = {
+          "key": "rzp_test_FcpTaEapa4GL0L",
+          "amount": order.total,
+          "currency": "INR",
+          "name": "Acme Corp",
+          "description": "Test Transaction",
+          "image": "https://example.com/your_logo",
+          "order_id": order.id,
+          "handler": function (response) {
+            // alert(response.razorpay_payment_id);
+            // alert(response.razorpay_order_id);
+            // alert(response.razorpay_signature)
+
+            verifyPayment(response, order);
+          },
+          "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+          },
+          "notes": {
+            "address": "Razorpay Corporate Office"
+          },
+          "theme": {
+            "color": "#3399cc"
+          }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+      }
+
+      function verifyPayment(payment, order) {
+        $.ajax({
+          url: '/verify-payment',
+          data: {
+            payment,
+            order,
+          },
+          method: 'post',
+          success: (response) => {
+            if (response.paymentSuccess == true) {
+              location.href = "/orderSuccess"
+            } else {
+              alert('payment failed')
+            }
+          }
+        })
+      }
+    </script>
+ 
+ <script>
+  function useWallet(walletBalance) {
+    const orderTotal = parseInt($("#finalTotal").text().replace("₹", ""));
+    const maxAmountToUse = Math.min(orderTotal, walletBalance);
+
+    const newTotal = orderTotal - maxAmountToUse;
+    const walletAmount = maxAmountToUse > 0 ? -maxAmountToUse : 0;
+
+    $("#finalTotal").text(`₹${newTotal}`);
+    $("#walletAmount").text(`₹${walletAmount}`);
+
+    const payOnlineBtn = document.getElementById("payonline");
+    const payUsingWalletBtn = document.getElementById("payusingwallet");
+    const codBtn = document.getElementById("COD");
+
+    if (walletAmount < 0) {
+      $("#walletField").show();
+      if (newTotal > 0) {
+        payOnlineBtn.style.display = "inline";
+        payUsingWalletBtn.style.display = "none"; 
+        codBtn.style.display = "inline";
+      } else {
+        payOnlineBtn.style.display = "none"; 
+        payUsingWalletBtn.style.display = "inline"; 
+        codBtn.style.display = "none";
+      }
+    } else {
+      $("#walletField").hide();
+      payOnlineBtn.style.display = "inline"; 
+      payUsingWalletBtn.style.display = "none"; 
+      codBtn.style.display = "none"; 
+    }
+    console.log(walletAmount,"wallet in sceriopt");
+    if (walletAmount == 0) {
+      document.getElementById("walletBalance").setAttribute("name", ""); // Remove the "name" attribute
+    } else {
+      document.getElementById("walletBalance").setAttribute("name", "walletBalance"); // Add the "name" attribute
+    }
+  }
+</script>
+
+<script>
+  document.addEventListener('click', function(event) {
+    const target = event.target;
+    if (target.classList.contains('copy-coupon')) {
+      const couponName = target.getAttribute('data-coupon');
+      copyCouponNameToClipboard(couponName);
+      alert(`Coupon name "${couponName}" copied to clipboard!`);
+    }
+  });
+
+  function copyCouponNameToClipboard(couponName) {
+    navigator.clipboard.writeText(couponName)
+      .then(() => {
+        console.log('Coupon name copied to clipboard:', couponName);
+      })
+      .catch((err) => {
+        console.error('Failed to copy coupon name:', err);
+      });
+  }
+    </script>
+    </body>
+    </html>

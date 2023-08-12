@@ -1,0 +1,35 @@
+body{
+overflow-x: hidden;
+}
+.banner{
+height: 25rem;
+}
+
+.banner1{
+
+}
+
+.category{
+    height: 12rem;
+    }
+.cat{
+    width: 13rem;
+    
+}
+.category .cat {
+    width: 14rem;
+    height: 9rem;
+    background-color: #f0f0f0;
+    margin: 5px;
+}
+
+.cat img{
+    width: 100%; 
+    height: 100%; 
+}
+.col{
+    max-width: 25%;
+}
+.card-body{
+    padding: 0.45rem;
+}

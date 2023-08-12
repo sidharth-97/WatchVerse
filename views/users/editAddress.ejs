@@ -1,0 +1,122 @@
+<%- include('../layouts/user-dashboard.ejs') -%>
+
+
+    <div class="col-12 col-md-9">
+        <section class="container1">
+            <h1 class="">Edit Address</h1>
+            <div class="d-flex justify-content-center align-items-center m-auto">
+
+                <form action="/editAddress?id=<%= address._id %>" method="post" class="form">
+                    <div class="input-box">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Enter your full name" name="fullName" id="contact-name" onkeyup="validateName()" value="<%= address.fullName %>">
+                        <span id="fullName" style="color: rgb(255, 0, 0);"></span>
+
+                    </div>
+
+                    <div class="column">
+                        <div class="input-box">
+                            <label>Mobile number</label>
+                            <input type="text" placeholder="Registered email" name="mobile_no" id="contact-number"  onkeyup="validateMobile()"  value="<%= address.mobile_no %>" required />
+                            <span id="mobile" style="color: rgb(255, 0, 0);"></span>
+
+                        </div>
+                        <div class="input-box">
+                         
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <label>Address</label>
+                        <input type="text" placeholder="Address" name="address1" value="<%= address.address1 %>">
+                    </div>
+                    <div class="column">
+                        <div class="input-box">
+                            <label>District</label>
+                            <input type="text" placeholder="Registered email" name="district" value="<%= address.district %>" required />
+                        </div>
+                        <div class="input-box">
+                            <label>State</label>
+                            <input type="text" placeholder="Enter your mobile" name="state" value="<%= address.state %>" required />
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="input-box">
+                            <label>PIN</label>
+                            <input type="text" placeholder="Registered email" name="PINcode" value="<%= address.PINcode %>" required />
+                        </div>
+                        <div class="input-box">
+                            <!-- <label>State</label>
+              <input type="text" placeholder="Enter your mobile" name="brand" value="" required /> -->
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 mt-3 mb-5">
+
+                        </select>
+                    </div>
+
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    </div>
+
+    <%- include('../layouts/user-dashboard-footer.ejs') -%>
+
+    
+<script>
+    var nameError = document.getElementById("fullName");
+    var mobileError = document.getElementById("mobile");
+    var submitError = document.getElementById("submit-error");
+    var successMessage = document.getElementById("success-message");
+    
+    function validateName() {
+      var name1 = document.getElementById("contact-name").value;
+      if (name1.length === 0) {
+        nameError.innerHTML = "Name is required";
+        return false;
+      }
+      if (!name1.match(/^[A-Za-z]+\s[A-Za-z]+$/)) {
+        nameError.innerHTML = "Full name required";
+        return false;
+      } else {
+        nameError.innerHTML = "";
+        return true;
+      }
+    }
+    
+    
+    function validateMobile() {
+      var mob = document.getElementById("contact-number").value;
+      if (mob.length === 0) {
+        mobileError.innerHTML = "Mobile number is required";
+        return false;
+      }
+      if (!mob.match(/^[0-9]{10}$/)) {
+        mobileError.innerHTML = "Enter a valid 10-digit mobile number";
+        return false;
+      } else {
+        mobileError.innerHTML = "";
+        return true;
+      }
+    }
+    
+    function validateForm() {
+      if (!validateName() || !validateMobile()) {
+        submitError.style.display = "block";
+        submitError.innerHTML = "Please fill in all fields";
+        setTimeout(function () {
+          submitError.style.display = "none";
+        }, 3000);
+        return false;
+      }
+    
+      setTimeout(function () {
+        if (successMessage) {
+          successMessage.style.display = "none";
+        }
+      }, 3000);
+    }
+    </script>

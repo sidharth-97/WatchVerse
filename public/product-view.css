@@ -1,0 +1,677 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Maven+Pro&family=Nunito+Sans:wght@500&family=Open+Sans:wght@300&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Nunito Sans', sans-serif;
+
+}
+
+body {
+    line-height: 1.5;
+}
+
+.card-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+img {
+    width: 100%;
+    display: block;
+}
+
+.img-display {
+    overflow: hidden;
+}
+
+.img-showcase {
+    display: flex;
+    width: 100%;
+    transition: all 0.5s ease;
+}
+
+.img-showcase img {
+    min-width: 100%;
+}
+
+.img-select {
+    display: flex;
+}
+
+.img-item {
+    margin: 0.3rem;
+}
+
+.img-item:nth-child(1),
+.img-item:nth-child(2),
+.img-item:nth-child(3) {
+    margin-right: 0;
+}
+
+.img-item:hover {
+    opacity: 0.8;
+}
+
+.product-content {
+    padding: 2rem 1rem;
+}
+
+.product-title {
+
+    color: #111;
+    font-family: Nunito Sans;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28.8px;
+
+}
+
+
+.product-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+
+    color: #fff;
+    padding: 0 0.3rem;
+    transition: all 0.5s ease;
+}
+
+.product-link:hover {
+    opacity: 0.9;
+}
+
+.product-rating {
+    color: #000000;
+}
+
+.product-rating span {
+    font-weight: 400;
+    color: #252525;
+}
+
+
+.price {
+    font-size: 20px;
+    color: grey;
+    text-decoration: line-through;
+}
+
+.dPrice {
+    color: #1B1C1C;
+
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 38.4px;
+
+    text-transform: uppercase;
+}
+
+.discount {
+    font-size: 25px;
+    color: rgb(0, 164, 0);
+    font-weight: 600;
+}
+
+.save {
+    font-size: 25px;
+    color: rgb(0, 164, 0);
+    font-weight: 600;
+}
+
+.discount-off {
+    font-size: 600;
+    font-size: 25px;
+}
+
+
+#cart-btn {
+    background: #E53637;
+    width: 329px;
+    height: 55px;
+    flex-shrink: 0;
+    color: #FFF;
+    text-align: center;
+    font-family: Nunito Sans;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+
+
+}
+
+.bi-heart {
+    font-size: 1.5rem;
+
+}
+
+.wishlist {
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+    border: 1px solid;
+   
+}
+
+
+
+.purchase-info {
+    margin: 1.5rem 0;
+}
+
+.purchase-info input,
+.purchase-info .btn {
+    border: 1.5px solid #ddd;
+    border-radius: 25px;
+    text-align: center;
+    padding: 0.45rem 0.8rem;
+    outline: 0;
+    margin-right: 0.2rem;
+    margin-bottom: 1rem;
+}
+
+.purchase-info input {
+    width: 60px;
+}
+
+.purchase-info .btn {
+    cursor: pointer;
+    color: #fff;
+}
+
+.purchase-info .btn:first-of-type {
+    background: #E53637;
+    height: 55px;
+}
+
+.purchase-info .btn:last-of-type {
+
+    color: black;
+    border: 1px solid black;
+    height: 55px;
+}
+
+.purchase-info .btn:hover {
+    opacity: 0.9;
+}
+
+
+.custom-label {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 5px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 3.5rem;
+}
+
+.tax {
+    color: #A4A4A4;
+    font-family: Nunito Sans;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+
+}
+
+.custom-label:hover {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    transition: .5s ease-in-out;
+}
+
+
+.custom-label.selected {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+@media screen and (min-width: 992px) {
+    .card {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1.5rem;
+    }
+
+    .card-wrapper {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .product-imgs {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .product-content {
+        padding-top: 0;
+    }
+}
+
+.main-image {
+    overflow: hidden;
+  }
+
+  #main-img {
+    transition: transform 0.3s ease;
+  } */
+
+  @import url('https://fonts.googleapis.com/css2?family=Maven+Pro&family=Nunito+Sans:wght@500&family=Open+Sans:wght@300&display=swap');
+
+  * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      font-family: 'Nunito Sans', sans-serif;
+    
+  }
+ 
+  body {
+      line-height: 1.5;
+      overflow-x: hidden;
+  }
+ .newClass{
+    padding-top:7rem;
+ }
+  .main-image {
+      overflow: hidden;
+  }
+ 
+  #main-img {
+      transition: transform 0.3s ease;
+  }
+ 
+  .card-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+  }
+ 
+  img {
+      width: 100%;
+      display: block;
+  }
+ 
+  .img-display {
+      overflow: hidden;
+  }
+ 
+  .img-showcase {
+      display: flex;
+      width: 100%;
+      transition: all 0.5s ease;
+  }
+ 
+  .img-showcase img {
+      min-width: 100%;
+  }
+ 
+  .img-select {
+      display: flex;
+  }
+ 
+  .img-item {
+      margin: 0.3rem;
+  }
+ 
+  .img-item:nth-child(1),
+  .img-item:nth-child(2),
+  .img-item:nth-child(3) {
+      margin-right: 0;
+  }
+ 
+  .img-item:hover {
+      opacity: 0.8;
+  }
+ 
+  .product-content {
+      padding: 2rem 1rem;
+  }
+ 
+  .product-title {
+ 
+      color: #111;
+      font-family: Nunito Sans;
+      font-size: 2.5rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 28.8px;
+ 
+  }
+ 
+ 
+  .product-link {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      /* background: #256eff; */
+      color: #fff;
+      padding: 0 0.3rem;
+      transition: all 0.5s ease;
+  }
+ 
+  .product-link:hover {
+      opacity: 0.9;
+  }
+ 
+  .product-rating {
+      color: #000000;
+  }
+ 
+  .product-rating span {
+      font-weight: 400;
+      color: #252525;
+  }
+ 
+ 
+  .price {
+      font-size: 20px;
+      color: grey;
+      text-decoration: line-through;
+  }
+ 
+  .dPrice {
+      color: #1B1C1C;
+      /* font-family: Roboto; */
+      font-size: 32px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 38.4px;
+      /* 120% */
+      text-transform: uppercase;
+  }
+ 
+  .discount {
+      font-size: 25px;
+      color: rgb(0, 164, 0);
+      font-weight: 600;
+  }
+ 
+  .save {
+      font-size: 25px;
+      color: rgb(0, 164, 0);
+      font-weight: 600;
+  }
+ 
+  .discount-off {
+      font-size: 600;
+      font-size: 25px;
+  }
+ 
+ 
+  #cart-btn {
+      background: #E53637;
+      width: 329px;
+      height: 55px;
+      flex-shrink: 0;
+      color: #FFF;
+      text-align: center;
+      font-family: Nunito Sans;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 25px;
+      /* 166.667% */
+ 
+  }
+ 
+  .bi-heart {
+      font-size: 1.5rem;
+ 
+  }
+ 
+  .wishlist {
+      width: 55px;
+      height: 55px;
+      flex-shrink: 0;
+      border: 1px solid;
+      /* padding-top: 20px; */
+  }
+ 
+  /* .product-detail h2 {
+      text-transform: capitalize;
+      color: #12263a;
+      padding-bottom: 0.6rem;
+  }
+ 
+  .product-detail p {
+      font-size: 0.9rem;
+      padding: 0.3rem;
+      opacity: 0.8;
+  }
+ 
+  .product-detail ul {
+      margin: 1rem 0;
+      font-size: 0.9rem;
+  }
+ 
+  .product-detail ul li {
+      margin: 0;
+      list-style: none;
+      background: url(shoes_images/checked.png) left center no-repeat;
+      background-size: 18px;
+      padding-left: 1.7rem;
+      margin: 0.4rem 0;
+      font-weight: 600;
+      opacity: 0.9;
+  }
+ 
+  .product-detail ul li span {
+      font-weight: 400;
+  } */
+ 
+  .purchase-info {
+      margin: 1.5rem 0;
+  }
+ 
+  .purchase-info input,
+  .purchase-info .btn {
+      /* border: 1.5px solid #ddd;
+      border-radius: 25px; */
+      text-align: center;
+      padding: 0.45rem 0.8rem;
+      outline: 0;
+      margin-right: 0.2rem;
+      margin-bottom: 1rem;
+  }
+ 
+  .purchase-info input {
+      width: 60px;
+  }
+ 
+  .purchase-info .btn {
+      cursor: pointer;
+      color: #fff;
+  }
+ 
+  .purchase-info .btn:first-of-type {
+      /* background: #E53637; */
+      height: 55px;
+  }
+ 
+  .purchase-info .btn:last-of-type {
+      /* background: #f64749; */
+      color: rgb(228, 226, 226);
+      /* border: 1px solid black; */
+      height: 55px;
+  }
+ 
+  .purchase-info .btn:hover {
+      opacity: 0.9;
+  }
+ 
+  /* Style the clickable labels */
+  .custom-label {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-right: 5px;
+      text-align: center;
+      line-height: 40px;
+      cursor: pointer;
+      height: 2.5rem;
+      width: 3.5rem;
+  }
+ 
+  .tax {
+      color: #A4A4A4;
+      font-family: Nunito Sans;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 25px;
+      /* 166.667% */
+  }
+ 
+  .custom-label:hover {
+      background-color: rgb(0, 0, 0);
+      color: white;
+      transition: .5s ease-in-out;
+  }
+ 
+  /* Style the selected label */
+  .custom-label.selected {
+      background-color: rgb(0, 0, 0);
+      color: white;
+  }
+ 
+  @media screen and (min-width: 992px) {
+      .card {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          grid-gap: 1.5rem;
+      }
+ 
+      .card-wrapper {
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+ 
+      .product-imgs {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+ 
+      .product-content {
+          padding-top: 0;
+      }
+  }
+  .main-image:hover {
+    cursor: zoom-in;
+    zoom: 1.5;
+  }
+  
+
+  .navbar-expand-lg .navbar-collapse{
+    display: flex;
+    justify-content: right;
+    
+  }
+
+  .navbar-collapse{
+    flex-grow: 0;
+  }
+
+  
+.main0{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 150px;
+}
+
+.full-boxer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.box-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.comment-box:hover{
+    margin-top: 12px;
+}
+
+.comment-box{
+    width: 500px;
+    background: white;
+    padding: 20px;
+    margin: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 3px 3px 25px rgba(0,0,0,0.1);
+}
+
+.Profile{
+    display: flex;
+    align-items: center;
+}
+
+.profile-image{
+    width: 70px;
+    height: 70px;
+    box-shadow: 2px 2px 30px rgba(0,0,0,0.3);
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.profile-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.Name{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.Name strong{
+    color: black;
+    font-size: 18px;
+}
+
+.Name span{
+    color: gray;
+    margin-top: 2px;
+}
+
+.comment p{
+    color: black;
+}

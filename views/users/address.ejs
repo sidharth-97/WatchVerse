@@ -1,0 +1,179 @@
+<%- include('../layouts/user-dashboard.ejs') -%>
+
+
+<div class="col-12 col-md-9">
+    <section class="container1">
+        <h1 class="">Add Address</h1>
+      <div class="d-flex justify-content-center align-items-center m-auto">
+        
+        <form action="/address" method="post" class="form">
+          <div class="input-box">
+            <label>Full Name</label>
+            <input type="text" placeholder="Enter your full name" name="fullName" value="" id="contact-name" onkeyup="validateName()">
+            <span id="fullName" style="color: rgb(255, 0, 0);"></span>
+          </div>
+          
+          <div class="column">
+            <div class="input-box">
+              <label>Mobile number</label>
+              <input type="text" placeholder="Mobile Number" name="mobile_no" id="contact-number"  onkeyup="validateMobile()"  value="" required />
+              <span id="mobile" style="color: rgb(255, 0, 0);"></span>
+            </div>
+            <div class="input-box">
+              <!-- <label>State</label>
+              <input type="text" placeholder="Enter your mobile" name="brand" value="" required /> -->
+            </div>
+          </div>
+          
+          <div class="input-box">
+            <label>Address</label>
+            <input type="text" placeholder="Address" name="address1"  value="">
+          </div>
+          <div class="column">
+            <div class="input-box">
+              <label>District</label>
+              <input type="text" placeholder="District" name="district" value="" required onkeyup="validateDistrict()">
+              <span id="districtError" style="color: rgb(255, 0, 0);"></span>
+            </div>
+            
+            <div class="input-box">
+              <label>State</label>
+              <input type="text" placeholder="State" name="state" value="" required onkeyup="validateState()">
+              <span id="stateError" style="color: rgb(255, 0, 0);"></span>
+            </div>
+            
+            <div class="input-box">
+              <label>PIN</label>
+              <input type="text" placeholder="PIN Code" name="PINcode" value="" required onkeyup="validatePIN()">
+              <span id="PINError" style="color: rgb(255, 0, 0);"></span>
+            </div>
+            <div class="input-box">
+              <!-- <label>State</label>
+              <input type="text" placeholder="Enter your mobile" name="brand" value="" required /> -->
+            </div>
+          </div>
+          <div class="form-group col-md-3 mt-3 mb-5">
+                   
+                 
+            </select>
+        </div>
+    
+          <br>
+           <button type="submit"
+            class="btn btn-primary"  onclick="return validateForm()">Submit</button>
+            <span id="submit-error" style="color: rgb(255, 0, 0);"></span>
+    </form>
+      </div>
+    </section>
+  </div>
+
+</div>
+
+  <%- include('../layouts/user-dashboard-footer.ejs') -%>
+
+<script>
+  var nameError = document.getElementById("fullName");
+  var mobileError = document.getElementById("mobile");
+  var districtError = document.getElementById("districtError");
+  var stateError = document.getElementById("stateError");
+  var PINError = document.getElementById("PINError");
+  var submitError = document.getElementById("submit-error");
+  var successMessage = document.getElementById("success-message");
+  
+  function validateName() {
+    var name1 = document.getElementById("contact-name").value;
+    if (name1.length === 0) {
+      nameError.innerHTML = "Name is required";
+      return false;
+    }
+    if (!name1.match(/^[A-Za-z]+\s[A-Za-z]+$/)) {
+      nameError.innerHTML = "Full name required";
+      return false;
+    } else {
+      nameError.innerHTML = "";
+      return true;
+    }
+  }
+  
+  
+  function validateMobile() {
+    var mob = document.getElementById("contact-number").value;
+    if (mob.length === 0) {
+      mobileError.innerHTML = "Mobile number is required";
+      return false;
+    }
+    if (!mob.match(/^[0-9]{10}$/)) {
+      mobileError.innerHTML = "Enter a valid 10-digit mobile number";
+      return false;
+    } else {
+      mobileError.innerHTML = "";
+      return true;
+    }
+  }
+  function validateDistrict() {
+    var district = document.getElementsByName("district")[0].value;
+    if (district.length === 0) {
+      districtError.innerHTML = "District is required";
+      return false;
+    }
+    if (!district.match(/^[a-zA-Z]+$/)) {
+      districtError.innerHTML = "District should only contain alphabetical characters";
+      return false;
+    } else {
+      districtError.innerHTML = "";
+      return true;
+    }
+  }
+
+  function validateState() {
+    var state = document.getElementsByName("state")[0].value;
+    if (state.length === 0) {
+      stateError.innerHTML = "State is required";
+      return false;
+    }
+    if (!state.match(/^[a-zA-Z]+$/)) {
+      stateError.innerHTML = "State should only contain alphabetical characters";
+      return false;
+    } else {
+      stateError.innerHTML = "";
+      return true;
+    }
+  }
+
+  function validatePIN() {
+    var PIN = document.getElementsByName("PINcode")[0].value;
+    if (PIN.length === 0) {
+      PINError.innerHTML = "PIN Code is required";
+      return false;
+    }
+    if (!PIN.match(/^\d{6}$/)) {
+      PINError.innerHTML = "Enter a valid 6-digit PIN Code";
+      return false;
+    } else {
+      PINError.innerHTML = "";
+      return true;
+    }
+  }
+  
+  function validateForm() {
+  
+     var isValidDistrict = validateDistrict();
+    var isValidState = validateState();
+    var isValidPIN = validatePIN();
+
+    if (!validateName() || !validateMobile() || !isValidDistrict() || !isValidPIN() || !isValidState()) {
+      submitError.style.display = "block";
+      submitError.innerHTML = "Please fill in all fields";
+      setTimeout(function () {
+        submitError.style.display = "none";
+      }, 3000);
+      return false;
+    }
+  
+    setTimeout(function () {
+      if (successMessage) {
+        successMessage.style.display = "none";
+      }
+    }, 3000);
+  }
+  </script>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>WatchVerse</title>
+  <link rel="icon" href="/website/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/products.css">
+  <link rel="stylesheet" href="/product-view.css">
+  
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+    crossorigin="anonymous" />
+  <script src="https://kit.fontawesome.com/9af8e1e9bd.js" crossorigin="anonymous"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    /* Add this CSS to style the rating section */
+    .average-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .average-rating h3 {
+      font-size: 30px;
+      margin-right: 10px;
+    }
+
+    .progress {
+      height: 25px;
+      margin-bottom: 5px;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      line-height: 15px;
+      text-align: center;
+      font-size: 14px;
+      color: #fff;
+      background-color: #007bff;
+    }
+
+    .reviewcss {
+      line-height: 1.2;
+    }
+
+    .card {
+      grid-gap: 1rem;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<body class="newClass">
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+          <img src="/website/logo.png" alt="Logo" width="120px">
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto my-2 my-lg-0">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/watches">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+            </li>
+
+            <% if(user){ %>
+              <li class="nav-item position-relative">
+                <a class="nav-link js-scroll-trigger" href="/cart">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <% if (cartCount> 0) { %>
+                    <span class="badge badge-danger position-absolute top-0 start-100 translate-middle">
+                      <%= cartCount %>
+                    </span>
+                    <% } %>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="/user">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="fa-solid fa-user" style="font-size: 17px;"></i>
+                    <span class="text-center" style="font-size: 10px;">
+                      <%= user.name %>
+                    </span>
+                  </div>
+                </a>
+              </li>
+              <% }else{%>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="/login">Login</a>
+                </li>
+                <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="product-imgs">
+            <div class="img-display">
+              <div class="img-showcase">
+                <div class="main-image">
+                  <img src="/productImages/<%= product.image[0] %>" id="main-img" alt="Responsive image" width="250px">
+                </div>
+              </div>
+            </div>
+            <div class="img-select d-flex">
+              <% product.image.forEach((image, index)=> { %>
+                <div class="img-item">
+                  <a href="#" data-id="<%= index + 1 %>">
+                    <img src="/productImages/<%= image %>" id="<%= image %>" alt="watch image"
+                      onclick="imgClick(this.id)" width="150px">
+                  </a>
+                </div>
+                <% }) %>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="product-content mt-3">
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="text-uppercase">
+                  <%=product.brand %>
+                </span>
+              </div>
+              <div class="product-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span>4.7(21)</span>
+              </div>
+            </div>
+            <div class="mt-3">
+              <span class="product-title text-uppercase">
+                <%=product.name %>
+              </span>
+            </div>
+            <hr>
+            <div class="description">
+              <p>
+                <%=product.description%>
+              </p>
+            </div>
+
+            <div class="product-price d-flex align-items-center">
+              <span class="dPrice me-3">₹<%= product.price %></span>
+              <% if (product.discount) { %>
+                <del class="text-muted  me-2">₹<%= product.price + product.discount %></del>
+                <span class="text-success ">₹<%= product.discount %> off</span>
+              <% } %>
+            </div>
+            
+            
+
+            <div class="purchase-info">
+              <span class="tax">incl. of taxes <br>
+                (Also includes all applicable duties)</span>
+              <div class="d-flex flex-row">
+                <form action="/cart?productId=<%= product._id %>" method="post">
+                  <button style="width: 350px;" id="addToCartButton" type="submit" class="btn btn-danger rounded-0">
+                    ADD TO CART
+                  </button>
+                </form>
+                <a href="/addToWishlist?id=<%= product._id %>">
+                  <button class="btn rounded-0">
+                    <i style="color: red;" class="bi bi-heart"></i>
+                  </button>
+                </a>
+              </div>
+
+            </div>
+            <div>
+              <h4>Shipping and Returns</h4>
+              Free standard delivery on all orders and free return for all qualifying orders within
+              <strong>14 days of your order delivery date</strong>.
+            </div>
+            <!-- Updated HTML section for Ratings & Reviews -->
+            <div class="p-1 mt-5 card pt-3">
+              <div class="d-flex justify-content-between align-items-center mb-3 p-3">
+                <h4 class="mb-0">Ratings & Reviews</h4>
+                <a href="/addReview?id=<%= product._id %>" class="btn btn-success">Rate this product</a>
+              </div>
+              <% if (product.Rating) { %>
+                <div class="ps-3">
+                  <h3>
+                    <%= product.Rating.toFixed(2) %> <i class="fa-solid fa-star"></i>
+                  </h3>
+                </div>
+                <% } else { %>
+                  <p>No reviews so far</p>
+                  <% } %>
+
+                    <% if (product.Review.length> 0) { %>
+                      <% for (let i=0; i < Math.min(2, product.Review.length); i++) { %>
+                        <div class="full-boxer">
+                          <div class="comment-box">
+                            <div class="box-top">
+                              <div class="Profile d-flex">
+                                <!-- <div class="profile-image me-3">
+                            <img src="image/1.png">
+                          </div> -->
+                                <div class="Name">
+                                  <strong>
+                                    <%= product.Review[i].user.name %>
+                                  </strong>
+                                  <span class="d-block">
+                                    <% for (let j=1; j <=5; j++) { %>
+                                      <i class="fa-solid fa-star"
+                                        style="color: <%= j <= product.Review[i].rating ? 'orange' : '#ccc' %>;"></i>
+                                      <% } %>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="comment">
+                              <p>
+                                <%= product.Review[i].description %>
+                              </p>
+                              <% const dd=product.Review[i].date.getDate(); const mm=product.Review[i].date.getMonth() +
+                                1; const yyyy=product.Review[i].date.getFullYear(); const
+                                formattedDate=`${dd}-${mm}-${yyyy}`; %>
+                                <p>
+                                  <%= formattedDate %>
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                        <% } %>
+                          <% if (product.Review.length> 2) { %>
+                            <div class="ps-3"><a href="/viewAllReviews?id=<%= product._id %>" class="d-block mt-3">View
+                                more reviews</a></div>
+                            <% } %>
+                              <% } else { %>
+                                <div class="ps-3 p-2">
+                                  <p>No reviews available</p>
+                                </div>
+                                <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+<!-- <% if(reccprod){ %>
+  <h4 class="text-center p-3">You may also like</h4>
+  <div class="row d-flex justify-content-center flex-row">
+    <% for(let i=0;i<reccprod.length;i++){ %>
+      <% if(reccprod[i] && reccprod[i].isListed && reccprod[i].quantity>0){ %>
+        <a href="/reccprod?productId=<%= reccprod[i]._id %>">
+          <div class="col-sm-6 col-md-6 col-lg-4 ">
+            <div class="card" style="width: 15rem;">
+              <div class="card-body text-center">
+                <img src="/productImages/<%= reccprod[i].image[0] %>" class="reccprod-image img-fluid">
+                <h5 class="card-title"><b>
+                    <%= reccprod[i].name %>
+                  </b></h5>
+                <p class="tags small">
+                  Strap : <%= reccprod[i].strapType %>
+                </p>
+                <p class="tags">
+                  ₹ <%= reccprod[i].price %>
+                </p>
+                <form action="/cart" method="post"><a href="/cart" target="_blank" class="btn btn-success button-text"><i class="fa fa-shopping-cart"
+                  aria-hidden="true"></i> Add to cart</a></form> -->
+                <!-- <form action="/cart?productId=<%= reccprod[i]._id %>" method="post"><button
+                    class="btn btn-success button-text js-addcart-detail" id="addToCartButton" type="submit"><i
+                      class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart</button></form>
+              </div>
+            </div>
+          </div>
+        </a>
+        <% } %>
+          <% } %>
+  </div>
+  <% } %> --> 
+
+
+    <%- include('../layouts/footer.ejs') -%>
+
+      <script>
+        const mainImage = document.querySelector('.main-image');
+        const img = document.getElementById('main-img');
+        let zoomEnabled = false;
+        let currentImageIndex = 0;
+
+        const imgItems = Array.from(document.querySelectorAll('.img-item'));
+        imgItems.forEach((item, index) => {
+          item.addEventListener('click', () => {
+            setCurrentImage(index);
+          });
+        });
+
+        mainImage.addEventListener('click', enableZoom);
+        mainImage.addEventListener('mousemove', zoomIn);
+        mainImage.addEventListener('mouseleave', zoomOut);
+
+        function setCurrentImage(index) {
+          currentImageIndex = index;
+          const selectedImg = imgItems[index].querySelector('img');
+          img.src = selectedImg.src;
+          zoomEnabled = false;
+          img.style.transform = 'scale(1)';
+        }
+
+        function enableZoom() {
+          zoomEnabled = true;
+        }
+
+        function zoomIn(event) {
+          if (!zoomEnabled) {
+            return;
+          }
+          const boundingRect = mainImage.getBoundingClientRect();
+          const mouseX = event.clientX - boundingRect.left;
+          const mouseY = event.clientY - boundingRect.top;
+
+          const offsetX = (mouseX / boundingRect.width) * 100;
+          const offsetY = (mouseY / boundingRect.height) * 100;
+
+          img.style.transformOrigin = `${offsetX}% ${offsetY}%`;
+          img.style.transform = 'scale(2)';
+        }
+        function zoomOut() {
+          img.style.transform = 'scale(1)';
+          zoomEnabled = false;
+        }
+      </script>
+</html>

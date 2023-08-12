@@ -1,0 +1,100 @@
+<%- include('../layouts/user-dashboard.ejs') -%>
+
+<div class="col-lg-9">
+  <div class="row">
+    <h3 class="mb-4 ">Welcome <%= user.name %></h3>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <img src="/website/NicePng_profile-icon-png_2024580.png" alt="User Image" class="img-fluid rounded-circle">
+            </div>
+            <div class="col-md-8">
+              <h5 class="card-title">Username: <%= user.name %></h5>
+              <h6 class="card-subtitle mb-2 text-muted">Email: <%= user.email %></h6>
+              <h6 class="card-subtitle mb-2 text-muted">Mobile: <%= user.mobile %></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card d-flex justify-content-center align-items-center">
+        <div class="card-body text-center">
+          <img src="/website/pngwing.com (80).png" alt="Wallet Image" class="img-fluid mb-3" style="max-height: 90px;">
+          <h5 class="card-title">Wallet Balance: Rs.<%= user.wallet %></h5>
+        </div>
+        <div class="d-flex justify-content-center pb-2"><a href="/wallet-history" class="btn btn-dark">Wallet History</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          Referral Code
+        </div>
+        <div class="card-body">
+          <p>Your Referral Code: <%= user.referral %></p>
+          <button id="copyReferralBtn" class="btn btn-dark">Copy</button>
+        </div>
+      </div>
+
+      <h5 class="mb-3">Saved Address:</h5>
+
+      <% if (userAddress.length > 0) { %>
+        <% userAddress.forEach((address) => { %>
+          <% if (address.addressfield && address.addressfield.length > 0) { %>
+            <% address.addressfield.forEach((addr) => { %>
+              <div class="card mb-3" style="max-width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title"><%= addr.fullName %></h5>
+                  <h6 class="card-subtitle mb-2 text-muted"><%= addr.mobile_no %></h6>
+                  <p class="card-text"><%= addr.address1 %></p>
+                  <p class="card-text"><%= addr.district %>, <%= addr.state %> - <%= addr.PINcode %></p>
+                  <a href="/editAddress?id=<%= addr._id %>" class="card-link btn btn-primary">Edit Address</a>
+                  <a href="/deleteAddress?id=<%= addr._id %>" class="card-link btn btn-danger">Delete</a>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>No address available.</p>
+          <% } %>
+        <% }); %>
+      <% } else { %>
+        <p>No address available.</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../layouts/user-dashboard-footer.ejs') -%>
+
+<script>
+  const copyReferralBtn = document.getElementById('copyReferralBtn');
+  const referralCode = '<%= user.referral %>';
+  
+  copyReferralBtn.addEventListener('click', () => {
+
+    const textarea = document.createElement('textarea');
+    textarea.value = referralCode;
+    document.body.appendChild(textarea);
+
+    textarea.select();
+    document.execCommand('copy');
+    
+    document.body.removeChild(textarea);
+    
+ 
+    copyReferralBtn.textContent = 'Copied!';
+    setTimeout(() => {
+      copyReferralBtn.textContent = 'Copy';
+    }, 2000); 
+  });
+</script>

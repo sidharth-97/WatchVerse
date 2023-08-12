@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WatchVerse</title>
+  <link rel="icon" href="/website/logo.png">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/9af8e1e9bd.js" crossorigin="anonymous"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="products.css">
+  <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="footer.css">
+
+</head>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light navbar-static-top  py-3 " id="mainNav">
+    <div class="container">
+      <div>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+          <img src="/website/logo.png" alt="Logo" width="120px">
+        </a>
+
+
+      </div>
+
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto my-2 my-lg-0">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/watches">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+          </li>
+          <li>
+            <% if(user){ %>
+              <li class="nav-item position-relative">
+                <a class="nav-link js-scroll-trigger" href="/cart">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <% if (cartCount > 0) { %>
+                    <span class="badge badge-danger position-absolute top-0 start-100 translate-middle">
+                      <%= cartCount %>
+                    </span>
+                  <% } %>
+                </a>
+              </li>
+              
+              
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/user">
+              <div class="d-flex flex-column align-items-center">
+                <i class="fa-solid fa-user" style="font-size: 17px;"></i>
+                <span class="text-center" style="font-size: 10px;">
+                  <%= user.name %>
+                </span>
+              </div>
+            </a>
+          </li>
+          
+
+          <% }else{ %>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/login">Login</a>
+            </li>
+            <% } %>
+              </li>
+        </ul>
+      </div>
+    </div>
+    <form class="d-flex ms-5" role="search" id="searchForm">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-dark" type="submit">Search</button>
+    </form>
+  </nav>
+</header>
+
+<div class="main">
+  <div class="banner">
+    <a href="<%=banner[0].link %>"><img class="img-fluid" src="/website/<%= banner[0].image %>" alt=""></a>
+  </div>
+  <!-- <div class="category d-flex justify-content-center align-items-center">
+    <div class="cat">
+      <img src="/website/catimg1.jpg" alt="">
+    </div>
+    <div class="cat">
+      <img src="/website/catimg2.jpg" alt="">
+    </div> 
+    <div class="cat">
+      <img src="/website/smart-05.jpg" alt="">
+    </div>
+  </div> -->
+  <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+    <% console.log(category) %>
+  <% for(i=category.length-1;i>=0;i--){ %>
+    <div class="col">
+      <a href="/watches?category=<%= category[i]._id %>">
+      <div class="card h-60">
+        <img src="/website/<%= category[i].image %>" class="card-img-top" alt="...">
+        <div class="card-body text-center">
+          <h5 class="card-title"><%= category[i].name %></h5>
+        </div>
+      </div>
+      </a>
+    </div>
+  <% } %>
+  </div>
+  <div class="banner2 pt-3">
+    <div class="banner">
+      <a href="<%=banner[1].link %>"><img class="img-fluid" src="/website/<%= banner[1].image %>" alt=""></a>
+    </div>
+  </div>
+  <div class="products"></div>
+</div>
+<% if(reccprod){ %>
+  <h4 class="text-center p-3">Reccommented for you</h4>
+  <div class="row d-flex justify-content-center">
+  
+    <% for(let i=0;i<reccprod.length;i++){ %>
+      <% if(reccprod[i] && reccprod[i].isListed && reccprod[i].quantity>0){ %>
+        <a href="/reccprod?productId=<%= reccprod[i]._id %>">
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="card" style="width: 15rem;">
+              <div class="card-body text-center">
+                <img src="/productImages/<%= reccprod[i].image[0] %>" class="reccprod-image img-fluid">
+                <h5 class="card-title"><b>
+                    <%= reccprod[i].name %>
+                  </b></h5>
+                <p class="tags small">
+                  Strap : <%= reccprod[i].strapType %>
+                </p>
+                <p class="tags">
+                  ₹ <%= reccprod[i].price %>
+                </p>
+                <!-- <form action="/cart" method="post"><a href="/cart" target="_blank" class="btn btn-success button-text"><i class="fa fa-shopping-cart"
+                aria-hidden="true"></i> Add to cart</a></form> -->
+                <form action="/cart?productId=<%= reccprod[i]._id %>" method="post"><button
+                    class="btn btn-success button-text js-addcart-detail" id="addToCartButton" type="submit"><i
+                      class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart</button></form>
+              </div>
+            </div>
+          </div>
+        </a>
+        <% } %>
+          <% } %>
+  </div>
+<% }else{ %>
+  <h4 class="text-center p-3">New Arrivals</h4>
+<div class="row d-flex justify-content-center ">
+
+  <% for(let i=0;i<product.length;i++){ %>
+    <% if(product[i] && product[i].isListed && product[i].quantity>0){ %>
+      <a href="/product?productId=<%= product[i]._id %>">
+        <div class="col-sm-6 col-md-6 col-lg-4">
+          <div class="card" style="width: 15rem;">
+            <div class="card-body text-center">
+              <img src="/productImages/<%= product[i].image[0] %>" class="product-image img-fluid">
+              <h5 class="card-title"><b>
+                  <%= product[i].name %>
+                </b></h5>
+              <p class="tags small">
+                Strap : <%= product[i].strapType %>
+              </p>
+              <p class="tags">
+                ₹ <%= product[i].price %>
+              </p>
+              <!-- <form action="/cart" method="post"><a href="/cart" target="_blank" class="btn btn-success button-text"><i class="fa fa-shopping-cart"
+              aria-hidden="true"></i> Add to cart</a></form> -->
+              <form action="/cart?productId=<%= product[i]._id %>" method="post"><button
+                  class="btn btn-success button-text js-addcart-detail" id="addToCartButton" type="submit"><i
+                    class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart</button></form>
+            </div>
+          </div>
+        </div>
+      </a>
+      <% } %>
+        <% } %>
+</div>
+<% } %>
+
+
+<script>
+  document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+    const searchTerm = document.querySelector('#searchForm input').value.trim();
+    if (searchTerm !== '') {
+      const newUrl = `/watches?search=${encodeURIComponent(searchTerm)}`;
+      window.location.href = newUrl;
+    } else {
+      // Handle the case when the search term is empty (e.g., show an alert)
+      // For example:
+      // alert('Please enter a search term.');
+    }
+  });
+</script>
+<%- include('../layouts/user-dashboard-footer.ejs') -%>

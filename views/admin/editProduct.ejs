@@ -1,0 +1,136 @@
+
+<%- include("../layouts/admin-header.ejs") -%>
+<%- include("./headerDashboard.ejs") -%>
+
+
+<!-- <div class="row">
+  <div class="filter-section col-12 col-md-3 pt-5 mt-5">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Dashboard</li>
+      <li class="list-group-item">Products</li>
+      <li class="list-group-item">Users</li>
+    </ul>
+  </div> -->
+
+  <div class="col-12 col-md-9">
+   
+        <h1>Edit Products</h1>
+      <div class="d-flex justify-content-center align-items-center m-auto">
+        
+        <form action="/admin/products/edit-products/<%= product._id %>" method="post" enctype="multipart/form-data" class="form">
+          <div class="input-box">
+            <label>Product name</label>
+            <input type="text" placeholder="product name" name="name" value="<%= product.name %>">
+          </div>
+
+          <div class="column">
+            <div class="input-box">
+              <label>Price</label>
+              <input type="number" min="0" placeholder="Enter the price" name="price"  value="<%= product.price %>" required />
+            </div>
+            <div class="input-box">
+              <label>Brand</label>
+              <input type="text" placeholder="Enter the brand" name="brand" value="<%= product.brand %>" required />
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="input-box">
+              <label>Quantity</label>
+              <input type="number" min="0" placeholder="Enter the stock" name="quantity" value="<%= product.quantity %>" required />
+            </div>
+            <div class="input-box">
+              <label>Strap type</label>
+              <input type="text" placeholder="Enter the strap type" name="strapType" value="<%= product.strapType %>" required />
+            </div>
+          </div>
+
+          <div class="input-box">
+            <label>Description</label>
+            <input type="text" placeholder="Description" name="description"  value="<%= product.description %>">
+          </div>
+          <div class="form-group col-md-3 mt-3 mb-5">
+            <label for="category">Category</label>
+            <select id="category" class="form-control" name="category">
+                <% if (category.length> 0) {
+                    for (let i = 0; i < category.length; i++) { %>
+                        <option value="<%= category[i]._id %>"
+                             <% if(category[i]._id.toString()===product.category.toString()) { %> selected <% } %>><%=
+                                    category[i].name %>
+                        </option>
+                        <% } } %>
+            </select>
+        </div>
+    
+        <% if(product.image.length===3){ %>
+            <% for(let i=0; i<product.image.length; i++) { %>
+                <div class="form-group">
+                    <img style="width: 5rem;" src="/productimages/<%= product.image[i] %>" alt="image">
+                    <a href="/admin/productImageDelete/<%= product._id %>?imageURL=<%= product.image[i] %>"
+                        class="btn btn-danger">Delete</a>
+                </div>
+                <% } %>
+                    <% } %>
+
+                        <% if(product.image.length===2){ %>
+                            <% for(let i=0; i<product.image.length; i++) { %>
+                                <div class="form-group">
+                                    <img style="width: 5rem;" src="/productimages/<%= product.image[i] %>"
+                                        alt="image">
+                                    <a href="/admin/productImageDelete/<%= product._id %>?imageURL=<%= product.image[i] %>"
+                                        class="btn btn-danger">Delete</a>
+                                </div>
+                                <% } %>
+                                    <div class="form-group">
+                                        <input type="file" class="form-control-file" id="image" name="image"
+                                            accept="image/*" required>
+                                    </div>
+                                    <% } %>
+
+                                        <% if(product.image.length===1){ %>
+                                            <% for(let i=0; i<product.image.length; i++) { %>
+                                                <div class="form-group">
+                                                    <img style="width: 5rem;"
+                                                        src="/productimages/<%= product.image[i] %>"
+                                                        alt="image">
+                                                    <a href="/admin/productImageDelete/<%= product._id %>?imageURL=<%= product.image[i] %>"
+                                                        class="btn btn-danger">Delete</a>
+                                                </div>
+                                                <% } %>
+                                                    <div class="form-group">
+                                                        <input type="file" class="form-control-file" id="image"
+                                                            name="image" accept="image/*" required>
+                                                        <input type="file" class="form-control-file" id="image"
+                                                            name="image" accept="image/*" required>
+                                                    </div>
+                                                    <% } %>
+
+                                                        <% if(product.image.length===0){ %>
+                                                            <div class="form-group">
+                                                                <input type="file" class="form-control-file"
+                                                                    id="image" name="image" accept="image/*"
+                                                                    required>
+                                                                <input type="file" class="form-control-file"
+                                                                    id="image" name="image" accept="image/*"
+                                                                    required>
+                                                                <input type="file" class="form-control-file"
+                                                                    id="image" name="image" accept="image/*"
+                                                                    required>
+                                                            </div>
+                                                            <% } %>
+
+                                                                <br>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Submit</button>
+    </form>
+      </div>
+    </section>
+  </div>
+</div>
+</body>
+<script>
+  function setCategory(categoryId, categoryName) {
+    document.getElementById('selectedCategory').value = categoryId;
+    document.getElementById('dropdownLink').innerText = categoryName;
+  }
+</script>

@@ -1,0 +1,50 @@
+<%- include("../layouts/admin-header.ejs") -%>
+    <%- include("./headerDashboard.ejs") -%>
+
+   <% if(coupons){ %>
+        <div class="col-12 col-md-9">
+            <section class="">
+                <h1>Add Coupons</h1>
+                <div class="d-flex justify-content-center align-items-center m-auto">
+
+                    <form action="/admin/coupons/edit-coupons?id=<%=coupons._id %>" method="post" class="form">
+                        <div class="input-box">
+                            <label>Coupon name</label>
+                            <input type="text" placeholder="coupon name" name="name" value="<%= coupons.name %>">
+                        </div>
+
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Discount</label>
+                                <input type="text" placeholder="Discount percentage" name="discount" value="<%= coupons.discount %>" id="quantity"
+                                 required />
+                                <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+
+                            </div>
+                            <div class="input-box">
+                                <label>Expiry Date</label>
+                                <input type="date" placeholder="Enter the expiry date" name="expiry" value="<%= coupons.expiry_date %>" required />
+                            </div>
+                        </div>
+
+                        <div class="column">
+
+                            <div class="input-box">
+                                <label>Minimum Amount</label>
+                                <input type="number" placeholder="Enter the minimum purchase required" name="minAmt" value="<%= coupons.min_amt %>"
+                                    required />
+                            </div>
+                        </div>
+
+                        <div class="input-box">
+                            <label>Description</label>
+                            <input type="text" placeholder="Description" name="description" value="<%= coupons.description %>">
+                        </div>
+                        <button>Submit</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+        </div>
+    <% } %>
+        </body>

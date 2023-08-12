@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WatchVerse</title>
+  <link rel="icon" href="/website/logo.png">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="products.css">
+  <link rel="stylesheet" href="userinside.css">
+  <link rel="stylesheet" href="footer.css">
+  <script src="https://kit.fontawesome.com/9af8e1e9bd.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-t6ZDgFqssT1KYD3rC7+j+k+DOQs1lPHDeFfGgj2uzTrTlGSSZqFKxQslYDiOaKxG"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light py-3" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+          <img src="/website/logo.png" alt="Logo" width="120px">
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto my-2 my-lg-0">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/watches">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+            </li>
+            <li>
+              <% if(user){ %>
+                <li class="nav-item position-relative">
+                  <a class="nav-link js-scroll-trigger" href="/cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <% if (cartCount > 0) { %>
+                      <span class="badge badge-danger position-absolute top-0 start-100 translate-middle">
+                        <%= cartCount %>
+                      </span>
+                    <% } %>
+                  </a>
+                </li>
+                
+                
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/user">
+                <div class="d-flex flex-column align-items-center">
+                  <i class="fa-solid fa-user" style="font-size: 17px;"></i>
+                  <span class="text-center" style="font-size: 10px;">
+                    <%= user.name %>
+                  </span>
+                </div>
+              </a>
+            </li>
+            
+  
+            <% }else{ %>
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="/login">Login</a>
+              </li>
+              <% } %>
+                </li>
+          </ul>
+
+
+        </div>
+      </div>
+      <form class="d-flex mr-auto" role="search" id="searchForm">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-dark" type="submit">Search</button>
+      </form>
+    </nav>
+  </header>
+
+  <section class="page-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 blog-form">
+          <h2 class="blog-sidebar-title"><b></b></h2>
+          <hr />
+          <!-- <p class="blog-sidebar-text">No products in the cart...</p> -->
+          <p class="blog-sidebar-list"><b><span class="list-icon"> > </span><a class="a" href="/user">Dashboard</a></b>
+          </p>
+          <p class="blog-sidebar-list"><b><span class="list-icon"> > </span><a class="a" href="/edit-user">Edit
+                profile</a></b></p>
+          <p class="blog-sidebar-list"><b><span class="list-icon"> > </span><a href="/address">Address</a></b></p>
+          <p class="blog-sidebar-list"><b><span class="list-icon"> > </span><a href="/changePassword">Change
+                password</a></b></p>
+          <p class="blog-sidebar-list"><b><span class="list-icon"> > </span><a href="/orders">Orders</a></b></p>
+          <p class="blog-sidebar-list"><b><span class="list-icon"> > </span><a href="/wishlist">Wishlist</a></b></p>
+          <p class="blog-sidebar-list"><b><span class="list-icon"> > </span><a href="/wallet-history">Wallet
+                History</a></b></p>
+          <p>
+          <form action="/logout" method="post"><button type="submit" class="btn btn-danger">LOGOUT</button></form>
+          </p>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+        </div>

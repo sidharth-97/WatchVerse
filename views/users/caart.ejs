@@ -1,0 +1,178 @@
+<%- include('../layouts/head.ejs') %>
+<%- include('../layouts/navbar.ejs') -%>
+
+
+<link rel="stylesheet" href="/cart.css" type="text/css">
+<script src="https://kit.fontawesome.com/9af8e1e9bd.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div class="container mt-5">
+    <% if (carts) { %>
+      <section class="shopping-cart">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card shopping__cart__table">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% carts.forEach(cartItem => { %>
+                    <% cartItem.products.forEach(product => { %>
+                      <tr>
+                        <td class="product__cart__item">
+                          <div class="d-flex align-items-center">
+                            <div class="product__cart__item__pic mr-3">
+                              <img width="80px" src="/productImages/<%= product.productId.image[0] %>" alt="">
+                            </div>
+                            <div class="product__cart__item__text">
+                              <h6><%= product.productId.name %></h6>
+                              <h5>₹<%= product.productId.price %></h5>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="quantity__item">
+                          <div class="quantity">
+                            <div class="pro-qty-2 d-flex">
+                              <button id="<%= product._id %>minus" onclick="updateCart(-1, '<%= product.productId._id %>', '<%= product._id %>')">
+                                <i class="bi bi-dash-lg"></i>
+                              </button>
+                              <span class="ms-2 me-2 quantity" id="<%= product._id %>" data-max-quantity="<%= product.productId.quantity %>">
+                                <%= product.quantity %>
+                              </span>
+                              <button id="<%= product._id %>plus" onclick="updateCart(1, '<%= product.productId._id %>', '<%= product._id %>')">
+                                <i class="bi bi-plus-lg"></i>
+                              </button>
+                            </div>
+                            <div class="message" id="<%= product._id %>__message"></div>
+                          </div>
+                        </td>
+                        <td class="cart__price" id="<%= product._id %>y">₹<%= product.price %></td>
+                        <td class="cart__close">
+                          <form action="/cart/delete?productId=<%= product.productId._id %>" method="post">
+                            <button type="submit" class="btn btn-link">
+                              <i class="fa fa-close"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="cart__total">
+              <h6>Cart total</h6>
+              <ul>
+                <li>Subtotal <span></span></li>
+                <li>Total : <span id="cartTotal">₹ <%= carts[0].Total %></span></li>
+              </ul>
+              <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    <% } else { %>
+      <div class="d-flex justify-content-center align-items-center flex-column mt-5">
+        <div>
+          <h1><img src="https://kuviba.com/assets/front/images/empty-cart.png" alt=""></h1>
+        </div>
+        <div>
+          <a href="/watches" class="btn btn-danger">Back to Shopping</a>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <%- include('../layouts/footer.ejs') -%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  // Your JavaScript code for updating the cart goes here
+
+
+
+    function updateCart(operation, productId, spanID) {
+      let quantity = document.getElementById(spanID);
+      let parsedQuantity = parseInt(quantity.innerText);
+      let minQuantity = 1;
+      let maxQuantity = parseInt(quantity.dataset.maxQuantity);
+
+      maxQuantity = Math.min(maxQuantity, 10);
+      let messageElement = document.getElementById(`${spanID}__message`);
+
+    if (operation == 1 && parsedQuantity < maxQuantity) {
+      parsedQuantity++;
+    } else if (operation == -1 && parsedQuantity > 1) {
+      parsedQuantity--;
+    }
+      
+    
+      quantity.innerText = parsedQuantity;
+      ajaxConnection(parsedQuantity, productId, spanID);
+      var plusBtn = document.getElementById(`${spanID}plus`)
+            var minusBtn = document.getElementById(`${spanID}minus`)
+            plusBtn.disabled = true
+            minusBtn.disabled = true
+
+            if (parsedQuantity === 1) {
+                minusBtn.disabled = true;
+            } else {
+                minusBtn.disabled = false;
+            }
+
+            if (parsedQuantity == 10 || parsedQuantity == maxQuantity) {
+                plusBtn.disabled = true;
+            } else {
+                plusBtn.disabled = false;
+            }
+
+
+      if (parsedQuantity == 10) {
+      messageElement.innerText = "Max quantity reached";
+    } else if(parsedQuantity ==maxQuantity){
+      messageElement.innerText = "Stock limit reached";
+    }else{
+        messageElement.innerText = ""
+    }
+  }
+    
+
+    function ajaxConnection(amt, productId, spanID) {
+      $.ajax({
+        method: 'put',
+        url: '/cart/updateQuantity',
+        data: {
+          amt,
+          productId
+        },
+        success: (res) => {
+          if (res.status == true) {
+            
+            $('#cartTotal').html(`Rs. ${res.data.Total}`);
+            $(`#${spanID}y`).html(`₹ ${res.data.price}`)
+            document.getElementById(`${spanID}plus`).disabled=false
+            document.getElementById(`${spanID}minus`).disabled=false
+          } else if (res.status == false) {
+            $('#msg').html(res.data);
+          }
+        },
+        error: (error) => {
+          console.log('Error updating cart:', error);
+        },
+      });
+    }
+  </script>
+</body>
+
+</html>
+
+</body>
+
+</html>

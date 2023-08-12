@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <%- include("./headerDashboard.ejs") -%>
+    <h3 class="text py-1">Category Management</h3>
+    <% if (typeof message !== 'undefined') { %>
+        <h5><%= message %></h5>
+   <% }else{ %>
+    <%}%>
+    <h5>Add category</h5>
+    <div class="container mt-3 d-flex">
+       
+        <form action="/admin/category/add-category" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Enter the category name" name="name" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="file" class="form-control-file" id="categoryimg" name="categoryImage" accept="image/*" required>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-outline-secondary">Add Category</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editCategoryForm" action="/admin/category/edit-category" method="POST">
+                    <input type="text" placeholder="Enter the category name" name="name" required>
+
+                    <button type="submit" class="btn btn-outline-secondary">Add</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editCategoryForm" action="/admin/category/edit-category" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="categoryId" name="id" value="">
+                    <input type="text" placeholder="Enter the new category name" id="newCategoryName" name="newName" required>
+                    <input type="file" class="form-control-file" id="categoryimg" name="categoryImage" accept="image/*" required>
+                    <button type="submit" class="btn btn-outline-secondary">Update</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="d-flex justify-content-center"> -->
+  
+    <div class="container mt-3">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col ">Image</th>
+                    <th scope="col ">Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Offer</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(category.length > 0) {
+                    for(let i=0; i < category.length; i++) { %>
+                        <tr>
+                            <td><img src="/website/<%= category[i].image %>" alt="" style="width: 50px;"></td>
+                            <td><%= category[i].name %></td>
+                            <td>
+                                <% if(category[i].isListed !== false){ %>
+                                    <!-- <a href="/admin/category/unlist?id=<%= category[i]._id %>" class="btn btn-sm btn-secondary">Unlist</a> -->
+                                    <button type="button" class="btn btn-sm btn-secondary" onclick="showUnlistConfirmation('<%= category[i]._id %>', false)">Unlist</button>
+                                <% }else{ %>
+                                    <button type="button" class="btn btn-sm btn-success" onclick="showUnlistConfirmation('<%= category[i]._id %>', true)">List</button>                              
+                                      <% } %>
+                            </td>
+                           <% if(category[i].offer){ %>
+                                <td><%= category[i].offer.name %> <a href="/admin/category/cancelOffer?category=<%= category[i]._id %>&offer=<%= category[i].offer._id %>">X</a></td>
+                           <% }else{ %>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offersModal" data-category-id="<%= category[i]._id %>">
+                                        Apply Offer
+                                      </button>
+                                    </form>
+                                </td>
+                           <% } %>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-secondary edit-category-button" data-bs-toggle="modal" data-bs-target="#editCategoryModal" data-category-id="<%= category[i]._id %>">
+                                    Edit Category
+                                </button>
+<!-- 
+                                <a href="/admin/category/edit?id=<%=category[i]._id %>">Edit</a> -->
+                            </td>
+                        </tr>
+                    <% }
+                } %>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal" id="offersModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Select an Offer</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+    
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form action="/admin/category/addCatOffer" method="post"> <!-- Use the POST method and specify the action -->
+                  <% offers.forEach(function(offer) { %>
+                    <label>
+                      <input type="radio" name="offerName" value="<%= offer.name %>">
+                      <%= offer.name %>
+                    </label><br>
+                  <% }); %>
+                  <input type="hidden" name="categoryId" id="categoryIdO" value="">
+                  <button type="submit" class="btn btn-primary">Submit</button> <!-- Submit button inside the form -->
+                </form>
+              </div>
+    
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <!-- <button type="button" class="btn btn-primary" id="submitBtn">Submit</button> -->
+            </div>
+
+
+    <div class="modal fade" id="unlistConfirmationModal" tabindex="-1" aria-labelledby="unlistConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="unlistConfirmationModalLabel">Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to <span id="confirmationAction">list/unlist</span> this category?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="#" id="unlistConfirmationAction" class="btn btn-danger">Confirm</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ... previous code ... -->
+    <%- include("./footerDashboard.ejs") -%> 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function showUnlistConfirmation(categoryId, isListed) {
+        const modal = new bootstrap.Modal(document.getElementById('unlistConfirmationModal'));
+        const unlistConfirmationAction = document.getElementById('unlistConfirmationAction');
+        const confirmationAction = document.getElementById('confirmationAction');
+        confirmationAction.innerText = isListed ? 'list' : 'unlist';
+        unlistConfirmationAction.href = isListed
+            ? '/admin/category/unlist?id=' + categoryId
+            : '/admin/category/unlist?id=' + categoryId;
+        modal.show();
+    }
+</script>
+<script>
+    const editCategoryButton = document.querySelectorAll('.edit-category-button');
+    const editCategoryForm = document.getElementById('editCategoryForm');
+    const categoryIdInput = document.getElementById('categoryId');
+    const newCategoryNameInput = document.getElementById('newCategoryName');
+
+    editCategoryButton.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const categoryId = button.getAttribute('data-category-id');
+            categoryIdInput.value = categoryId;
+        });
+    });
+
+    editCategoryForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(editCategoryForm);
+        const url = editCategoryForm.getAttribute('action');
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                $('#editCategoryModal').modal('hide'); 
+                location.reload(); 
+            } else {
+                // Handle error response
+            }
+        })
+        .catch(error => {
+            // Handle fetch error
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+      $('#submitBtn').on('click', function() {
+        const selectedOffer = $("input[name='selectedOffer']:checked").val();
+        // Do something with the selected offer value
+        console.log("Selected Offer:", selectedOffer);
+        // Close the modal
+        $('#offersModal').modal('hide');
+      });
+    });
+
+// Assuming you have the setCategoryIdButton element with the data-category-id attribute
+// Assuming you have the button with the class btn-primary that opens the modal
+const openModalButton = document.querySelector('button[data-target="#offersModal"]');
+const categoryIdInput1 = document.getElementById('categoryIdO');
+
+openModalButton.addEventListener('click', function () {
+  const categoryId = openModalButton.getAttribute('data-category-id');
+  categoryIdInput1.value = categoryId;
+});
+  </script>
+
+</body>
+</html>

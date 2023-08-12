@@ -1,0 +1,32 @@
+<%- include('../layouts/user-dashboard.ejs') -%>
+
+<% if(product){ %>
+    <div class="row">
+        <% for(let i=0;i<product.length;i++){ %>
+        <a href="/product?productId=<%= product[i]._id %>">
+          <div class="col-sm-6 col-md-6 col-lg-4">
+            <div class="card" style="width: 15rem;">
+              <div class="card-body text-center">
+                <form action="/remwish?id=<%= product[i]._id %>" method="post"><button class="btn">X</button></form>
+                <img src="/productImages/<%= product[i].image[0] %>" class="product-image img-fluid">
+                <h5 class="card-title"><b>
+                    <%= product[i].name %>
+                  </b></h5>
+                <p class="tags small">
+                  Strap : <%= product[i].strapType %>
+                </p>
+                <p class="tags">
+                  ₹ <%= product[i].price %>
+                </p>
+                <!-- <form action="/cart" method="post"><a href="/cart" target="_blank" class="btn btn-success button-text"><i class="fa fa-shopping-cart"
+                    aria-hidden="true"></i> Add to cart</a></form> -->
+                <form action="/cart?productId=<%= product[i]._id %>" method="post"><button class="btn btn-success button-text js-addcart-detail" type="submit"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart</button></form>
+                
+              </div>
+            </div>
+          </div>
+        </a>
+        <% } %>
+      </div>
+<% } %>
+<%- include('../layouts/user-dashboard-footer.ejs') -%>
