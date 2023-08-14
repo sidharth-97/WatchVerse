@@ -34,6 +34,6 @@ app.use((req, res) => {
     res.status(404).render('error')
 })
 
-app.listen(3001, function () {
+app.listen(3000, function () {
     console.log("Server running") 
 });
