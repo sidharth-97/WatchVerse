@@ -1,37 +1,29 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<!-- <style>
-    body {
-      background-image: url("/website/photo-1526648856597-c2b6745ad7bd.jpg");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-  </style> -->
 <body>
-<div class="container mt-5"> 
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card bg-light"> <!-- Added bg-light for a light background color -->
-        <div class="card-body">
-          <h5 class="card-title text-center pb-2">OTP Verification</h5>
-          <form action="/verify-otp" method="post">
-            <input type="hidden" name="email" value="<%= email %>">
-            <% console.log(email) %>
-            <input type="hidden" name="reff" value="<%=reff %>">
-            <div class="form-group">
-              <div class="text-center pb-2">
-                <img src="/website/otp.jpg" alt="" class="mx-auto" width="290rem"> <!-- Added mx-auto for horizontal centering -->
-              </div>
-              <input type="text" class="form-control" id="otp" name="code" placeholder="Enter OTP" required>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary">Verify OTP</button>
-            </div>
-          </form>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card bg-light">
+          <div class="card-body">
+            <h5 class="card-title text-center pb-2">OTP Verification</h5>
+            <form action="/verify-otp" method="post">
+              <input type="hidden" name="email" value="<%= email %>">
+              <% console.log(email) %>
+                <input type="hidden" name="reff" value="<%=reff %>">
+                <div class="form-group">
+                  <div class="text-center pb-2">
+                    <img src="/website/otp.jpg" alt="" class="mx-auto" width="290rem">
+                  </div>
+                  <input type="text" class="form-control" id="otp" name="code" placeholder="Enter OTP" required>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Verify OTP</button>
+                </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </body>

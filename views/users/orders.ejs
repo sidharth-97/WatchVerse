@@ -3,79 +3,80 @@
 
   <div class="col-lg-8 mt-5">
     <% orders.forEach(orderItem=> { %>
-      
-  <% const dd=orderItem.date.getDate(); const mm=orderItem.date.getMonth() + 1; const yyyy=orderItem.date.getFullYear();
-  const formattedDate=`${dd}-${mm}-${yyyy}`; %>
-      <div class="card mb-4">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div>Ordered on: <%=formattedDate %>
+
+      <% const dd=orderItem.date.getDate(); const mm=orderItem.date.getMonth() + 1; const
+        yyyy=orderItem.date.getFullYear(); const formattedDate=`${dd}-${mm}-${yyyy}`; %>
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>Ordered on: <%=formattedDate %>
+            </div>
+            <div>Total: ₹<%= orderItem.total %>
+            </div>
+            <div><a class="btn btn-outline-secondary" href="/orderDetails?id=<%= orderItem._id %>" role="button">Order
+                Details</a></div>
           </div>
-          <div>Total: ₹<%= orderItem.total %>
-          </div>
-          <div><a class="btn btn-outline-secondary" href="/orderDetails?id=<%= orderItem._id %>" role="button">Order Details</a></div>
-        </div>
-        <ul class="list-group list-group-flush">
-          <% orderItem.products.forEach(product=> { %>
-            <li class="list-group-item">
-              <div class="d-flex align-items-center">
-                <div>
-                  <img src="/productImages/<%= product.productId.image[0] %>" alt="<%= product.productId.name %>"
-                    width="100">
+          <ul class="list-group list-group-flush">
+            <% orderItem.products.forEach(product=> { %>
+              <li class="list-group-item">
+                <div class="d-flex align-items-center">
+                  <div>
+                    <img src="/productImages/<%= product.productId.image[0] %>" alt="<%= product.productId.name %>"
+                      width="100">
+                  </div>
+                  <div class="ms-3">
+
+                    <h5>
+                      <%= product.productId.name %> X <%= product.productId.quantity %>
+                    </h5>
+
+                    <p>Price: ₹<%= product.productId.price %>
+                    </p>
+                  </div>
                 </div>
-                <div class="ms-3">
+              </li>
+              <% }); %>
+          </ul>
+        </div>
+        <% }); %>
 
-                  <h5>
-                    <%= product.productId.name %> X  <%= product.productId.quantity %>
-                  </h5>
-
-                  <p>Price: ₹<%= product.productId.price %>
-                  </p>
+          <section class="page-section">
+            <div class="container">
+              <div class="row justify-content-end align-items-end">
+                <div class="col-lg-9">
+                  <nav aria-label="...">
+                    <ul class="pagination pagination-sm justify-content-end">
+                      <% const totalPages=Math.ceil(orderCount / limit); %>
+                        <% for (let i=1; i <=totalPages; i++) { %>
+                          <% const isActive=i===page; %>
+                            <li class="page-item <%= isActive ? 'active' : '' %>">
+                              <a class="page-link pagination-link" style="background-color: rgb(188 175 175);" href="#"
+                                data-page="<%= i %>">
+                                <%= i %>
+                              </a>
+                            </li>
+                            <% } %>
+                    </ul>
+                  </nav>
                 </div>
               </div>
-            </li>
-            <% }); %>
-        </ul>
-      </div>
-      <% }); %>
-  
-  <section class="page-section">
-    <div class="container">
-      <div class="row justify-content-end align-items-end">
-        <div class="col-lg-9">
-          <nav aria-label="...">
-            <ul class="pagination pagination-sm justify-content-end">
-              <% const totalPages=Math.ceil(orderCount / limit); %>
-                <% for (let i=1; i <=totalPages; i++) { %>
-                  <% const isActive=i===page; %>
-                    <li class="page-item <%= isActive ? 'active' : '' %>">
-                      <a class="page-link pagination-link" style="background-color: rgb(188 175 175);" href="#"
-                        data-page="<%= i %>">
-                        <%= i %>
-                      </a>
-                    </li>
-                    <% } %>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-<%- include('../layouts/user-dashboard-footer.ejs') -%>
-<script>
+            </div>
+          </section>
+  </div>
+  <%- include('../layouts/user-dashboard-footer.ejs') -%>
+    <script>
       const paginationLinks = document.querySelectorAll('.pagination-link');
-              paginationLinks.forEach(function (link) {
-                link.addEventListener('click', function (event) {
-                  event.preventDefault();
-                  const page = this.dataset.page;
-                  updateUrlParams({ page });
-                });
-              });
-              function updateUrlParams(params) {
-                const currentUrl = new URL(window.location.href);
-                for (const [key, value] of Object.entries(params)) {
-                  currentUrl.searchParams.set(key, value);
-                }
-                window.location.href = currentUrl.toString();
-              }         
-</script>
+      paginationLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+          const page = this.dataset.page;
+          updateUrlParams({ page });
+        });
+      });
+      function updateUrlParams(params) {
+        const currentUrl = new URL(window.location.href);
+        for (const [key, value] of Object.entries(params)) {
+          currentUrl.searchParams.set(key, value);
+        }
+        window.location.href = currentUrl.toString();
+      }         
+    </script>

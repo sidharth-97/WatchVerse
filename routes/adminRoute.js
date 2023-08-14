@@ -85,7 +85,11 @@ admin_route.get('/coupons/edit-coupons', auth.isLogin,couponController.editCoupo
 admin_route.post('/coupons/edit-coupons', couponController.postEditCoupons)
 
 admin_route.post('/offers/add-offers', offerController.addOffer)
-admin_route.get('/offers/add-offers',auth.isLogin,offerController.getAddOffer)
+admin_route.get('/offers/add-offers', auth.isLogin, offerController.getAddOffer)
+admin_route.get('/offers', offerController.offer)
+admin_route.get('/offers/status', offerController.status)
+admin_route.get('/offers/edit', offerController.loadeditoffer)
+admin_route.post('/offers/edit-offers',offerController.editoffer)
 
 admin_route.get('/banners',auth.isLogin, bannerController.getaddBanners)
 admin_route.post('/banner', upload.single('bannerImage'),bannerController.postaddBanners)

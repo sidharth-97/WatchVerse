@@ -1,7 +1,7 @@
 <%- include("../layouts/admin-header.ejs") -%>
     <%- include("./headerDashboard.ejs") -%>
 
- 
+
         <div class="col-12 col-md-9">
             <section class="">
                 <h1>Edit category</h1>
@@ -18,13 +18,16 @@
                             <input type="text" placeholder="Description" name="description" value="<%= category.offer %>">
                         </div> -->
 
-                         <label for="newCategoryName">Select Offer Name:</label>
-                         <select id="offerName" name="offerName" onchange="setSelectedOffer(this.value, this.options[this.selectedIndex].text)">
-                            <option value="">None</option> 
-                            <% offers.forEach(offer => { %>
-                              <option value="<%= offer.name %>" <%= category.offerName === offer.name ? 'selected' : '' %>><%= offer.name %></option>
-                            <% }); %>
-                          </select>
+                        <label for="newCategoryName">Select Offer Name:</label>
+                        <select id="offerName" name="offerName"
+                            onchange="setSelectedOffer(this.value, this.options[this.selectedIndex].text)">
+                            <option value="">None</option>
+                            <% offers.forEach(offer=> { %>
+                                <option value="<%= offer.name %>" <%=category.offerName===offer.name ? 'selected' : ''
+                                    %>><%= offer.name %>
+                                </option>
+                                <% }); %>
+                        </select>
                         <button>Submit</button>
                     </form>
                 </div>
@@ -36,7 +39,7 @@
 
         <script>
             function setSelectedOffer(offerId, offerName) {
-              document.getElementById('selectedOffer').value = offerName;
-              document.getElementById('dropdownLink').innerText = offerName;
+                document.getElementById('selectedOffer').value = offerName;
+                document.getElementById('dropdownLink').innerText = offerName;
             }
-          </script>
+        </script>

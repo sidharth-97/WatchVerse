@@ -18,8 +18,7 @@
                 <p class="tags">
                   ₹ <%= product[i].price %>
                 </p>
-                <!-- <form action="/cart" method="post"><a href="/cart" target="_blank" class="btn btn-success button-text"><i class="fa fa-shopping-cart"
-                    aria-hidden="true"></i> Add to cart</a></form> -->
+
                 <form action="/cart?productId=<%= product[i]._id %>" method="post"><button class="btn btn-success button-text js-addcart-detail" type="submit"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart</button></form>
                 
               </div>

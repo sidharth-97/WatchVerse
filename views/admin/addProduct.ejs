@@ -62,8 +62,8 @@
             </ul>
           </div>
 
-          <input type="hidden" id="selectedCategory" name="category">
-          <button>Submit</button>
+          <input type="hidden" id="selectedCategoryId" name="category" value="">
+          <button id="submitButton" type="submit">Submit</button>
         </form>
       </div>
     </section>
@@ -72,10 +72,24 @@
 
 </body>
 <script>
-  function setCategory(categoryId, categoryName) {
-    document.getElementById('selectedCategory').value = categoryId;
-    document.getElementById('dropdownLink').innerText = categoryName;
-  }
+ const selectedCategoryIdInput = document.getElementById('selectedCategoryId');
+    const submitButton = document.getElementById('submitButton');
+
+    function validateCategory() {
+        return selectedCategoryIdInput.value !== '';
+    }
+
+    submitButton.addEventListener('click', function (event) {
+        if (!validateCategory()) {
+            event.preventDefault();
+            alert('Please select a category.');
+        }
+    });
+
+    function setCategory(categoryId, categoryName) {
+        selectedCategoryIdInput.value = categoryId;
+        document.getElementById('dropdownLink').innerText = categoryName;
+    }
 </script>
 <script>
   function validateQuantity() {

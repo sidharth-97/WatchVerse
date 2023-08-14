@@ -1,0 +1,46 @@
+<%- include("../layouts/header.ejs") -%>
+<%- include("./headerDashboard.ejs") -%>
+<section>
+    <h3 class="text py-1">Offer Management</h3>
+    <div class="col-lg-12">
+       
+        <div><a class="btn btn-outline-dark" href="/admin/offers/add-offers" role="button">Add new offer</a></div>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Expiry Date</th>
+                <th scope="col">Status</th>
+                <th colspan="2" scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+               
+        <% if (offer.length > 0) {
+            for (let i = 0; i < offer.length; i++) { %>
+                <tr>
+                    <td><%= offer[i].name %></td>
+                    <td><%= offer[i].percentage %> %</td>
+                    <% const formattedDate=offer[i].expiryDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); %>
+                    <td><%= formattedDate %></td>
+                    <td><%= offer[i].status %> </td>
+       
+                    <td>
+                        <% if(offer[i].status){ %>
+                            <a class="btn btn-primary" href="/admin/offers/status?id=<%= offer[i]._id %>" role="button">Unlist</a>
+                       <% }else{ %>
+                            <a class="btn btn-primary" href="/admin/offers/status?id=<%= offer[i]._id %>" role="button">List</a>
+    
+                      <% } %> 
+                      <a class="btn btn-primary" href="/admin/offers/edit?id=<%= offer[i]._id %>" role="button">Edit</a>    
+                      </td>            
+                </tr>
+            <% }
+        } %>
+            </tbody>
+          </table>
+    </div>
+</section>
+
+<%- include("./footerDashboard.ejs") -%>

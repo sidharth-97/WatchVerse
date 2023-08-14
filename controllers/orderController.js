@@ -399,7 +399,7 @@ const payment = async (req, res, next) => {
         console.log("Payment done. Order status updated.");
         await Cart.deleteOne({ user: user._id });
         req.session.cartCount = 0
-             let cartData = await Cart.findOne({ user: userData._id })
+             let cartData = await Cart.findOne({ user: user._id })
                 if (cartData && cartData.products) {
                   req.session.cartCount = cartData.products.length
                   console.log(req.session.cartCount,"cart count");

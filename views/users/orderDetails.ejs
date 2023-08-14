@@ -1,128 +1,141 @@
 <%- include('../layouts/user-dashboard.ejs') -%>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.js"></script>
 
-<div class="col-lg-8">
+  <div class="col-lg-8">
     <h3>Order Summery</h3>
     <% orders.forEach(orderItem=> { %>
-      <% const dd=orderItem.date.getDate(); const mm=orderItem.date.getMonth() + 1; const yyyy=orderItem.date.getFullYear();
-      const formattedDate=`${dd}-${mm}-${yyyy}`; %>
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div>Ordered on:  <%=formattedDate %></div>
-          <div>Order ID:<%= orderItem._id %></div>
-         <% if(orderItem.orderStatus != 'Delivered' && orderItem.orderStatus != 'Out for Delivery' && !orderItem.orderStatus.match(/Cancelled by user on/)){ %>
-          <form action="/cancel-order?id=<%= orderItem._id %>" method="post" id="myForm">
-            <div><button  type="submit" class="btn btn-outline-danger">Cancel Order</button></div>
-         <% } %>
-        </form>
-
-      <% if (orderItem.orderStatus == 'Delivered') { %>
-        <% const orderDate = new Date(orderItem.date); %>
-        <% const currentDate = new Date(); %>
-        <% const daysSinceOrder = Math.floor((currentDate - orderDate) / (1000 * 60 * 60 * 24)); %>
-        <% if (daysSinceOrder <= 7) { %>
-          <form action="/return?id=<%= orderItem._id %>" method="post" id="myForm2">
-            <div><button type="submit" class="btn btn-outline-danger">Return</button></div>
-          </form>
-        <% } else if (daysSinceOrder >7) { %>
-          <form action="/downloadInvoice?id=<%= orderItem._id %>" method="post">
-            <button class="btn btn-danger" type="submit">Invoice</button>
-          </form>
-        <% } %>
-      <% } %>
-      </div>
-        
-        <div class="card-header bg-transparent d-flex justify-content-center align-items-center">
-            <div class="col-lg-6">Shipped to: <br><%= orderItem.address.fullName %>
-                <p><%= orderItem.address.mobile_no %></p>
-                <p><%= orderItem.address.address1 %></p>
-                <p><%= orderItem.address.state %></p>
+      <% const dd=orderItem.date.getDate(); const mm=orderItem.date.getMonth() + 1; const
+        yyyy=orderItem.date.getFullYear(); const formattedDate=`${dd}-${mm}-${yyyy}`; %>
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>Ordered on: <%=formattedDate %>
             </div>
-            <div class="col-lg-3">Payment method:<br><%= orderItem.paymentMode %></div>
-            <div class="col-lg-3">Order Status:<%= orderItem.orderStatus %></div>
+            <div>Order ID:<%= orderItem._id %>
+            </div>
+            <% if(orderItem.orderStatus !='Delivered' && orderItem.orderStatus !='Out for Delivery' &&
+              !orderItem.orderStatus.match(/Cancelled by user on/)){ %>
+              <form action="/cancel-order?id=<%= orderItem._id %>" method="post" id="myForm">
+                <div><button type="submit" class="btn btn-outline-danger">Cancel Order</button></div>
+                <% } %>
+              </form>
+
+              <% if (orderItem.orderStatus=='Delivered' ) { %>
+                <% const orderDate=new Date(orderItem.date); %>
+                  <% const currentDate=new Date(); %>
+                    <% const daysSinceOrder=Math.floor((currentDate - orderDate) / (1000 * 60 * 60 * 24)); %>
+                      <% if (daysSinceOrder <=7) { %>
+                        <form action="/return?id=<%= orderItem._id %>" method="post" id="myForm2">
+                          <div><button type="submit" class="btn btn-outline-danger">Return</button></div>
+                        </form>
+                        <% } else if (daysSinceOrder>7) { %>
+                          <form action="/downloadInvoice?id=<%= orderItem._id %>" method="post">
+                            <button class="btn btn-danger" type="submit">Invoice</button>
+                          </form>
+                          <% } %>
+                            <% } %>
           </div>
-        <ul class="list-group list-group-flush">
-         <% orderItem.products.forEach(product=> { %>
-            <li class="list-group-item">
+
+          <div class="card-header bg-transparent d-flex justify-content-center align-items-center">
+            <div class="col-lg-6">Shipped to: <br>
+              <%= orderItem.address.fullName %>
+                <p>
+                  <%= orderItem.address.mobile_no %>
+                </p>
+                <p>
+                  <%= orderItem.address.address1 %>
+                </p>
+                <p>
+                  <%= orderItem.address.state %>
+                </p>
+            </div>
+            <div class="col-lg-3">Payment method:<br>
+              <%= orderItem.paymentMode %>
+            </div>
+            <div class="col-lg-3">Order Status:<%= orderItem.orderStatus %>
+            </div>
+          </div>
+          <ul class="list-group list-group-flush">
+            <% orderItem.products.forEach(product=> { %>
+              <li class="list-group-item">
                 <div class="d-flex align-items-center">
                   <div>
-  
+
                     <img src="/productImages/<%= product.productId.image[0] %>" alt="<%= product.productId.name %>"
                       width="100">
                   </div>
                   <div class="ms-3">
-  
+
                     <h5>
-                      <%= product.productId.name %> X  <%= product.productId.quantity %>
+                      <%= product.productId.name %> X <%= product.productId.quantity %>
                     </h5>
-  
+
                     <p>Price: ₹<%= product.productId.price %>
                     </p>
                   </div>
                 </div>
               </li>
-          <% }) %>
-        </ul>
-      </div>
-      <br>
-      <br>
-   <% }) %>
-</div>
+              <% }) %>
+          </ul>
+        </div>
+        <br>
+        <br>
+        <% }) %>
+  </div>
 
-<script>
-  // Function to show SweetAlert confirmation box
-  function showConfirmation() {
+  <script>
+    // Function to show SweetAlert confirmation box
+    function showConfirmation() {
       Swal.fire({
-          title: 'Are you sure?',
-          text: 'You are about to cancel your order.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, Cancel it!',
-          cancelButtonText: 'No',
-          reverseButtons: true
+        title: 'Are you sure?',
+        text: 'You are about to cancel your order.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Cancel it!',
+        cancelButtonText: 'No',
+        reverseButtons: true
       }).then((result) => {
-          if (result.isConfirmed) {
-              // If the user confirms, submit the form
-              document.getElementById('myForm').submit();
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-              // If the user cancels, do nothing or show another message
-              Swal.fire('Cancelled', 'Your form submission was cancelled.', 'error');
-          }
+        if (result.isConfirmed) {
+          // If the user confirms, submit the form
+          document.getElementById('myForm').submit();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          // If the user cancels, do nothing or show another message
+          Swal.fire('Cancelled', 'Your form submission was cancelled.', 'error');
+        }
       });
-  }
+    }
 
-  // Add event listener to the form submit button
-  document.getElementById('myForm2').addEventListener('submit', function(event) {
+    // Add event listener to the form submit button
+    document.getElementById('myForm2').addEventListener('submit', function (event) {
       event.preventDefault(); // Prevent the form from submitting directly
       showConfirmation(); // Show the confirmation box
-  });
-</script>
-<script>
-  // Function to show SweetAlert confirmation box
-  function showConfirmation2() {
+    });
+  </script>
+  <script>
+    // Function to show SweetAlert confirmation box
+    function showConfirmation2() {
       Swal.fire({
-          title: 'Are you sure?',
-          text: 'You are about to return your order.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, Return it!',
-          cancelButtonText: 'No,Cancel',
-          reverseButtons: true
+        title: 'Are you sure?',
+        text: 'You are about to return your order.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Return it!',
+        cancelButtonText: 'No,Cancel',
+        reverseButtons: true
       }).then((result) => {
-          if (result.isConfirmed) {
-              // If the user confirms, submit the form
-              document.getElementById('myForm2').submit();
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-              // If the user cancels, do nothing or show another message
-              Swal.fire('Cancelled', 'Your form submission was cancelled.', 'error');
-          }
+        if (result.isConfirmed) {
+          // If the user confirms, submit the form
+          document.getElementById('myForm2').submit();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          // If the user cancels, do nothing or show another message
+          Swal.fire('Cancelled', 'Your form submission was cancelled.', 'error');
+        }
       });
-  }
+    }
 
-  // Add event listener to the form submit button
-  document.getElementById('myForm2').addEventListener('submit', function(event) {
+    // Add event listener to the form submit button
+    document.getElementById('myForm2').addEventListener('submit', function (event) {
       event.preventDefault(); // Prevent the form from submitting directly
       showConfirmation2(); // Show the confirmation box
-  });
-</script>
+    });
+  </script>

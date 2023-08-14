@@ -1,0 +1,28 @@
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    /* Reverse the order from right to left */
+  }
+
+  .rating input {
+    display: none;
+  }
+
+  .rating label {
+    font-size: 30px;
+    color: #ccc;
+    cursor: pointer;
+  }
+
+  .rating label:before {
+    content: '★';
+  }
+
+  .rating input:checked~label {
+    color: orange;
+  }
+
+  .rating label:hover,
+  .rating label:hover~label {
+    color: orange;
+  }

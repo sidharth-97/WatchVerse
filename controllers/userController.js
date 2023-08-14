@@ -291,13 +291,13 @@ const sendMail = (name, email, verificationCode) => {
   const mailTransporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "sidharthanand73@gmail.com",
-      pass: "dxrwayofzdeamdta",
+      user: "watchverseonline@gmail.com",
+      pass: "vurbzjiayncwaprp",
     },
   });
 
   const mailOptions = {
-    from: "sidharthanand73@gmail.com",
+    from: "watchverseonline@gmail.com",
     to: email,
     subject: "WatchVerse Login Verification",
     text: `${email}, your verification code is: ${verificationCode}. Do not share this code with anyone.`,
@@ -318,7 +318,21 @@ const ProductView = async (req, res, next) => {
 
   const product = await Product.findById(productId).populate('Review.user');
   const reccprod = await Product.find({ category: product.category })
-  res.render("viewProduct", { product: product, user: user,reccprod });
+
+  const bought = user ? await Order.findOne(
+    {
+      user: user._id
+    },
+    {
+      products: {
+        $elemMatch: { productId: productId }
+      }
+    }
+  ) : null;
+
+console.log(bought, "gsg");
+
+res.render("viewProduct", { product: product, user: user, reccprod, bought });
 };
 
 
@@ -455,7 +469,7 @@ const changePassword = async (req, res) => {
     if (passwordMatch) {
       const hashedPassword = await bcrypt.hash(password, 10);
       await User.updateOne({ _id: userID }, { password: hashedPassword });
-      res.redirect("/user");
+      res.redirect("/user?message=Update%20successful");
     } else {
       res.render("changePassword", { message: "Old password is incorrect" });
     }
@@ -477,7 +491,7 @@ const editUser = async (req, res) => {
     );
     console.log(editData);
     if (editData) {
-      res.redirect("/edit-user");
+      res.redirect("/user?message=Update%20successful");
     }
   } catch (error) {
     console.log(error.message);
@@ -525,8 +539,6 @@ const editAndUpdate = async (req, res, next) => {
   try {
     const userId = req.session.user._id;
     const addressId = req.query.id;
-    console.log(addressId, "new id");
-    console.log("hau");
     const { fullName, mobile_no, address1, district, state, PINcode } =
       req.body;
     await Address.updateOne(
@@ -543,7 +555,7 @@ const editAndUpdate = async (req, res, next) => {
       }
     );
     console.log("Address updated successfully");
-    res.status(200).send("Address updated successfully");
+    res.redirect("/user?message=Update%20successful")
   } catch (error) {
     next(error);
   }
@@ -789,6 +801,15 @@ const about = async (req, res, next) => {
   }
 }
 
+const contact = async (req, res, next) => {
+  try {
+    const user = req.session.user
+    res.render('contact',{user})
+  } catch (error) {
+    next(error)
+  }
+}
+
 
 
 module.exports = {
@@ -826,5 +847,6 @@ module.exports = {
   viewReviews,
   wallet,
   about,
-  deleteReview
+  deleteReview,
+  contact
 };

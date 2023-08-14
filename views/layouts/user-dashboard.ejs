@@ -43,31 +43,28 @@
               <a class="nav-link js-scroll-trigger" href="/home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#">About</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="/watches">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#">About</a>
+              <a class="nav-link js-scroll-trigger" href="/aboutUs">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+              <a class="nav-link js-scroll-trigger" href="/contact-us">Contact</a>
             </li>
             <li>
               <% if(user){ %>
-                <li class="nav-item position-relative">
-                  <a class="nav-link js-scroll-trigger" href="/cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <% if (cartCount > 0) { %>
-                      <span class="badge badge-danger position-absolute top-0 start-100 translate-middle">
-                        <%= cartCount %>
-                      </span>
-                    <% } %>
-                  </a>
-                </li>
-                
-                
+            <li class="nav-item position-relative">
+              <a class="nav-link js-scroll-trigger" href="/cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <% if (cartCount> 0) { %>
+                  <span class="badge badge-danger position-absolute top-0 start-100 translate-middle">
+                    <%= cartCount %>
+                  </span>
+                  <% } %>
+              </a>
+            </li>
+
+
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="/user">
                 <div class="d-flex flex-column align-items-center">
@@ -78,8 +75,8 @@
                 </div>
               </a>
             </li>
-            
-  
+
+
             <% }else{ %>
               <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="/login">Login</a>

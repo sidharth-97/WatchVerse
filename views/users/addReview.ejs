@@ -1,36 +1,6 @@
-
-  <title>User Ratings and Reviews</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    .rating {
-      display: flex;
-      flex-direction: row-reverse;
-      /* Reverse the order from right to left */
-    }
-
-    .rating input {
-      display: none;
-    }
-
-    .rating label {
-      font-size: 30px;
-      color: #ccc;
-      cursor: pointer;
-    }
-
-    .rating label:before {
-      content: '★';
-    }
-
-    .rating input:checked~label {
-      color: orange;
-    }
-
-    .rating label:hover,
-    .rating label:hover~label {
-      color: orange;
-    }
-  </style>
+<title>User Ratings and Reviews</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="/review.css">
 </head>
 
 <body>
@@ -43,80 +13,86 @@
         <!-- Add Rating and Review Card (Centered) -->
         <div class="card">
           <div class="card-body">
-            <% if (userReview && userReview.rating !== null) { %>
+            <% if (userReview && userReview.rating !==null) { %>
               <!-- If the user has already reviewed the product, show the edit form -->
               <h5 class="card-title">Edit Your Review</h5>
               <form id="ratingForm" action="/addReview?id=<%= product._id %>" method="post">
                 <div class="form-group">
                   <label for="rating">Rating:</label>
-                  
+
                   <!-- Set the selected radio button based on the userReview.rating value -->
                   <div class="rating text-start justify-content-end">
                     <!-- Rest of the rating radio buttons -->
-                    <input type="radio" id="star5" name="rating" value="5" <%= userReview.rating == "5" ? 'checked' : '' %>>
+                    <input type="radio" id="star5" name="rating" value="5" <%=userReview.rating=="5" ? 'checked' : ''
+                      %>>
                     <label for="star5"></label>
-                    <input type="radio" id="star4" name="rating" value="4" <%= userReview.rating == '4' ? 'checked' : '' %>>
+                    <input type="radio" id="star4" name="rating" value="4" <%=userReview.rating=='4' ? 'checked' : ''
+                      %>>
                     <label for="star4"></label>
-                    <input type="radio" id="star3" name="rating" value="3" <%= userReview.rating == '3' ? 'checked' : '' %>>
+                    <input type="radio" id="star3" name="rating" value="3" <%=userReview.rating=='3' ? 'checked' : ''
+                      %>>
                     <label for="star3"></label>
-                    <input type="radio" id="star2" name="rating" value="2" <%= userReview.rating == '2' ? 'checked' : '' %>>
+                    <input type="radio" id="star2" name="rating" value="2" <%=userReview.rating=='2' ? 'checked' : ''
+                      %>>
                     <label for="star2"></label>
-                    <input type="radio" id="star1" name="rating" value="1" <%= userReview.rating == '1' ? 'checked' : '' %>>
+                    <input type="radio" id="star1" name="rating" value="1" <%=userReview.rating=='1' ? 'checked' : ''
+                      %>>
                     <label for="star1"></label>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="title">Title:</label>
                   <!-- Set the input field value based on the userReview.title value -->
-                  <input type="text" id="title" name="title" class="form-control" value="<%= userReview.title %>" required>
+                  <input type="text" id="title" name="title" class="form-control" value="<%= userReview.title %>"
+                    required>
                 </div>
                 <div class="form-group">
                   <label for="review">Review:</label>
                   <!-- Set the textarea value based on the userReview.review value -->
-                  <input type="text" id="review" name="description" class="form-control" rows="3" value="<%= userReview.description %>">
-                 
-                </input>
-                  
+                  <input type="text" id="review" name="description" class="form-control" rows="3"
+                    value="<%= userReview.description %>">
+
+                  </input>
+
                 </div>
                 <!-- Add any other form fields as needed for editing the review -->
                 <button type="submit" class="btn btn-primary">Update Review</button>
               </form>
               <a class="btn btn-primary" href="/delete-review?id=<%= product._id %>" role="button">Delete</a>
-            <% } else { %>
-              <!-- If the user hasn't reviewed the product, show the form for adding a new review -->
-              <h5 class="card-title">Add Your Rating</h5>
-              <form id="ratingForm" action="/addReview?id=<%= product._id %>" method="post">
-                <div class="form-group">
-                  <label for="rating">Rating:</label>
-                  <!-- Rest of the rating radio buttons for a new review -->
-                  <div class="rating text-start justify-content-end">
-                  <input type="radio" id="star5" name="rating" value="5">
-                  <label for="star5"></label>
-                  <input type="radio" id="star4" name="rating" value="4" >
-                  <label for="star4"></label>
-                  <input type="radio" id="star3" name="rating" value="3" >
-                  <label for="star3"></label>
-                  <input type="radio" id="star2" name="rating" value="2" >
-                  <label for="star2"></label>
-                  <input type="radio" id="star1" name="rating" value="1">
-                  <label for="star1"></label>
+              <% } else { %>
+                <!-- If the user hasn't reviewed the product, show the form for adding a new review -->
+                <h5 class="card-title">Add Your Rating</h5>
+                <form id="ratingForm" action="/addReview?id=<%= product._id %>" method="post">
+                  <div class="form-group">
+                    <label for="rating">Rating:</label>
+                    <!-- Rest of the rating radio buttons for a new review -->
+                    <div class="rating text-start justify-content-end">
+                      <input type="radio" id="star5" name="rating" value="5">
+                      <label for="star5"></label>
+                      <input type="radio" id="star4" name="rating" value="4">
+                      <label for="star4"></label>
+                      <input type="radio" id="star3" name="rating" value="3">
+                      <label for="star3"></label>
+                      <input type="radio" id="star2" name="rating" value="2">
+                      <label for="star2"></label>
+                      <input type="radio" id="star1" name="rating" value="1">
+                      <label for="star1"></label>
+                    </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label for="title">Title:</label>
-                  <input type="text" id="title" name="title" class="form-control" required>
-                </div>
-                <div class="form-group">
-                  <label for="review">Review:</label>
-                  <textarea id="review" name="description" class="form-control" rows="3" required></textarea>
-                </div>
-                <!-- Add any other form fields as needed for adding a new review -->
-                <button type="submit" class="btn btn-danger">Submit Review</button>
-              </form>
-            <% } %>
+                  <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="review">Review:</label>
+                    <textarea id="review" name="description" class="form-control" rows="3" required></textarea>
+                  </div>
+                  <!-- Add any other form fields as needed for adding a new review -->
+                  <button type="submit" class="btn btn-danger">Submit Review</button>
+                </form>
+                <% } %>
           </div>
         </div>
-        
       </div>
     </div>
   </div>
@@ -124,4 +100,5 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

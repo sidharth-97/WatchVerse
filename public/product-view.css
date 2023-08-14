@@ -675,3 +675,43 @@ img {
 .comment p{
     color: black;
 }
+
+.average-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .average-rating h3 {
+    font-size: 30px;
+    margin-right: 10px;
+  }
+
+  .progress {
+    height: 25px;
+    margin-bottom: 5px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    line-height: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff;
+  }
+
+  .reviewcss {
+    line-height: 1.2;
+  }
+
+  .card {
+    grid-gap: 1rem;
+  }
+
+  p {
+    margin-bottom: 0;
+  }

@@ -46,25 +46,37 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="/home">Home</a>
           </li>
+        
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/watches">Shop</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="/aboutUs">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="/watches">Shop</a>
-          </li>
-      
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+            <a class="nav-link js-scroll-trigger" href="/contact-us">Contact</a>
           </li>
        
          <% if(user){ %>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="/cart"><i class="fa-solid fa-cart-shopping"></i><span class="badge text-bg-success"><%=cartCount %></span></a>
+          <li class="nav-item position-relative">
+            <a class="nav-link js-scroll-trigger" href="/cart">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <% if (cartCount > 0) { %>
+                <span class="badge badge-danger position-absolute">
+                  <%= cartCount %>
+                </span>
+              <% } %>
+            </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="/user">
-              <i class="fa-solid fa-user"></i>
-              <span><%= user.name %></span>
+              <div class="d-flex flex-column align-items-center">
+                <i class="fa-solid fa-user" style="font-size: 17px;"></i>
+                <span class="text-center" style="font-size: 10px;">
+                  <%= user.name %>
+                </span>
+              </div>
             </a>
           </li>
         

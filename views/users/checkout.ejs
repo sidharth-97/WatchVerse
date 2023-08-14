@@ -35,41 +35,48 @@
                 <input type="text" placeholder="Coupon code" id="couponCode" name="couponCode">
                 <button type="submit">Apply</button>
               </form>
-
-       
-<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Show coupons
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Coupons</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <% if (coupons && coupons.length > 0) { %>
-          <% coupons.forEach((coupon) => { %>
-            <div class="coupon-item mb-3">
-              <h6 class="mb-1"><strong>Name:</strong> <%= coupon.name %></h6>
-              <p class="mb-1"><strong>Description:</strong> <%= coupon.description %></p>
-              <p class="mb-1"><strong>Minimum Amount:</strong> <%= coupon.min_amt %></p>
-              <p class="mb-2"><strong>Discount:</strong> <%= coupon.discount %>%</p>
-              <button class="btn btn-secondary btn-sm copy-coupon" data-coupon="<%= coupon.name %>">Copy Coupon</button>
-            </div>
-          <% }); %>
-        <% } else { %>
-          <p>No coupons available.</p>
-        <% } %>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+              <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Show coupons
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Coupons</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <% if (coupons && coupons.length> 0) { %>
+                        <% coupons.forEach((coupon)=> { %>
+                          <div class="coupon-item mb-3">
+                            <h6 class="mb-1"><strong>Name:</strong>
+                              <%= coupon.name %>
+                            </h6>
+                            <p class="mb-1"><strong>Description:</strong>
+                              <%= coupon.description %>
+                            </p>
+                            <p class="mb-1"><strong>Minimum Amount:</strong>
+                              <%= coupon.min_amt %>
+                            </p>
+                            <p class="mb-2"><strong>Discount:</strong>
+                              <%= coupon.discount %>%
+                            </p>
+                            <button class="btn btn-secondary btn-sm copy-coupon" data-coupon="<%= coupon.name %>">Copy
+                              Coupon</button>
+                          </div>
+                          <% }); %>
+                            <% } else { %>
+                              <p>No coupons available.</p>
+                              <% } %>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div id="couponError" style="color: red;"></div>
             </div>
           </div>
@@ -77,51 +84,49 @@
         </div>
       </div>
       <div class="mt-5">
-        <form id="orderForm" action="/order" method="post" onsubmit="return validateForm()">         
-           <section class="shopping-cart">
+        <form id="orderForm" action="/order" method="post" onsubmit="return validateForm()">
+          <section class="shopping-cart">
             <div class="container">
               <div class="row">
                 <!-- <div class="row mt-5"> -->
-                  <div class="col-md-8">
-                    <h4 class="bg-dark text-white">Your Order</h4>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>Product</th>
-                          <th>Quantity</th>
-                          <th>Price</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% cart.forEach(cartItem=> { %>
-                          <% cartItem.products.forEach(product=> { %>
-                            <tr>
-                              <td>
-                                <div class="media">
-                                  <img src="/productImages/<%= product.productId.image[0] %>" class="mr-3"
-                                    alt="Product Image" width="80">
-                                  <div class="media-body">
-                                    <h5>
-                                      <%= product.productId.name %>
-                                    </h5>
-                                  </div>
+                <div class="col-md-8">
+                  <h4 class="bg-dark text-white">Your Order</h4>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% cart.forEach(cartItem=> { %>
+                        <% cartItem.products.forEach(product=> { %>
+                          <tr>
+                            <td>
+                              <div class="media">
+                                <img src="/productImages/<%= product.productId.image[0] %>" class="mr-3"
+                                  alt="Product Image" width="80">
+                                <div class="media-body">
+                                  <h5>
+                                    <%= product.productId.name %>
+                                  </h5>
                                 </div>
-                              </td>
-                              <td><span class="quantity">
-                                  <%= product.quantity %>
-                                </span></td>
-                              <td><span class="price">₹<%= product.price %></span></td>
-                              <td class="text-right">
-                              </td>
-                            </tr>
+                              </div>
+                            </td>
+                            <td><span class="quantity">
+                                <%= product.quantity %>
+                              </span></td>
+                            <td><span class="price">₹<%= product.price %></span></td>
+                            <td class="text-right">
+                            </td>
+                          </tr>
+                          <% }); %>
                             <% }); %>
-                              <% }); %>
-                      </tbody>
-                    </table>
-                  <!-- </div> -->
-                <!-- </div> -->
-                <!-- <div class="col-lg-8"> -->
+                    </tbody>
+                  </table>
+            
                   <h4 class="mt-2 mb-2 bg-dark text-white">Change Delivery Address</h4>
                   <div class="row">
                     <% if (userAddress.length> 0) { %>
@@ -148,15 +153,12 @@
                                       value="<%= addr._id %>" id="<%= addr._id %>" checked>
                                     <label class="form-check-label" for="<%= addr._id %>">Select Address</label>
                                   </div>
-                                  <!-- <a href="/editAddress?id=<%= addr._id %>" class="btn btn-primary">Edit Address</a>
-                                  <a href="/deleteAddress?id=<%= addr._id %>" class="btn btn-danger">Delete</a> -->
+
                                 </div>
                               </div>
                             </div>
-          
-
                             <% }); %>
-                            <p><a href="/addressCheckout" class="btn btn-primary">Add new address</a></p>
+                              <p><a href="/addressCheckout" class="btn btn-success">Add new address</a></p>
                               <% } else { %>
                                 <div class="col-md-12">
                                   <p>No address available.</p>
@@ -169,7 +171,7 @@
                                         <p><a href="/addressCheckout" class="btn btn-primary">Add new address</a></p>
                                       </div>
                                       <% } %>
-                  </div>            
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                   <div class="checkout__order">
@@ -208,10 +210,10 @@
                       <label for="payonline">Pay Online</label>
                     </div>
                     <div class="checkout__input__radio">
-                      <input  style="display: none" type="radio" id="payusingwallet" name="paymentMethod" value="Wallet">
+                      <input style="display: none" type="radio" id="payusingwallet" name="paymentMethod" value="Wallet">
                       <label for="payusingwallet">Pay Using Wallet</label>
                     </div>
-                    
+
                     <div id="addressError" class="text-danger"></div>
                     <div id="paymentMethodError" class="text-danger"></div>
                     <button type="submit" class="site-btn">PLACE ORDER</button>
@@ -229,6 +231,7 @@
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
     <%- include('../layouts/footer.ejs') -%>
+
     </html>
 
 
@@ -248,7 +251,7 @@
           const addressError = document.getElementById('addressError');
           addressError.textContent = '';
         }
-    
+
         // Validate the payment method
         const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
         if (!paymentMethod) {
@@ -259,15 +262,15 @@
           const paymentMethodError = document.getElementById('paymentMethodError');
           paymentMethodError.textContent = '';
         }
-    
+
         // Optionally, you can perform additional validation here if needed.
-    
+
         // If all validations pass, allow the form to be submitted
         return true;
       }
     </script>
-    
-    
+
+
     <script>
 
       function applyCoupon(couponCode) {
@@ -393,67 +396,68 @@
         })
       }
     </script>
- 
- <script>
-  function useWallet(walletBalance) {
-    const orderTotal = parseInt($("#finalTotal").text().replace("₹", ""));
-    const maxAmountToUse = Math.min(orderTotal, walletBalance);
 
-    const newTotal = orderTotal - maxAmountToUse;
-    const walletAmount = maxAmountToUse > 0 ? -maxAmountToUse : 0;
+    <script>
+      function useWallet(walletBalance) {
+        const orderTotal = parseInt($("#finalTotal").text().replace("₹", ""));
+        const maxAmountToUse = Math.min(orderTotal, walletBalance);
 
-    $("#finalTotal").text(`₹${newTotal}`);
-    $("#walletAmount").text(`₹${walletAmount}`);
+        const newTotal = orderTotal - maxAmountToUse;
+        const walletAmount = maxAmountToUse > 0 ? -maxAmountToUse : 0;
 
-    const payOnlineBtn = document.getElementById("payonline");
-    const payUsingWalletBtn = document.getElementById("payusingwallet");
-    const codBtn = document.getElementById("COD");
+        $("#finalTotal").text(`₹${newTotal}`);
+        $("#walletAmount").text(`₹${walletAmount}`);
 
-    if (walletAmount < 0) {
-      $("#walletField").show();
-      if (newTotal > 0) {
-        payOnlineBtn.style.display = "inline";
-        payUsingWalletBtn.style.display = "none"; 
-        codBtn.style.display = "inline";
-      } else {
-        payOnlineBtn.style.display = "none"; 
-        payUsingWalletBtn.style.display = "inline"; 
-        codBtn.style.display = "none";
+        const payOnlineBtn = document.getElementById("payonline");
+        const payUsingWalletBtn = document.getElementById("payusingwallet");
+        const codBtn = document.getElementById("COD");
+
+        if (walletAmount < 0) {
+          $("#walletField").show();
+          if (newTotal > 0) {
+            payOnlineBtn.style.display = "inline";
+            payUsingWalletBtn.style.display = "none";
+            codBtn.style.display = "inline";
+          } else {
+            payOnlineBtn.style.display = "none";
+            payUsingWalletBtn.style.display = "inline";
+            codBtn.style.display = "none";
+          }
+        } else {
+          $("#walletField").hide();
+          payOnlineBtn.style.display = "inline";
+          payUsingWalletBtn.style.display = "none";
+          codBtn.style.display = "none";
+        }
+        console.log(walletAmount, "wallet in sceriopt");
+        if (walletAmount == 0) {
+          document.getElementById("walletBalance").setAttribute("name", ""); // Remove the "name" attribute
+        } else {
+          document.getElementById("walletBalance").setAttribute("name", "walletBalance"); // Add the "name" attribute
+        }
       }
-    } else {
-      $("#walletField").hide();
-      payOnlineBtn.style.display = "inline"; 
-      payUsingWalletBtn.style.display = "none"; 
-      codBtn.style.display = "none"; 
-    }
-    console.log(walletAmount,"wallet in sceriopt");
-    if (walletAmount == 0) {
-      document.getElementById("walletBalance").setAttribute("name", ""); // Remove the "name" attribute
-    } else {
-      document.getElementById("walletBalance").setAttribute("name", "walletBalance"); // Add the "name" attribute
-    }
-  }
-</script>
+    </script>
 
-<script>
-  document.addEventListener('click', function(event) {
-    const target = event.target;
-    if (target.classList.contains('copy-coupon')) {
-      const couponName = target.getAttribute('data-coupon');
-      copyCouponNameToClipboard(couponName);
-      alert(`Coupon name "${couponName}" copied to clipboard!`);
-    }
-  });
-
-  function copyCouponNameToClipboard(couponName) {
-    navigator.clipboard.writeText(couponName)
-      .then(() => {
-        console.log('Coupon name copied to clipboard:', couponName);
-      })
-      .catch((err) => {
-        console.error('Failed to copy coupon name:', err);
+    <script>
+      document.addEventListener('click', function (event) {
+        const target = event.target;
+        if (target.classList.contains('copy-coupon')) {
+          const couponName = target.getAttribute('data-coupon');
+          copyCouponNameToClipboard(couponName);
+          alert(`Coupon name "${couponName}" copied to clipboard!`);
+        }
       });
-  }
+
+      function copyCouponNameToClipboard(couponName) {
+        navigator.clipboard.writeText(couponName)
+          .then(() => {
+            console.log('Coupon name copied to clipboard:', couponName);
+          })
+          .catch((err) => {
+            console.error('Failed to copy coupon name:', err);
+          });
+      }
     </script>
     </body>
+
     </html>

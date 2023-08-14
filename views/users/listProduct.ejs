@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.js"></script>
 </head>
+
 <body>
   <header>
     <nav class="navbar navbar-expand-lg navbar-light  py-3" id="mainNav">
@@ -45,7 +46,7 @@
               <a class="nav-link js-scroll-trigger" href="watches">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#">About</a>
+              <a class="nav-link js-scroll-trigger" href="/aboutUs">About</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#">Contact</a>
@@ -113,12 +114,12 @@
               <div>&nbsp;</div>
               <h2 class="blog-sidebar-title"><b>Brands</b></h2>
               <hr />
+         
               <a style="color: black;" href="#" class="filter-button" data-brand="Apple">
                 <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Apple</b></p>
               </a>
-              <a style="color: black;" href="#" class="filter-button" data-brand="Titan">
-                <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Titan</b></p>
-              </a>
+          
+              
               <div>&nbsp;</div>
               <div>&nbsp;</div>
               <h2 class="blog-sidebar-title"><b>Price</b></h2>
@@ -128,7 +129,7 @@
                 <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Price: ₹0 - ₹5000</b></p>
               </a>
               <a style="color: black;" href="#" class="filter-button" data-minprice="5000" data-maxprice="15000">
-              <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Price: ₹5000 - ₹15000</b></p>
+                <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Price: ₹5000 - ₹15000</b></p>
               </a>
               <a style="color: black;" href="#" class="filter-button" data-minprice="15000" data-maxprice="100000000">
                 <p class="blog-sidebar-list"><b><span class="list-icon"> > </span>Price: above ₹15000</b></p>
@@ -164,19 +165,18 @@
                         </p>
                         <% if (product[i].discount) { %>
                           <p class="tags">
-                            ₹ <%= product[i].price %> <del class="text-muted small">₹ <%= product[i].price + product[i].discount %></del>
+                            ₹ <%= product[i].price %> <del class="text-muted small">₹ <%= product[i].price +
+                                  product[i].discount %></del>
                           </p>
-                        <% } else { %>
-                          <p class="tags">
-                            ₹ <%= product[i].price %>
-                          </p>
-                        <% } %>
-                        
-                        <!-- <form action="/cart" method="post"><a href="/cart" target="_blank" class="btn btn-success button-text"><i class="fa fa-shopping-cart"
-                        aria-hidden="true"></i> Add to cart</a></form> -->
-                        <form action="/cart?productId=<%= product[i]._id %>" method="post"><button
-                            class="btn btn-success button-text js-addcart-detail" id="addToCartButton" type="submit"><i
-                              class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart</button></form>
+                          <% } else { %>
+                            <p class="tags">
+                              ₹ <%= product[i].price %>
+                            </p>
+                            <% } %>
+                              <form action="/cart?productId=<%= product[i]._id %>" method="post"><button
+                                  class="btn btn-success button-text js-addcart-detail" id="addToCartButton"
+                                  type="submit"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to
+                                  cart</button></form>
                       </div>
                     </div>
                   </div>
@@ -208,77 +208,70 @@
             </div>
           </section>
           <%- include('../layouts/user-dashboard-footer.ejs') -%>
-          <!-- Bootstrap JS -->
-          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-            crossorigin="anonymous"></script>
-          <!-- <script>
-            $('.js-addcart-detail').each(function() {
-              var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-              $(this).on('click', function() {
-                swal(nameProduct, "is added to cart !", "success");
-              });
-            });
-          </script> -->
+            <!-- Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+              integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+              crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+              integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+              crossorigin="anonymous"></script>
+          
 
-          <script>
-            document.addEventListener('DOMContentLoaded', function () {
-              const sortingSelect = document.getElementById('sortingSelect');
-              sortingSelect.addEventListener('change', function () {
-                const sortingValue = this.value;
-                updateUrlParams({ sort: sortingValue });
-              });
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const sortingSelect = document.getElementById('sortingSelect');
+                sortingSelect.addEventListener('change', function () {
+                  const sortingValue = this.value;
+                  updateUrlParams({ sort: sortingValue });
+                });
 
-              const searchForm = document.getElementById('searchForm');
-              searchForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-                const searchTerm = this.querySelector('input').value.trim();
-                if (searchTerm !== '') {
-                  updateUrlParams({ search: searchTerm, page: 1 });
-                } else {
-                  console.log("error");
-                }
-              });
-
-              const filterButtons = document.querySelectorAll('.filter-button');
-              filterButtons.forEach(function (button) {
-                button.addEventListener('click', function (event) {
+                const searchForm = document.getElementById('searchForm');
+                searchForm.addEventListener('submit', function (event) {
                   event.preventDefault();
-                  const category = this.dataset.category;
-                  const brand = this.dataset.brand;
-                  const minPrice = this.dataset.minprice;
-                  const maxPrice = this.dataset.maxprice;
-                  if (category) {
-                    updateUrlParams({ category, page: 1 });
-                  } else if (brand) {
-                    updateUrlParams({ brand, page: 1 });
-                  } else if (minPrice && maxPrice) {
-                    updateUrlParams({ minPrice, maxPrice, page: 1 });
+                  const searchTerm = this.querySelector('input').value.trim();
+                  if (searchTerm !== '') {
+                    updateUrlParams({ search: searchTerm, page: 1 });
+                  } else {
+                    console.log("error");
                   }
                 });
-              });
 
-              const paginationLinks = document.querySelectorAll('.pagination-link');
-              paginationLinks.forEach(function (link) {
-                link.addEventListener('click', function (event) {
-                  event.preventDefault();
-                  const page = this.dataset.page;
-                  updateUrlParams({ page });
+                const filterButtons = document.querySelectorAll('.filter-button');
+                filterButtons.forEach(function (button) {
+                  button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const category = this.dataset.category;
+                    const brand = this.dataset.brand;
+                    const minPrice = this.dataset.minprice;
+                    const maxPrice = this.dataset.maxprice;
+                    if (category) {
+                      updateUrlParams({ category, page: 1 });
+                    } else if (brand) {
+                      updateUrlParams({ brand, page: 1 });
+                    } else if (minPrice && maxPrice) {
+                      updateUrlParams({ minPrice, maxPrice, page: 1 });
+                    }
+                  });
                 });
-              });
 
-              function updateUrlParams(params) {
-                const currentUrl = new URL(window.location.href);
-                for (const [key, value] of Object.entries(params)) {
-                  currentUrl.searchParams.set(key, value);
+                const paginationLinks = document.querySelectorAll('.pagination-link');
+                paginationLinks.forEach(function (link) {
+                  link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const page = this.dataset.page;
+                    updateUrlParams({ page });
+                  });
+                });
+
+                function updateUrlParams(params) {
+                  const currentUrl = new URL(window.location.href);
+                  for (const [key, value] of Object.entries(params)) {
+                    currentUrl.searchParams.set(key, value);
+                  }
+                  window.location.href = currentUrl.toString();
                 }
-                window.location.href = currentUrl.toString();
-              }
-            });
-          </script>
+              });
+            </script>
 
 </body>
 

@@ -1,44 +1,45 @@
-<%- include("../layouts/header.ejs") -%>
-<%- include("./headerDashboard.ejs") -%>
+<%- include("../layouts/header.ejs") -%> <%- include("./headerDashboard.ejs")-%>
 
 <section>
-    <div class="col-lg-12">
-        <h3>User Management</h3>
-        <table class="table table-striped" id="myTable">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Mobile</th>
-                    <th scope="col">Block</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (users.length > 0) {
-                    for (let i = 0; i < users.length; i++) { %>
-                        <tr>
-                            <td><%= users[i].name %></td>
-                            <td><%= users[i].email %></td>
-                            <td><%= users[i].mobile %></td>
-                            <td><%= users[i].block %></td>
-                            <td class="text-danger">
-                             <% if(users[i].block){ %>
-                                <button type="button" class="btn btn-outline-danger" onclick="showConfirmationModal('<%= users[i]._id %>')">Unblock</button>
-                             <% }else{ %>
-                                <button type="button" class="btn btn-outline-danger" onclick="showConfirmationModal('<%= users[i]._id %>')">Block</button>
-                            <%  } %>
-                            </td>
-                        </tr>
-                    <% }; %>
-                <% } else { %>
-                    <tr>
-                        <td colspan="5">Users not found</td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-        <!-- <section class="page-section">
+  <div class="col-lg-12">
+    <h3>User Management</h3>
+    <table class="table table-striped" id="myTable">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Mobile</th>
+          <th scope="col">Block</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (users.length> 0) { for (let i = 0; i < users.length; i++) { %>
+        <tr>
+          <td><%= users[i].name %></td>
+          <td><%= users[i].email %></td>
+          <td><%= users[i].mobile %></td>
+          <td><%= users[i].block %></td>
+          <td class="text-danger">
+            <% if(users[i].block){ %>
+            <button type="button" class="btn btn-outline-danger" onclick="showConfirmationModal('<%= users[i]._id %>')">
+              Unblock
+            </button>
+            <% }else{ %>
+            <button type="button" class="btn btn-outline-danger" onclick="showConfirmationModal('<%= users[i]._id %>')">
+              Block
+            </button>
+            <% } %>
+          </td>
+        </tr>
+        <% }; %> <% } else { %>
+        <tr>
+          <td colspan="5">Users not found</td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <!-- <section class="page-section">
             <div class="container">
               <div class="row justify-content-end align-items-end">
                 <div class="col-lg-12">
@@ -58,39 +59,43 @@
               </div>
             </div>
           </section> -->
-    </div>
+  </div>
 </section>
 
 <!-- Confirmation Modal -->
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to perform this action?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="#" id="confirmationAction" class="btn btn-danger">Confirm</a>
-            </div>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to perform this action?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <a href="#" id="confirmationAction" class="btn btn-danger">Confirm</a>
+      </div>
     </div>
+  </div>
 </div>
 
 <%- include("./footerDashboard.ejs") -%>
 <script>
-    function showConfirmationModal(userId) {
-        const modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-        const confirmationAction = document.getElementById('confirmationAction');
-        confirmationAction.href = '/admin/block-user?id=' + userId;
-        modal.show();
-    }
+  function showConfirmationModal(userId) {
+    const modal = new bootstrap.Modal(
+      document.getElementById("confirmationModal")
+    );
+    const confirmationAction = document.getElementById("confirmationAction");
+    confirmationAction.href = "/admin/block-user?id=" + userId;
+    modal.show();
+  }
 </script>
 <script>
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
+  $(document).ready(function() {
+    $("#myTable").DataTable();
+  });
 </script>

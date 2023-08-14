@@ -4,30 +4,7 @@ const Cart = modelC.cart;
 const modelP = require("../models/productModel");
 const ProductM = modelP.product;
 
-// const addToCart = async (req, res) => {
-//     const userId = req.session.user._id;
 
-//     console.log(userId);
-//     console.log("hello");
-//     const productId = req.query.productId;
-//     const price = 10
-//     const quantity = 1
-//     total=10
-//     const cart = new Cart({
-//         userId,
-//         products: [
-//             productId,
-//             price,
-//             quantity
-//         ],
-//         total
-//     })
-//     const cartData = await cart.save();
-//     console.log(cartData);
-//     if (cartData) {
-//         res.render('cart')
-//     }
-// }
 
 const addToCart = async (req, res) => {
     try {
