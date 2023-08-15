@@ -1,8 +1,8 @@
 <%- include('../layouts/user-dashboard.ejs') -%>
 
-  <div class="col-lg-9">
+  <div class="col-lg-9 pt-5">
     <div class="row">
-      <h3 class="mb-4 ">Welcome <%= user.name %>
+      <h3 style="margin-left: 1rem;" class="mb-4">Welcome <%= user.name %>
       </h3>
     </div>
 
@@ -58,36 +58,43 @@
 
         <h5 class="mb-3">Saved Address:</h5>
 
-        <% if (userAddress.length> 0) { %>
-          <% userAddress.forEach((address)=> { %>
-            <% if (address.addressfield && address.addressfield.length> 0) { %>
-              <% address.addressfield.forEach((addr)=> { %>
-                <div class="card mb-3" style="max-width: 18rem;">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      <%= addr.fullName %>
-                    </h5>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                      <%= addr.mobile_no %>
-                    </h6>
-                    <p class="card-text">
-                      <%= addr.address1 %>
-                    </p>
-                    <p class="card-text">
-                      <%= addr.district %>, <%= addr.state %> - <%= addr.PINcode %>
-                    </p>
-                    <a href="/editAddress?id=<%= addr._id %>" class="card-link btn btn-primary">Edit Address</a>
-                    <a href="/deleteAddress?id=<%= addr._id %>" class="card-link btn btn-danger">Delete</a>
-                  </div>
-                </div>
-                <% }); %>
-                  <% } else { %>
-                    <p>No address available.</p>
-                    <% } %>
-                      <% }); %>
-                        <% } else { %>
-                          <p>No address available.</p>
-                          <% } %>
+        <div class="col-md-12">
+          <div class="row">
+            <% if (userAddress.length > 0) { %>
+              <% userAddress.forEach((address) => { %>
+                <% if (address.addressfield && address.addressfield.length > 0) { %>
+                  <% address.addressfield.forEach((addr) => { %>
+                    <div class="col-md-6"> <!-- Create a new column for each address -->
+                      <div class="card mb-3" style="max-width: 18rem;">
+                        <div class="card-body">
+                          <h5 class="card-title">
+                            <%= addr.fullName %>
+                          </h5>
+                          <h6 class="card-subtitle mb-2 text-muted">
+                            <%= addr.mobile_no %>
+                          </h6>
+                          <p class="card-text">
+                            <%= addr.address1 %>
+                          </p>
+                          <p class="card-text">
+                            <%= addr.district %>, <%= addr.state %> - <%= addr.PINcode %>
+                          </p>
+                          <a href="/editAddress?id=<%= addr._id %>" class="card-link btn btn-primary">Edit Address</a>
+                          <a href="/deleteAddress?id=<%= addr._id %>" class="card-link btn btn-danger">Delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  <% }); %>
+                <% } else { %>
+                  <p>No address available.</p>
+                <% } %>
+              <% }); %>
+            <% } else { %>
+              <p>No address available.</p>
+            <% } %>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>

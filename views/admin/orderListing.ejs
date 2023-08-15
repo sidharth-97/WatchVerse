@@ -60,7 +60,7 @@
                         <td>
                             <%= orderItem.paymentMode %>
                         </td>
-                        <td>
+                        <td id="orderStatus-<%= orderItem._id %>">
                             <%= orderItem.orderStatus %>
                         </td>
                         <td>
@@ -178,8 +178,10 @@
             .then(data => {
                 const orderStatusCell = document.getElementById(`orderStatus-${orderId}`);
                 orderStatusCell.innerText = selectedStatus;
+                location.reload();
                 $('#exampleModal-' + orderId).modal('hide'); 
                 myModal.hide(); 
+                
             })
             .catch(error => {
          

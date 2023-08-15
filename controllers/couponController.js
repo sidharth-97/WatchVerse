@@ -3,7 +3,7 @@ const Coupon = modelC
 const modelCc = require("../models/cartModel");
 const Cart = modelCc.cart;
 
-const viewCoupons = async (req, res) => {
+const viewCoupons = async (req, res,next) => {
     const coupons=await Coupon.find({})
     res.render('coupons',{coupons:coupons})
 }

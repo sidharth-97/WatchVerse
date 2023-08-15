@@ -12,48 +12,63 @@
 
 <body>
     <%- include('../layouts/navbar.ejs') -%>
-        <!-- Include your navbar here -->
-        <div class="container mt-4">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <h1 class="text-center">Contact Us</h1>
-                    <form id="contactForm" action="/contact-us">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message:</label>
-                            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-secondary">Submit</button>
-                    </form>
+    <!-- Include your navbar here -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Contact Us</h1>
+                        <form id="contactForm" action="/contact-us" onsubmit="return validateForm()">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback">Please enter a valid name without numbers.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message:</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            // Add event listener to the form submit button
-            document.getElementById('contactForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent the form from submitting directly
+    <script>
+        function validateForm() {
+            var form = document.getElementById('contactForm');
+            var name = form.querySelector('#name');
 
-                setTimeout(function () {
-                    // Show a success message using SweetAlert
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Message Sent!',
-                        text: 'Thank you for contacting us. Your message has been sent successfully.',
-                    });
+            // Regular expression to match only alphabetic characters
+            var nameRegex = /^[a-zA-Z\s]*$/;
 
-                    // Reset the form after successful submission
-                    document.getElementById('contactForm').reset();
-                }, 1000); // Simulated delay of 1 second
+            if (!name.value || !nameRegex.test(name.value)) {
+                name.classList.add('is-invalid');
+                return false; // Prevent form submission
+            }
+
+            name.classList.remove('is-invalid');
+            
+            // Show a success message using SweetAlert
+            Swal.fire({
+                icon: 'success',
+                title: 'Message Sent!',
+                text: 'Thank you for contacting us. Your message has been sent successfully.',
             });
-        </script>
+
+            // Reset the form after successful submission
+            form.reset();
+            
+            return false; // Prevent form submission
+        }
+    </script>
 </body>
 
 </html>

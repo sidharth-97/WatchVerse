@@ -22,7 +22,7 @@ var instance = new Razorpay({
   key_secret: "7laMKCS4aOvNXNnpbLzJsRd1",
 });
 
-const addOrder = async (req, res) => {
+const addOrder = async (req, res,next) => {
   try {
     const user = req.session.user;
     const addID = req.body.selectedCard;
@@ -187,7 +187,7 @@ const addOrder = async (req, res) => {
     }
    
   } catch (error) {
-    console.log(error.message);
+   next(error)
   }
 };
 
@@ -343,7 +343,7 @@ const adminOrder = async (req, res, next) => {
   }
 };
 
-const orderStatus = async (req, res) => {
+const orderStatus = async (req, res,next) => {
   try {
     const id = req.query.id;
     console.log(id);
@@ -415,12 +415,12 @@ const payment = async (req, res, next) => {
   }
 };
 
-const paymentSucess = async (req, res) => {
+const paymentSucess = async (req, res,next) => {
   try {
     const user=req.session.user
     res.render("payment-sucess",{user:user});
   } catch (error) {
-    console.log(error.message);
+   next(error)
   }
 };
 

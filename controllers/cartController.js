@@ -6,7 +6,7 @@ const ProductM = modelP.product;
 
 
 
-const addToCart = async (req, res) => {
+const addToCart = async (req, res,next) => {
     try {
         const userId = req.session.user._id;
         const productId = req.query.productId;
@@ -63,11 +63,11 @@ const addToCart = async (req, res) => {
             res.redirect('/cart');      
         }
     } catch (error) {
-        console.log(error.message);
+        next(error)
     }
 };
 
-const viewCart = async (req, res) => {
+const viewCart = async (req, res,next) => {
     try {
         const userId = req.session.user._id;
         const user=req.session.user
@@ -75,7 +75,7 @@ const viewCart = async (req, res) => {
 
         if (carts.length === 0) {
            
-            return res.render("cart",{user:user});
+            return res.render("cartError",{user:user});
         }
 
         carts.forEach(cart => {
@@ -88,9 +88,8 @@ const viewCart = async (req, res) => {
             cart.Total = cartTotal;
         });
 
-        res.render("caart", { carts: carts, user:user });
+        res.render("cart", { carts: carts, user:user });
     } catch (error) {
-        console.error('Error fetching cart:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
@@ -139,23 +138,28 @@ const updateCart = async (req, res,next) => {
     }
 };
 
-const deleteCart = async (req, res) => {
-    const product = req.query.productId
-    const user = req.session.user
-    if (product) {
-        await Cart.updateOne(
-        { user: user._id},
-        { $pull:{products:{ productId:product}} }
-        );
-        req.session.cartCount = 0
-        let cartData = await Cart.findOne({ user: user._id })
-        if (cartData && cartData.products) {
-            req.session.cartCount = cartData.products.length
+const deleteCart = async (req, res, next) => {
+    try {
+        const product = req.query.productId
+        const user = req.session.user
+        if (product) {
+            await Cart.updateOne(
+            { user: user._id},
+            { $pull:{products:{ productId:product}} }
+            );
+            req.session.cartCount = 0
+            let cartData = await Cart.findOne({ user: user._id })
+            if (cartData && cartData.products) {
+                req.session.cartCount = cartData.products.length
+            }
+            res.redirect('/cart')
+        } else {
+            res.redirect('/cart')
         }
-        res.redirect('/cart')
-    } else {
-        res.redirect('/cart')
+    } catch (error) {
+        next(error)
     }
+  
 }
 
     

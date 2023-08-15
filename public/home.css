@@ -2,7 +2,7 @@ body{
 overflow-x: hidden;
 }
 .banner{
-height: 25rem;
+margin-bottom: 1rem;
 }
 
 .banner1{
@@ -32,4 +32,9 @@ height: 25rem;
 }
 .card-body{
     padding: 0.45rem;
+}
+
+.card-img, .card-img-top {
+    border-top-left-radius: calc(1.25rem - 1px);
+    border-top-right-radius: calc(1.25rem - 1px);
 }

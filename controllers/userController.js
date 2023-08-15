@@ -39,27 +39,33 @@ const loadRegister = async (req, res, next) => {
   }
 };
 
-const loadHome = async (req, res) => {
-  let banner = await Banner.find({})
-  const category=await Category.find({isListed:true})
-  const product = await Product.find({ isListed: true }).sort({ _id: -1 }).limit(4)
-  
-  if (req.session.user) {
-    const recc = await Order.find({user:req.session.user._id}).populate('products.productId').sort({ _id: -1 }).limit(1)
-    const category1 = recc[0].products[0].productId.category;
-    console.log(category);
-    const reccprod=await Product.find({category:category1})
-    res.render("home", { user: req.session.user,banner:banner,category:category,product,reccprod});
-  } else {
-    res.render("home", { user: null, banner: banner,category:category,product,reccprod:null});
+const loadHome = async (req, res, next) => {
+  try {
+    let banner = await Banner.find({})
+    const category=await Category.find({isListed:true})
+    const product = await Product.find({ isListed: true }).sort({ _id: -1 }).limit(4)
+    
+    
+    if (req.session.user) {
+      const recc = await Order.find({user:req.session.user._id}).populate('products.productId').sort({ _id: -1 }).limit(1)
+      const category1 = recc[0].products[0].productId.category;
+      console.log(category);
+      const reccprod=await Product.find({category:category1})
+      res.render("home", { user: req.session.user,banner:banner,category:category,product,reccprod});
+    } else {
+      res.render("home", { user: null, banner: banner,category:category,product,reccprod:null});
+    }
+  } catch (error) {
+    next(error)
   }
+
 };
 
 const loadLogin = async (req, res, next) => {
   try {
     res.render("login");
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
@@ -160,7 +166,7 @@ const verifyotp = async (req, res, next) => {
   }
 };
 
-const forgotPasswordStage1 = async (req, res) => {
+const forgotPasswordStage1 = async (req, res,next) => {
   try {
     res.render('forgotPassword1')
   } catch (error) {
@@ -173,7 +179,7 @@ const postforgotPasswordStage1 = async (req, res,next) => {
     otp = verificationCode;
     sendMail(req.body.name,email,verificationCode);
     const encodedEmail = encodeURIComponent(email);
-    const otpVerifyUrl = `http://localhost:3001/verifyAddOtp?id=${encodedEmail}`;
+    const otpVerifyUrl = `https://watchverse.shop/verifyAddOtp?id=${encodedEmail}`;
     res.redirect(otpVerifyUrl)
   } catch (error) {
     next(error)
@@ -271,13 +277,13 @@ const insertUser = async (req, res, next) => {
       const email = req.body.email;
       const encodedEmail = encodeURIComponent(email);
       // const otpVerifyUrl = `http://localhost:3001/otp-verify?id=${encodedEmail}`;
-      const otpVerifyUrl = `http://localhost:3001/otp-verify?id=${encodedEmail}&referral=${referral}`;
+      const otpVerifyUrl = `http://watchverse.shop/otp-verify?id=${encodedEmail}&referral=${referral}`;
       res.redirect(otpVerifyUrl);
     } else {
       res.render("register", { message: "failed" });
     }
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
@@ -292,9 +298,11 @@ const sendMail = (name, email, verificationCode) => {
     service: "gmail",
     auth: {
       user: "watchverseonline@gmail.com",
-      pass: "vurbzjiayncwaprp",
+      pass: process.env.nodepass,
+      
     },
   });
+
 
   const mailOptions = {
     from: "watchverseonline@gmail.com",
@@ -330,7 +338,7 @@ const ProductView = async (req, res, next) => {
     }
   ) : null;
 
-console.log(bought, "gsg");
+
 
 res.render("viewProduct", { product: product, user: user, reccprod, bought });
 };
@@ -380,7 +388,7 @@ const listProducts = async (req, res, next) => {
     if (req.session.user) {
       cart = await Cart.find({ user: req.session.user._id }).populate('products.productId');
     }
-
+    const allbrand = await Product.distinct("brand")
     const categoryData = await Category.find({});
     res.render('listProduct', {
       product: products,
@@ -391,7 +399,11 @@ const listProducts = async (req, res, next) => {
       limit: limit,
       category: categoryData,
       selectedCategory,
-      selectedBrand
+      selectedBrand,
+      allbrand,
+      cat: category,
+      brand,
+      minPrice
     });
   } catch (error) {
     next(error);
@@ -425,7 +437,7 @@ const userDash = async (req, res, next) => {
     console.log(userAddress);
     res.render("userAccounts", { user: user, userAddress: userAddress });
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
@@ -435,31 +447,31 @@ const viewEditUser = async (req, res, next) => {
     const user = await User.findById(user_id);
     res.render("user-profile-edit", { user: user });
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
-const viewAddress = async (req, res) => {
+const viewAddress = async (req, res,next) => {
   try {
     const user_id = req.session.user_id;
     const user = await User.findById(user_id);
     res.render("address", { user: user });
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
-const loadChangePassword = async (req, res) => {
+const loadChangePassword = async (req, res,next) => {
   try {
     const user_id = req.session.user._id;
     const user = await User.findById(user_id);
     res.render("changePassword", { user: user });
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
-const changePassword = async (req, res) => {
+const changePassword = async (req, res,next) => {
   try {
     const { curr, password } = req.body;
     const userID = req.session.user._id;
@@ -474,11 +486,11 @@ const changePassword = async (req, res) => {
       res.render("changePassword", { message: "Old password is incorrect" });
     }
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
-const editUser = async (req, res) => {
+const editUser = async (req, res,next) => {
   try {
     const { name, mobile } = req.body;
     console.log(name);
@@ -494,13 +506,13 @@ const editUser = async (req, res) => {
       res.redirect("/user?message=Update%20successful");
     }
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
 const { ObjectId } = require("mongoose").Types;
 
-const editAddress = async (req, res) => {
+const editAddress = async (req, res,next) => {
   try {
     const addressid = req.query.id;
 
@@ -530,7 +542,7 @@ const editAddress = async (req, res) => {
 
     res.render("editAddress", { address: addressObject, user: user });
   } catch (error) {
-    console.log(error.message);
+    next(error)
     res.status(500).send("Internal Server Error");
   }
 };
