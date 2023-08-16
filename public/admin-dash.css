@@ -68,7 +68,7 @@ body {
 	display: none;
 }
 #sidebar.hide {
-	width: 60px;
+	width: 40px;
 }
 #sidebar .brand {
 	font-size: 24px;
@@ -487,3 +487,5 @@ body {
     vertical-align: bottom;
     border-bottom: 2px solid #dee2e6;
 }
+
+

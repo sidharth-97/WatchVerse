@@ -82,6 +82,7 @@
   font-family: 'Roboto', sans-serif;
   outline: none;
   border: none;
+  
 }
 
 body {
@@ -151,14 +152,24 @@ body {
     align-items: center;
     text-align: center;
     height: 600px;
+    border-radius: 0;
   }
   
   .design img {
-    width: 80%;
+    width: 100%; /* Adjust the width as needed */
+    max-width: 350px; /* Set a maximum width to prevent over-expansion */
     margin-bottom: 20px;
   }
   
   .form {
-    width: 80%;
+    width: 100%;
+
   }
+  .box{
+    height: 100vh
+  }
+  .form {
+    width: 130%;
+}
+
 }

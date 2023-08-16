@@ -1,4 +1,4 @@
-# E-Commerce-app-using-MERN
+# WatchVerse(E-Commerce-app)
 [Link to the website](https://watchverse.shop/)
 ## Features:
 * User & Admin Authentication

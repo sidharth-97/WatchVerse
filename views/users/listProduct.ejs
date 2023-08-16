@@ -20,18 +20,17 @@
   <script src="https://kit.fontawesome.com/9af8e1e9bd.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 </head>
 
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light  py-3" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+        <a class="navbar-brand js-scroll-trigger" href="/home">
           <img src="/website/logo.png" alt="Logo" width="120px">
         </a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-          data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-          aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -39,17 +38,15 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="/home">Home</a>
             </li>
-            
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="watches">Shop</a>
+              <a class="nav-link js-scroll-trigger" href="/watches">Shop</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="/aboutUs">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#">Contact</a>
+              <a class="nav-link js-scroll-trigger" href="/contact-us">Contact</a>
             </li>
-
             <% if(user){ %>
               <li class="nav-item position-relative">
                 <a class="nav-link js-scroll-trigger" href="/cart">
@@ -83,7 +80,7 @@
       </div>
       <form class="d-flex mr-auto" role="search" id="searchForm">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-dark" type="submit">Search</button>
+        <button class="btn btn-dark" type="submit">Search</button>
       </form>
     </nav>
 

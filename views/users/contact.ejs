@@ -19,19 +19,22 @@
                 <div class="card">
                     <div class="card-body">
                         <h1 class="card-title text-center">Contact Us</h1>
-                        <form id="contactForm" action="/contact-us" onsubmit="return validateForm()">
+                      
+                        <form id="contactForm" action="/contact-us" method="post">
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
-                                <div class="invalid-feedback">Please enter a valid name without numbers.</div>
+                                <input type="text" class="form-control" id="name" name="name">
+                                <div class="invalid-feedback" id="nameError">Please enter a valid name without numbers.</div>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email">
+                                <div class="invalid-feedback" id="emailError">Please enter a valid email address.</div>
                             </div>
                             <div class="form-group">
                                 <label for="message">Message:</label>
-                                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                                <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                                <div class="invalid-feedback" id="messageError">Please enter a message.</div>
                             </div>
                             <button type="submit" class="btn btn-secondary">Submit</button>
                         </form>
@@ -45,29 +48,74 @@
         function validateForm() {
             var form = document.getElementById('contactForm');
             var name = form.querySelector('#name');
+            var email = form.querySelector('#email');
+            var message = form.querySelector('#message');
+            var nameError = document.getElementById('nameError');
+            var emailError = document.getElementById('emailError');
+            var messageError = document.getElementById('messageError');
+            var isValid = true;
 
-            // Regular expression to match only alphabetic characters
-            var nameRegex = /^[a-zA-Z\s]*$/;
-
-            if (!name.value || !nameRegex.test(name.value)) {
-                name.classList.add('is-invalid');
-                return false; // Prevent form submission
+            if (!name.value.trim()) {
+                nameError.style.display = 'block';
+                isValid = false;
+            } else {
+                nameError.style.display = 'none';
             }
 
-            name.classList.remove('is-invalid');
-            
-            // Show a success message using SweetAlert
-            Swal.fire({
-                icon: 'success',
-                title: 'Message Sent!',
-                text: 'Thank you for contacting us. Your message has been sent successfully.',
-            });
+            if (!email.value.trim() || !validateEmail(email.value)) {
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
 
-            // Reset the form after successful submission
-            form.reset();
-            
+            if (!message.value.trim()) {
+                messageError.style.display = 'block';
+                isValid = false;
+            } else {
+                messageError.style.display = 'none';
+            }
+
+            if (isValid) {
+                // If all fields are valid, you can proceed with form submission
+                // Show success message using SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Message Sent!',
+                    text: 'Thank you for contacting us. Your message has been sent successfully.',
+                });
+                // Optionally reset the form
+                form.reset();
+            }
+
             return false; // Prevent form submission
         }
+
+        function validateEmail(email) {
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const message = urlParams.get('message');
+  
+          if (message) {
+              // Display the message using SweetAlert
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Message',
+                  text: message,
+                  confirmButtonText: 'OK'
+              });
+              const url= "/contact-us"
+      const title="watchverse"
+      const nextState={changed:'url'}
+      window.history.replaceState(nextState,title,url)
+          }
+          
+      });
     </script>
 </body>
 

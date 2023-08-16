@@ -8,7 +8,7 @@ const addAddress = async (req, res,next) => {
     try {
       const user = req.session.user;
       const query = req.query.id || null;
-      console.log(query);
+      
       const { fullName, mobile_no, address1, district, state, PINcode } =
         req.body;
       const addressExists = await Address.findOne({ user: user._id });
@@ -44,7 +44,7 @@ const addAddress = async (req, res,next) => {
         });
         var addressData = await address.save();
       }
-      console.log("Address added:", addressData);
+    
 
       if (query) {
         res.redirect('/checkout')
@@ -69,7 +69,7 @@ const postaddressCheck = async (req, res, next) => {
   try {
     const user = req.session.user;
     const query = req.query.id || null;
-    console.log(query);
+  
     const { fullName, mobile_no, address1, district, state, PINcode } =
       req.body;
     const addressExists = await Address.findOne({ user: user._id });
@@ -105,7 +105,7 @@ const postaddressCheck = async (req, res, next) => {
       });
       var addressData = await address.save();
     }
-    console.log("Address added:", addressData);
+  
 
     if (addressData) {
       res.redirect('/checkout')

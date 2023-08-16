@@ -222,7 +222,7 @@ const loadDashboard = async (req, res, next) => {
       fromdate = new Date(fromdate);
       todate = new Date(todate);
       todate = new Date(todate.getTime() + 1 * 24 * 60 * 60 * 1000);
-      console.log("here");
+  
       var order = await Order.find({
         orderStatus: "Delivered",
         date: { $gte: fromdate, $lte: todate },
@@ -238,7 +238,7 @@ const loadDashboard = async (req, res, next) => {
     }
 
     const currDate = new Date();
-    console.log(currDate);
+
 
     res.render("dashboard", {
       uniqueMonthsArray,
@@ -343,7 +343,7 @@ const editCategory = async (req, res, next) => {
     var imageFileName = req.file.filename;
     imageFileName = imageFileName.split("-").slice(1).join("-");
     const category = await Category.findById(id);
-    console.log(category);
+  
     if (category) {
       await Category.updateOne(
         { _id: id },
@@ -370,7 +370,7 @@ const addOfferCategory = async (req, res, next) => {
       await Category.findByIdAndUpdate(id, { $set: { offer: offer._id } });
 
       const productsInCategory = await Product.find({ category: category._id });
-      console.log(productsInCategory, "products inc ");
+     
       for (const product of productsInCategory) {
         const discountAmount = (offerPercentage / 100) * product.price;
         const discountedPrice = product.price - discountAmount;
@@ -393,7 +393,7 @@ const addOfferCategory = async (req, res, next) => {
               "Expiry date is in the past or at the current time. Job not scheduled."
             );
           } else {
-            console.log("Scheduling job for:", expiryDate);
+           
             const jobName = `${category.name}`;
 
             schedule.scheduleJob(jobName, expiryDate, async () => {
@@ -427,21 +427,20 @@ const addOfferCategory = async (req, res, next) => {
 
 const cancelOffer = async (req, res, next) => {
   try {
-    console.log("entered");
+   
     const categoryQ = req.query.category;
     const offerQ = req.query.offer;
 
     const category = await Category.findById(categoryQ);
     const offers = await Offer.find({ _id: offerQ });
-    console.log(categoryQ);
-    console.log(offerQ);
+  
 
     if (category && offers) {
       const offer = offers[0];
-      console.log(offer, "entered");
+    
       const offerPercentage = offer.percentage;
       const productsInCategory = await Product.find({ category: category._id });
-      console.log(productsInCategory, "products inc ");
+   
       await Category.findByIdAndUpdate(categoryQ, { $unset: { offer: "" } });
       const updatedProductsInCategory = await Product.find({
         category: category._id,
@@ -449,7 +448,7 @@ const cancelOffer = async (req, res, next) => {
 
       for (const product of updatedProductsInCategory) {
         const originalPrice = product.discount;
-        console.log(`product name${product.name}and${product.discount}`);
+      
         await Product.updateOne(
           { _id: product._id },
           {

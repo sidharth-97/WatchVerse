@@ -58,7 +58,7 @@ const loadeditoffer = async (req, res, next) => {
 const editoffer = async (req, res, next) => {
     try {
         const id = req.query.id
-        console.log(id);
+    
         const { name, expiry, discount } = req.body
         await Offer.findOneAndUpdate({ _id: id }, {
             $set: {

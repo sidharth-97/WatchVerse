@@ -434,7 +434,7 @@ const userDash = async (req, res, next) => {
       throw new Error("Address not found");
     }
 
-    console.log(userAddress);
+  
     res.render("userAccounts", { user: user, userAddress: userAddress });
   } catch (error) {
     next(error);
@@ -493,15 +493,14 @@ const changePassword = async (req, res,next) => {
 const editUser = async (req, res,next) => {
   try {
     const { name, mobile } = req.body;
-    console.log(name);
-    console.log(mobile);
+   
     const user = req.session.user;
-    console.log(user);
+
     const editData = await User.updateOne(
       { _id: user._id },
       { $set: { name: name, mobile: mobile } }
     );
-    console.log(editData);
+   
     if (editData) {
       res.redirect("/user?message=Update%20successful");
     }
@@ -597,7 +596,7 @@ const deleteAddress = async (req, res, next) => {
 const checkout = async (req, res, next) => {
   try {
     const user_id = req.session.user._id;
-    console.log(user_id);
+
     const user = await User.findById(user_id);
     if (!user) {
       throw new Error("User not found");
@@ -608,12 +607,12 @@ const checkout = async (req, res, next) => {
       throw new Error("Address not found");
     }
 
-    console.log(userAddress);
+  
 
     const cart = await Cart.findOne({ user: user_id }).populate(
       "products.productId"
     );
-    console.log(cart);
+
 
     if (!cart || !Array.isArray(cart.products)) {
       throw new Error("Cart not found or empty");
@@ -706,7 +705,7 @@ const getaddReview = async (req, res, next) => {
     if (reviewExists) {
       userReview = product.Review.find(review => review.user.equals(user._id));
     }
-    console.log(reviewExists,"review exists")
+   
     res.render('addReview', { user: user, reviewExists: reviewExists, userReview: userReview,product:product._id });
   }catch (error) {
     next(error);
@@ -752,7 +751,7 @@ const postaddReview = async (req, res, next) => {
     // Save the updated product data
     await product.save();
 
-    console.log(product);
+
 
     res.redirect('/product?productId=' + productId); // Redirect to the product details page or any other appropriate page
   } catch (error) {
@@ -766,7 +765,7 @@ const viewReviews = async (req, res, next) => {
     const id = req.query.id
     const user = req.session.user
     const product = await Product.findById(id).populate('Review.user');
-    console.log(product,"the product is shown here");
+  
     res.render('fullReviews', { user: user,product:product })
   } catch (error) {
     next(error)
@@ -787,7 +786,7 @@ const deleteReview = async (req, res, next) => {
     productMod.Rating = averageRating;
     await productMod.save()
     res.redirect('/product?productId=' + product)
-    console.log(product);
+ 
   } catch (error) {
     next(error)
   }
@@ -821,6 +820,44 @@ const contact = async (req, res, next) => {
     next(error)
   }
 }
+
+const postContact = async (req, res, next) => {
+  try {
+    const { name, email, message } = req.body
+    contactMail(name, email, message);
+    res.redirect('/contact-us?message=sent%20successful')
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+const contactMail = (name, email, message) => {
+  const mailTransporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "watchverseonline@gmail.com",
+      pass: process.env.nodepass,
+      
+    },
+  });
+
+
+  const mailOptions = {
+    from: "watchverseonline@gmail.com",
+    to: "sidharthanand73@gmail.com",
+    subject: "WatchVerse Contact",
+    text: `${name} with ${email}.The message is: ${message}`,
+  };
+
+  mailTransporter.sendMail(mailOptions, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Message sent successfully");
+    }
+  });
+};
 
 
 
@@ -860,5 +897,6 @@ module.exports = {
   wallet,
   about,
   deleteReview,
-  contact
+  contact,
+  postContact
 };

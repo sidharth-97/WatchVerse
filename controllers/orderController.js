@@ -346,12 +346,12 @@ const adminOrder = async (req, res, next) => {
 const orderStatus = async (req, res,next) => {
   try {
     const id = req.query.id;
-    console.log(id);
+ 
     const newStatus = req.body.status;
-    console.log(newStatus, "new satus");
+ 
 
     const order = await Order.findById(id);
-    console.log(order, "order");
+ 
     if (order) {
       order.orderStatus = newStatus;
       await order.save();

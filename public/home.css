@@ -38,3 +38,10 @@ margin-bottom: 1rem;
     border-top-left-radius: calc(1.25rem - 1px);
     border-top-right-radius: calc(1.25rem - 1px);
 }
+
+@media (max-width: 768px) {
+    .col {
+        max-width: 30%;
+    }
+	
+  }

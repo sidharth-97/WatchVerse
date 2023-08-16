@@ -8,7 +8,12 @@ const ProductM = modelP.product;
 
 const addToCart = async (req, res,next) => {
     try {
-        const userId = req.session.user._id;
+        if (req.session.user) {
+            var userId = req.session.user._id;
+       }
+       else {
+            res.redirect('/watches')
+        }
         const productId = req.query.productId;
         const Product = await ProductM.findById(productId);
         const price = Product.price;
@@ -105,13 +110,11 @@ const updateCart = async (req, res,next) => {
         const prodId = req.body.productId;
 
         const product = await ProductM.findOne({ _id: prodId });
-        console.log("Product:", product);
+      
 
         const stock = product.quantity;
         const price = quantity * product.price;
-        console.log("User:", user);
-        console.log("Quantity:", quantity);
-        console.log("Product ID:", prodId);
+        
 
         if (stock >= quantity) {
             await Cart.updateOne(

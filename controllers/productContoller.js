@@ -47,7 +47,7 @@ const viewProduct= async (req,res,next) => {
     const productCount = await Product.countDocuments({});
     const productData = await Product.find({}).populate('category')
     
-      console.log(productData,"this is the product data");
+      
         res.render('products',{product:productData, productCount: productCount,
           page: page,
           offers,

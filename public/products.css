@@ -385,3 +385,11 @@ a.explore-link:hover{
 .pagination-link{
 	color: #000000;
 }
+
+@media (max-width: 768px) {
+	.card-title {
+	  font-size: 10px; /* Adjust the font size for small screens */
+	  margin-bottom: 0;
+	}
+	
+  }

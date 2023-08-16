@@ -106,7 +106,8 @@ user_route.post('/coupons/validate', couponController.verifyCoupon)
 user_route.get('/wallet-history',auth.isLogin,userController.wallet)
 
 user_route.get('/aboutUs', userController.about)
-user_route.get('/contact-us',userController.contact)
+user_route.get('/contact-us', userController.contact)
+user_route.post('/contact-us',userController.postContact)
 
 user_route.post('/logout',userController.logOut)
 
