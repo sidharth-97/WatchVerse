@@ -47,7 +47,7 @@
                         <td>Cancel offer<a href="/admin/products/cancelOffer?product=<%= product[i]._id %>&offer=<%= product[i].offer._id %>">X</a></td>
                      <% }else{ %>
                       <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offersModal" data-product-id="<%= product[i]._id %>">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#offersModal" data-product-id="<%= product[i]._id %>">
                             Apply Offer
                           </button>
                         </form>
@@ -58,9 +58,9 @@
                     <!-- <td><%= product[i].isListed %></td> -->
                   <td>
                     <% if(product[i].isListed){ %>
-                        <a class="btn btn-primary" href="/admin/products/status?id=<%= product[i]._id %>" role="button">Unlist</a>
+                        <a class="btn btn-danger" href="/admin/products/status?id=<%= product[i]._id %>" role="button">Unlist</a>
                    <% }else{ %>
-                        <a class="btn btn-primary" href="/admin/products/status?id=<%= product[i]._id %>" role="button">List</a>
+                        <a class="btn btn-success" href="/admin/products/status?id=<%= product[i]._id %>" role="button">List</a>
 
                   <% } %>           
                   </td>

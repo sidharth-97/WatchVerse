@@ -15,14 +15,11 @@
 * Chart & Graph reports on Admin side
 * Form Validation
 * Product & Category Management in Admin side
-* Load balancer
 
-## Technologies used:
+## Technologies and Services used:
 * Node js
 * Express js
 * MongoDB
 * Bootstrap
 * Nginx
-
-## Services used:
 * AWS

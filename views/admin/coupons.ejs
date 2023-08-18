@@ -28,9 +28,9 @@
                     <td><%= coupons[i].isActive %></td>
                   <td>
                     <% if(coupons[i].isActive){ %>
-                        <a class="btn btn-primary" href="/admin/coupons/status?id=<%= coupons[i]._id %>" role="button">Unlist</a>
+                        <a class="btn btn-danger" href="/admin/coupons/status?id=<%= coupons[i]._id %>" role="button">Unlist</a>
                    <% }else{ %>
-                        <a class="btn btn-primary" href="/admin/coupons/status?id=<%= coupons[i]._id %>" role="button">List</a>
+                        <a class="btn btn-success" href="/admin/coupons/status?id=<%= coupons[i]._id %>" role="button">List</a>
 
                   <% } %>           
                   </td>

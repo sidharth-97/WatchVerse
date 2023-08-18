@@ -391,5 +391,9 @@ a.explore-link:hover{
 	  font-size: 10px; /* Adjust the font size for small screens */
 	  margin-bottom: 0;
 	}
+	.class5{
+		display: flex;
+		justify-content: center;
+	}
 	
   }

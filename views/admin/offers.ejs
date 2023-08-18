@@ -28,9 +28,9 @@
        
                     <td>
                         <% if(offer[i].status){ %>
-                            <a class="btn btn-primary" href="/admin/offers/status?id=<%= offer[i]._id %>" role="button">Unlist</a>
+                            <a class="btn btn-danger" href="/admin/offers/status?id=<%= offer[i]._id %>" role="button">Unlist</a>
                        <% }else{ %>
-                            <a class="btn btn-primary" href="/admin/offers/status?id=<%= offer[i]._id %>" role="button">List</a>
+                            <a class="btn btn-success" href="/admin/offers/status?id=<%= offer[i]._id %>" role="button">List</a>
     
                       <% } %> 
                       <a class="btn btn-primary" href="/admin/offers/edit?id=<%= offer[i]._id %>" role="button">Edit</a>    

@@ -44,15 +44,15 @@
                             <td class="quantity__item">
                               <div class="quantity">
                                 <div class="pro-qty-2 d-flex">
-                                  <button id="<%= product._id %>minus"
+                                  <button class="btn" id="<%= product._id %>minus"
                                     onclick="updateCart(-1, '<%= product.productId._id %>', '<%= product._id %>')">
                                     <i class="bi bi-dash-lg"></i>
                                   </button>
-                                  <span class="ms-2 me-2 quantity" id="<%= product._id %>"
+                                  <span class="ms-2 me-2 pt-1 quantity" id="<%= product._id %>"
                                     data-max-quantity="<%= product.productId.quantity %>">
                                     <%= product.quantity %>
                                   </span>
-                                  <button id="<%= product._id %>plus"
+                                  <button class="btn" id="<%= product._id %>plus"
                                     onclick="updateCart(1, '<%= product.productId._id %>', '<%= product._id %>')">
                                     <i class="bi bi-plus-lg"></i>
                                   </button>
@@ -80,7 +80,7 @@
                 <div class="cart__total">
                   <h6>Cart total</h6>
                   <ul>
-                    <li>Subtotal <span></span></li>
+                    <li>Subtotal <span id="cartTotal2">₹ <%= carts[0].Total %></span></li>
                     <li>Total : <span id="cartTotal">₹ <%= carts[0].Total %></span></li>
                   </ul>
                   <a href="/checkout" class="primary-btn">Proceed to checkout</a>
@@ -164,6 +164,7 @@
                 if (res.status == true) {
 
                   $('#cartTotal').html(`Rs. ${res.data.Total}`);
+                  $('#cartTotal2').html(`Rs. ${res.data.Total}`);
                   $(`#${spanID}y`).html(`₹ ${res.data.price}`)
                   document.getElementById(`${spanID}plus`).disabled = false
                   document.getElementById(`${spanID}minus`).disabled = false
