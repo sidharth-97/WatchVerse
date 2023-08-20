@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="/javascript/admin/category.js"></script>
+   
 </head>
 <body>
     <%- include("./headerDashboard.ejs") -%>
@@ -110,7 +110,7 @@
                            <% }else{ %>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offersModal" data-category-id="<%= category[i]._id %>">
-                                        Apply Offer
+                                        Apply Offer 
                                       </button>
                                     </form>
                                 </td>
@@ -187,3 +187,74 @@
 
 </body>
 </html>
+
+<script>
+    
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    function showUnlistConfirmation(categoryId, isListed) {
+        const modal = new bootstrap.Modal(document.getElementById('unlistConfirmationModal'));
+        const unlistConfirmationAction = document.getElementById('unlistConfirmationAction');
+        const confirmationAction = document.getElementById('confirmationAction');
+        confirmationAction.innerText = isListed ? 'list' : 'unlist';
+        unlistConfirmationAction.href = isListed
+            ? '/admin/category/unlist?id=' + categoryId
+            : '/admin/category/unlist?id=' + categoryId;
+        modal.show();
+    }
+
+
+    const editCategoryButton = document.querySelectorAll('.edit-category-button');
+    const editCategoryForm = document.getElementById('editCategoryForm');
+    const categoryIdInput = document.getElementById('categoryId');
+    const newCategoryNameInput = document.getElementById('newCategoryName');
+
+    editCategoryButton.forEach(function (button) {
+        button.addEventListener('click', function () {
+            const categoryId = button.getAttribute('data-category-id');
+            categoryIdInput.value = categoryId;
+        });
+    });
+
+    editCategoryForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(editCategoryForm);
+        const url = editCategoryForm.getAttribute('action');
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    $('#editCategoryModal').modal('hide');
+                    location.reload();
+                } else {
+                }
+            })
+            .catch(error => {
+            });
+    });
+
+
+    $(document).ready(function () {
+        $('#submitBtn').on('click', function () {
+            const selectedOffer = $("input[name='selectedOffer']:checked").val();
+            console.log("Selected Offer:", selectedOffer);
+            $('#offersModal').modal('hide');
+        });
+    });
+
+    const applyOfferButtons = document.querySelectorAll('button[data-target="#offersModal"]');
+    const categoryIdInput1 = document.getElementById('categoryIdO');
+
+    // Add click event listener to each "Apply Offer" button
+    applyOfferButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            const categoryId = button.getAttribute('data-category-id');
+            categoryIdInput1.value = categoryId;
+        });
+    });
+  
+})
+</script>

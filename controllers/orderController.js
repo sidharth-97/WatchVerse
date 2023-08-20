@@ -130,7 +130,7 @@ const addOrder = async (req, res,next) => {
           $push: {
             walletHistory: {
               date: Date.now(),
-              amount: finalTotal,
+              amount: wallet,
               type: 'Debit',
               balance: updatedWalletBalance, 
               details: paymentMode
@@ -199,7 +199,7 @@ const viewUserOrder = async (req, res, next) => {
     const orderCount = await Order.countDocuments({});
     const orders = await Order.find({ user: user._id }).populate(
       "products.productId"
-    ).skip((page - 1) * limit)
+    ).sort({_id:-1}).skip((page - 1) * limit)
     .limit(limit);
     res.render("orders", { user: user, orders: orders,page,limit,orderCount });
   } catch (error) {
@@ -322,7 +322,7 @@ const adminOrder = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
-    const orders = await Order.find({}).populate("products.productId")
+    const orders = await Order.find({}).populate("products.productId").sort({date:-1})
     const userIds = orders.map((order) => order.user);
     const users = await User.find({ _id: { $in: userIds } });
 

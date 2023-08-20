@@ -168,7 +168,7 @@ const verifyotp = async (req, res, next) => {
 
 const forgotPasswordStage1 = async (req, res,next) => {
   try {
-    res.render('forgotPassword1')
+    res.render('forgotPassword1',{message:null})
   } catch (error) {
     next(error)
   }
@@ -176,11 +176,18 @@ const forgotPasswordStage1 = async (req, res,next) => {
 const postforgotPasswordStage1 = async (req, res,next) => {
   try {
     const email = req.body.email
-    otp = verificationCode;
-    sendMail(req.body.name,email,verificationCode);
-    const encodedEmail = encodeURIComponent(email);
-    const otpVerifyUrl = `https://watchverse.shop/verifyAddOtp?id=${encodedEmail}`;
-    res.redirect(otpVerifyUrl)
+    const emailExist = await User.find({ email: email })
+    console.log(emailExist);
+    if (emailExist.length>0) {
+      otp = verificationCode;
+      sendMail(req.body.name,email,verificationCode);
+      const encodedEmail = encodeURIComponent(email);
+      const otpVerifyUrl = `https://watchverse.shop/verifyAddOtp?id=${encodedEmail}`;
+      res.redirect(otpVerifyUrl)
+    } else {
+      res.render('forgotPassword1',{message:"Email not registered"})
+    }
+
   } catch (error) {
     next(error)
   }
@@ -189,7 +196,7 @@ const postforgotPasswordStage1 = async (req, res,next) => {
 const forgotPasswordStage2 = async (req, res, next) => {
   try {
     const { id: email } = req.query;
-    res.render('forgotPassword2',{email})
+    res.render('forgotPassword2',{email,message:null})
   } catch (error) {
     next(error)
   }
@@ -199,13 +206,15 @@ const postforgotPasswordStage2 = async (req, res, next) => {
     const enteredOtp = req.body.code;
     const email = req.body.email;
     console.log(enteredOtp, otp);
+    console.log("first check");
     if (enteredOtp == otp) {
       var user=await User.findOne(
         { email: email }
       );
       res.redirect(`/newPassword?id=${user._id}`)
     } else {
-      console.log("not match");
+      console.log("reached here");
+      res.render('forgotPassword2',{email,message:"Wrong OTP"})
     }
     
   } catch (error) {
@@ -483,7 +492,7 @@ const changePassword = async (req, res,next) => {
       await User.updateOne({ _id: userID }, { password: hashedPassword });
       res.redirect("/user?message=Update%20successful");
     } else {
-      res.render("changePassword", { message: "Old password is incorrect" });
+      res.render("changePassword", { message: "Old password incorrect",user });
     }
   } catch (error) {
     next(error)

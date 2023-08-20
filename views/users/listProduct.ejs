@@ -111,9 +111,6 @@
             </a>
           <% }); %>
           
-          
-          
-
               <div>&nbsp;</div>
               <div>&nbsp;</div>
               <h2 class="blog-sidebar-title"><b>Brands</b></h2>
@@ -165,7 +162,7 @@
             <% for(let i=0;i<product.length;i++){ %>
               <% if(product[i] && product[i].isListed && product[i].quantity>0){ %>
                 <a href="/product?productId=<%= product[i]._id %>">
-                  <div class="col-sm-6 col-md-6 col-lg-4 class5">
+                  <div class="col-sm-6 col-md-6 col-lg-4 class5 pb-4">
                     <div class="card" style="width: 16rem;">
                       <div class="card-body text-center">
                         <img src="/productImages/<%= product[i].image[0] %>" class="product-image img-fluid">
