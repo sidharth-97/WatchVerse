@@ -455,14 +455,14 @@ const cancelOffer = async (req, res, next) => {
             $inc: {
               price: originalPrice,
             },
-          },
-          {
             $unset: { discount: 1 },
           }
         );
       }
     } else {
     }
+    const products = await Product.find({})
+    console.log(products);
     res.redirect("/admin/category");
   } catch (error) {
     next(error);

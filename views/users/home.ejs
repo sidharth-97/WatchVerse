@@ -134,7 +134,7 @@
 
     <% for(let i=0;i<reccprod.length;i++){ %>
       <% if(reccprod[i] && reccprod[i].isListed && reccprod[i].quantity>0){ %>
-        <a href="/reccprod?productId=<%= reccprod[i]._id %>">
+        <a href="/product?productId=<%= reccprod[i]._id %>">
           <div class="col-sm-6 col-md-6 col-lg-4 class5">
             <div class="card" style="width: 15rem;">
               <div class="card-body text-center">

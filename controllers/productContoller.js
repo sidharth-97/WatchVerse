@@ -197,11 +197,9 @@ const cancelProdOffer = async (req, res, next) => {
         {
           $inc: {
             price: originalPrice,
-          }
-        },
-          {
-            $unset:{discount:1}
-          }
+          },
+          $unset: { discount: 1 }, 
+        }
       );
       res.redirect('/admin/products')
     }

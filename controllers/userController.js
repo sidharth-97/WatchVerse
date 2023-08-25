@@ -47,10 +47,14 @@ const loadHome = async (req, res, next) => {
     
     
     if (req.session.user) {
-      const recc = await Order.find({user:req.session.user._id}).populate('products.productId').sort({ _id: -1 }).limit(1)
-      const category1 = recc[0].products[0].productId.category;
-      console.log(category);
-      const reccprod=await Product.find({category:category1})
+      const recc = await Order.find({ user: req.session.user._id }).populate('products.productId').sort({ _id: -1 }).limit(1)
+      if (recc.length > 0) {
+        const category1 = recc[0].products[0].productId.category;
+        var reccprod=await Product.find({category:category1})
+      } else {
+        var reccprod=null
+      }
+    
       res.render("home", { user: req.session.user,banner:banner,category:category,product,reccprod});
     } else {
       res.render("home", { user: null, banner: banner,category:category,product,reccprod:null});
@@ -95,7 +99,7 @@ const verifyLogin = async (req, res, next) => {
                   req.session.cartCount = cartData.products.length
                   console.log(req.session.cartCount,"cart count");
                 }
-        res.redirect(`/watches`);
+        res.redirect(`/home`);
       } else if (!passwordMatch) {
         res.render("login", { message: "Incorrect email or password" });
       } else {
@@ -128,7 +132,7 @@ const verifyotp = async (req, res, next) => {
               date: Date.now(),
               amount: 200,
               type: 'Credit',
-              balance: 0,
+              balance: 200,
               details: 'Referral'
             }
           }
@@ -330,26 +334,36 @@ const sendMail = (name, email, verificationCode) => {
 };
 
 const ProductView = async (req, res, next) => {
-  const productId = req.query.productId;
+  try {
+    const productId = req.query.productId;
   const user = req.session.user;
 
   const product = await Product.findById(productId).populate('Review.user');
-  const reccprod = await Product.find({ category: product.category })
+  if (product) {
+    
+  
+    const reccprod = await Product.find({ category: product.category })
 
-  const bought = user ? await Order.findOne(
-    {
-      user: user._id
-    },
-    {
-      products: {
-        $elemMatch: { productId: productId }
+    const bought = user ? await Order.findOne(
+      {
+        user: user._id
+      },
+      {
+        products: {
+          $elemMatch: { productId: productId }
+        }
       }
-    }
-  ) : null;
+    ) : null;
 
 
 
-res.render("viewProduct", { product: product, user: user, reccprod, bought });
+    res.render("viewProduct", { product: product, user: user, reccprod, bought });
+  } else {
+    next(error)
+  }
+  } catch (error) {
+    next(error)
+  }
 };
 
 

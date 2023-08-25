@@ -188,7 +188,12 @@
                     </ul>
 
                     <ul class="checkout__total__all">
-                      <li>Subtotal <span>₹<%= cart ? cart[0].Total : 0 %></span></li>
+                      
+                      <% const subtotal = cart[0].Total; %>
+
+                      
+                      <li>Subtotal <span>₹<%= subtotal %></span></li>
+                      
                       <li>Discount <span id="discountAmount">₹0</span></li>
 
 
@@ -290,7 +295,7 @@
               const currentTotal = parseInt($("#finalTotal").text().replace("₹", ""));
               $("#discountAmount").text(`-₹${discount}`);
               // const newTotal = currentTotal - (discount * currentTotal);
-              $("#finalTotal").text(`₹${newTotal}`);
+              $("#finalTotal").text(`₹${currentTotal-discount}`);
 
             } else {
               $("#couponError").text(response.message);
@@ -444,7 +449,7 @@
         if (target.classList.contains('copy-coupon')) {
           const couponName = target.getAttribute('data-coupon');
           copyCouponNameToClipboard(couponName);
-          alert(`Coupon name "${couponName}" copied to clipboard!`);
+          // alert(`Coupon name "${couponName}" copied to clipboard!`);
         }
       });
 

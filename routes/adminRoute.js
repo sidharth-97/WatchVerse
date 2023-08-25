@@ -60,7 +60,7 @@ admin_route.post("/category/edit-category",upload.single('categoryImage'), admin
 admin_route.post("/category/addCatOffer", adminController.addOfferCategory)
 admin_route.get('/category/cancelOffer',adminController.cancelOffer)
 
-admin_route.get('/category/edit', adminController.editcat)
+admin_route.get('/category/edit',auth.isLogin, adminController.editcat)
 
 
 admin_route.get("/products",auth.isLogin, productController.viewProduct);
@@ -86,9 +86,9 @@ admin_route.post('/coupons/edit-coupons', couponController.postEditCoupons)
 
 admin_route.post('/offers/add-offers', offerController.addOffer)
 admin_route.get('/offers/add-offers', auth.isLogin, offerController.getAddOffer)
-admin_route.get('/offers', offerController.offer)
-admin_route.get('/offers/status', offerController.status)
-admin_route.get('/offers/edit', offerController.loadeditoffer)
+admin_route.get('/offers',auth.isLogin, offerController.offer)
+admin_route.get('/offers/status',auth.isLogin, offerController.status)
+admin_route.get('/offers/edit',auth.isLogin, offerController.loadeditoffer)
 admin_route.post('/offers/edit-offers',offerController.editoffer)
 
 admin_route.get('/banners',auth.isLogin, bannerController.getaddBanners)

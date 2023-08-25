@@ -68,13 +68,13 @@ user_route.post('/cart/delete', cartController.deleteCart)
 
 user_route.post('/downloadInvoice', orderController.downloadInvoice)
 
-user_route.get('/addReview', userController.getaddReview)
+user_route.get('/addReview',auth.isLogin, userController.getaddReview)
 user_route.post('/addReview', userController.postaddReview)
 user_route.get('/viewAllReviews', userController.viewReviews)
-user_route.get('/delete-review',userController.deleteReview)
+user_route.get('/delete-review',auth.isLogin,userController.deleteReview)
 
-user_route.get('/wishlist', userController.viewWishlist)
-user_route.get('/addToWishlist', userController.addToWishlist)
+user_route.get('/wishlist',auth.isLogin, userController.viewWishlist)
+user_route.get('/addToWishlist',auth.isLogin, userController.addToWishlist)
 user_route.post('/remwish',userController.deleteWishlist)
 
 user_route.get('/user',auth.isLogin, userController.userDash)
@@ -85,8 +85,8 @@ user_route.get('/address',auth.isLogin,userController.viewAddress)
 user_route.post('/address', addressController.addAddress)
 user_route.get('/changePassword',auth.isLogin, userController.loadChangePassword)
 user_route.post('/changePassword', userController.changePassword)
-user_route.get('/editAddress', userController.editAddress)
-user_route.get('/deleteAddress', userController.deleteAddress)
+user_route.get('/editAddress',auth.isLogin, userController.editAddress)
+user_route.get('/deleteAddress',auth.isLogin, userController.deleteAddress)
 user_route.post('/editAddress', userController.editAndUpdate)
 
 
@@ -98,8 +98,8 @@ user_route.post('/return',orderController.returnOrder)
 
 user_route.get('/checkout', auth.isLogin, userController.checkout)
 user_route.post('/verify-payment', orderController.payment)
-user_route.get('/orderSuccess', orderController.paymentSucess)
-user_route.get('/addressCheckout', addressController.getaddressCheck)
+user_route.get('/orderSuccess',auth.isLogin, orderController.paymentSucess)
+user_route.get('/addressCheckout',auth.isLogin, addressController.getaddressCheck)
 user_route.post('/addressCheck',addressController.postaddressCheck)
 
 user_route.post('/coupons/validate', couponController.verifyCoupon)

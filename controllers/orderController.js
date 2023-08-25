@@ -130,7 +130,7 @@ const addOrder = async (req, res,next) => {
           $push: {
             walletHistory: {
               date: Date.now(),
-              amount: wallet,
+              amount: walletBalance,
               type: 'Debit',
               balance: updatedWalletBalance, 
               details: paymentMode
@@ -225,6 +225,7 @@ const orderDetails = async (req, res, next) => {
 
 const cancelOrder = async (req, res, next) => {
   try {
+    console.log("reached here");
     const order = req.query.id;
     const user = req.session.user;
     const currentDate = new Date();
@@ -245,7 +246,10 @@ const cancelOrder = async (req, res, next) => {
           { _id: user._id },
           { $inc: { wallet: orderData.walletAmt } } 
         );
-        const walletAmt=req.session.user.wallet
+        const user1 = await User.findById(user._id)
+        console.log(user1);
+        const walletAmt = user1.wallet
+        console.log(walletAmt);
         await User.findOneAndUpdate(
           {_id: user._id },
           {
@@ -266,14 +270,18 @@ const cancelOrder = async (req, res, next) => {
           { _id: user._id }, 
           { $inc: { wallet: orderData.total} } 
         );
-        const walletAmt=req.session.user.wallet
+        const user1 = await User.findById(user._id)
+        console.log(user1);
+        const walletAmt = user1.wallet
+        console.log(walletAmt);
+        
         await User.findOneAndUpdate(
           {_id: user._id },
           {
             $push: {
               walletHistory: {
                 date: Date.now(),
-                amount: orderData.walletAmt,
+                amount: orderData.total,
                 type: 'Credit',
                 balance: walletAmt, 
                 details: 'Order Cancelletion'
@@ -322,7 +330,7 @@ const adminOrder = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
-    const orders = await Order.find({}).populate("products.productId").sort({date:-1})
+    const orders = await Order.find({}).populate("products.productId").sort({_id:-1})
     const userIds = orders.map((order) => order.user);
     const users = await User.find({ _id: { $in: userIds } });
 
