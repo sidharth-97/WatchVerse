@@ -12,7 +12,7 @@ const addToCart = async (req, res,next) => {
             var userId = req.session.user._id;
        }
        else {
-            res.redirect('/watches')
+            res.redirect('/login')
         }
         const productId = req.query.productId;
         const Product = await ProductM.findById(productId);
