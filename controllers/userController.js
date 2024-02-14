@@ -868,7 +868,7 @@ const contactMail = (name, email, message) => {
 
   const mailOptions = {
     from: "watchverseonline@gmail.com",
-    to: "sidharthanand73@gmail.com",
+    to: process.env.contactMail,
     subject: "WatchVerse Contact",
     text: `${name} with ${email}.The message is: ${message}`,
   };

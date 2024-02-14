@@ -4,6 +4,7 @@
 
     <link rel="stylesheet" href="/cart.css" type="text/css">
     <script src="https://kit.fontawesome.com/9af8e1e9bd.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
     <body>
@@ -83,7 +84,7 @@
                     <li>Subtotal <span id="cartTotal2">₹ <%= carts[0].Total %></span></li>
                     <li>Total : <span id="cartTotal">₹ <%= carts[0].Total %></span></li>
                   </ul>
-                  <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+                  <a href="/checkout" class="primary-btn" id="checkoutBtn">Proceed to checkout</a>
                 </div>
               </div>
             </div>
@@ -150,6 +151,23 @@
               messageElement.innerText = ""
             }
           }
+
+          document.getElementById('checkoutBtn').addEventListener('click', function(event) {
+    let cartTotal = parseInt(document.getElementById('cartTotal').innerText.replace('₹ ', ''));
+
+    if (cartTotal > 10000) {
+        // Display SweetAlert
+        Swal.fire({
+            icon: 'warning',
+            title: 'Purchase Limit Exceeded',
+            text: 'You can only purchase up to Rs. 10,000.',
+            confirmButtonText: 'OK'
+        });
+
+        // Prevent the default action of the event (i.e., prevent the form submission)
+        event.preventDefault();
+    }
+});
 
 
           function ajaxConnection(amt, productId, spanID) {
